@@ -88,7 +88,13 @@
         });
       },
       viewFile (document) {
-        window.open(document.file, "_blank");    
+        this.axios.get(document.file, {responseType: 'blob'})
+        .then(function (response) {
+          window.open(URL.createObjectURL(response.data));
+        })
+        .catch(err => {
+          console.log(err);
+        });  
       },
       downloadFile (doc) {
         this.axios.get(doc.file, { responseType: 'blob' })

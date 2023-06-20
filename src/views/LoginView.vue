@@ -98,9 +98,9 @@
               t.login(response.data.data)
             })
             .catch(err => {
-              console.log(err)
               t.$Progress.finish()
-              //t.error = "Invalid username/password combination"
+              if (err.response.data.status == 403)
+                t.error = "Invalid username/password combination"
             });
           } else {
             this.$Progress.start()
