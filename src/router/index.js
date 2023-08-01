@@ -117,6 +117,27 @@ const routes = [
     props: true,
     meta: { requiresAuth: true },
   }
+  ,
+  {
+    path: '/program_overview',
+    name: 'program_overview',
+    component: () => import('../views/ProgramView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/program/add',
+    name: 'program_add',
+    component: () => import('../views/ProgramAddView.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/program/:id',
+    name: 'program_view',
+    component: () => import('../views/ProgramView.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  }
 ]
 
 const router = new VueRouter({

@@ -18,6 +18,10 @@
           <v-list-item-icon><icon-base icon-name="demo"><icon-demo /></icon-base></v-list-item-icon>
           <v-list-item-content><router-link to="/demo">Demo</router-link></v-list-item-content>
         </v-list-item>
+      <v-list-item>
+        <v-list-item-icon><icon-base icon-name="program-overview"><icon-demo /></icon-base></v-list-item-icon>
+        <v-list-item-content><router-link to="/program_overview">Program Overview</router-link></v-list-item-content>
+      </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -90,11 +94,11 @@
               </v-list-item>
               <v-list-item v-if="client && client.pricelist" >
                 <v-list-item-title>Pricelist</v-list-item-title>
-                <v-select 
-									:items="client.pricelist" 
-									item-text="region" 
+                <v-select
+									:items="client.pricelist"
+									item-text="region"
 									item-value="region"
-									label="Select Region" 
+									label="Select Region"
 									v-model="region"
 									class="mr-2"
 								></v-select>
@@ -159,13 +163,13 @@
       programLevel: null,
       region: null
     }),
-    
+
     watch: {
       User () {
         this.loadClientProfile()
       }
     },
-    
+
     mounted () {
       this.$root.$on('refreshClientProfile', () => {
         this.loadClientProfile()
@@ -174,25 +178,25 @@
 
     computed: {
       ...mapGetters({
-        User: "StateUser", 
-        ProgramLevels: "StateProgramLevels", 
+        User: "StateUser",
+        ProgramLevels: "StateProgramLevels",
         ProgramLevel: "StateProgramLevel"
       })
     },
-    
+
     created() {
       this.drawer = true
-      
+
       this.loadClientProfile()
     },
 
     methods: {
       ...mapActions(["StateSetProgramLevels"]),
-      
+
       loadClientProfile () {
         if (!this.User)
           return;
-          
+
         const t = this
         this.$Progress.start()
         this.axios.get('private/client/show', {})
@@ -211,14 +215,14 @@
           console.log(err);
         });
       },
-      
+
       downloadPricelist () {
         this.client.pricelist.forEach ((pricelist) => {
           if (pricelist.region == this.region)
             this.downloadFile(pricelist.file)
         });
       },
-      
+
       downloadFile (file) {
         this.axios.get(file, { responseType: 'blob' })
           .then(response => {
@@ -230,7 +234,7 @@
             URL.revokeObjectURL(link.href)
           }).catch(console.error)
       },
-      
+
       logout: function () {
         this.$router.push('/login')
         this.$store.dispatch('StateLogout')
@@ -246,20 +250,20 @@
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
   }
-  
+
   .partner-program-level-box {
     background-color: red;
     width: 35px;
     height: 64px;
     margin-left: -16px;
   }
-  
+
   .partner-program-level-text {
     font-size: 10px;
     margin-left: 10px;
     margin-top: -30px;
   }
-  
+
   .partner-program-level-logo {
     margin-left: -60px;
     margin-top: 15px;
@@ -268,15 +272,15 @@
   .container {
     margin: auto;
   }
-  
+
   .v-menu__content .user-info-list  {
     padding-left: 20px !important;
   }
-  
+
   .user-info-list .v-list-item {
     padding: 20px !important;
   }
-  
+
   .box {
     background-color: white;
     margin-top: 10px !important;
@@ -298,19 +302,19 @@
       }
     }
   }
-  
+
   .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
     text-align: center !important;
   }
-  
+
   .v-chip {
     width: 100px;
   }
-  
+
   .v-chip__content {
     margin: auto;
   }
-  
+
   .v-input__control, .v-select__selections {
     width: 150px;
   }
