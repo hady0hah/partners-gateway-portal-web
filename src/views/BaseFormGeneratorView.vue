@@ -1,14 +1,14 @@
 <template>
   <v-form ref="form" lazy-validation style="margin-inline: 40px">
 
-    <v-col style="margin-top: 30px" >
-      <v-row class="mb-4">
-        <v-btn class="mr-4" color="primary" @click="back" small elevation="0">Back</v-btn>
+<!--    <v-col style="margin-top: 30px" >-->
+      <v-row class="mb-4" style="margin-top: 30px" >
+        <btn-back-component :width="buttonWidth"></btn-back-component>
         <slot></slot>
       </v-row>
-    </v-col >
+<!--    </v-col >-->
 
-    <v-col class="col-12">
+<!--    <v-col class="col-12">-->
       <v-row class="mb-4">
         <h3>{{ response.title }}</h3>
       </v-row>
@@ -16,7 +16,7 @@
       <v-row class="mb-4">
         <p style="font-size: smaller;">{{ response.description }}</p>
       </v-row >
-    </v-col>
+<!--    </v-col>-->
 
     <v-row class="box">
 
@@ -28,7 +28,7 @@
                        v-model="form[field.name]"
                        v-on:change="valueChange()"
             ></component>
-            <component v-if="field.name === 'region'" :is="getFieldComponent(field.type)"
+            <component v-else-if="field.name === 'region'" :is="getFieldComponent(field.type)"
                        :items="Regions"
                        item-text="label"
                        item-value="id"
@@ -37,7 +37,7 @@
                        v-on:change="valueChange()"
                        label="Region"
             ></component>
-            <component v-if="field.name === 'countries'" :is="getFieldComponent(field.type)"
+            <component v-else-if="field.name === 'countries'" :is="getFieldComponent(field.type)"
                        :items="Countries"
                        item-text="label"
                        item-value="id"
@@ -47,7 +47,7 @@
                        label="Select Country"
             ></component>
 
-            <component v-if="field.name === 'cities'" :is="getFieldComponent(field.type)"
+            <component v-else-if="field.name === 'cities'" :is="getFieldComponent(field.type)"
                        :items="cities"
                        item-text="label"
                        item-value="id"
@@ -57,26 +57,26 @@
                        label="City"
             ></component>
 
-            <v-col v-if=" field.name === 'status'" >
-              <v-card elevation="2" shaped class="pa-4">
+<!--            <v-row v-else-if=" field.name === 'status'" >-->
+              <v-card v-else-if=" field.name === 'status'" elevation="2" shaped class="pa-4">
                 <v-row>
                   <v-col cols="2">
-                    <v-img v-if="dealStatus && field.name === 'status'" :src="dealStatus.icon"></v-img>
+                    <v-img v-if="status && field.name === 'status'" :src="status.icon"></v-img>
                   </v-col>
                   <v-col cols="9">
-                      <component v-if="field.name === 'status'" :is="getFieldComponent(field.type)"
+                      <component :is="getFieldComponent(field.type)"
                                  :items="Statuses"
                                  item-text="label"
                                  item-value="id"
                                  v-bind="fieldProps(field)"
-                                 v-model="dealStatus.id"
-                                 v-on:change="dealStatusChange()"
+                                 v-model="status.id"
+                                 v-on:change="statusChange()"
                       ></component>
 
                   </v-col>
                 </v-row>
               </v-card>
-            </v-col>
+<!--            </v-row>-->
 
           </v-col>
         </v-row>
@@ -84,16 +84,13 @@
     </v-row>
 
 
-    <v-row class="box mt-15">
-
-    </v-row>
-
   </v-form>
 </template>
 
 <script>
 import FormGenerator from '../formGenerator.js';
 import eventBus from '../eventBus.js';
+import backBtn from '../components/BtnBackComponent.vue'
 
 import { VTextField } from 'vuetify/lib';
 import { VDatePicker } from 'vuetify/lib';
@@ -101,22 +98,28 @@ import { VSelect } from 'vuetify/lib';
 import { VTextarea }  from 'vuetify/lib';
 
 import {mapActions, mapGetters} from "vuex";
+import BtnBackComponent from "../components/BtnBackComponent";
 
 export default {
+  components: {
+    BtnBackComponent,
+    backBtn
+  },
   props: ['id'],
   computed: {
     ...mapGetters({
-      MdfStatuses: "StateMdfStatuses",
+      // MdfStatuses: "StateMdfStatuses",
       Countries: "StateCountries",
       Statuses: "StateStatuses",
       Regions: "StateRegions",
     })},
   data() {
     return {
+      buttonWidth: "30px",
       response:{},
       formFields: [],
       form: {},
-      dealStatus: {},
+      status: {},
       region: {},
       statuses: [],
       cities: [],
@@ -136,7 +139,7 @@ export default {
     eventBus.$off('data-received', this.handleDataReceived);
   },
   methods: {
-    ...mapActions(["StateSetCountries", "StateSetMdfStatuses"]),
+    ...mapActions(["StateSetCountries"]),
     countryChange () {
       const t = this
       this.axios.get('private/country/show?id='+this.baseForm['country.id'], {})
@@ -149,8 +152,8 @@ export default {
         });
       this.saved = false
     },
-    dealStatusChange () {
-      this.dealStatus = Object.assign({}, this.Statuses.find(status => status.id === this.dealStatus.id))
+    statusChange () {
+      this.status = Object.assign({}, this.Statuses.find(status => status.id === this.status.id))
     },
     getFieldComponent(type) {
       const fieldComponents = {
@@ -178,9 +181,6 @@ export default {
     },
     valueChange() {
       this.saved = false
-    },
-    back() {
-      this.$router.push("/");
     },
   }
 };

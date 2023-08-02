@@ -1,7 +1,7 @@
 <template>
   <div>
     <parent-form @click="submitForm">
-      <v-btn class="mr-4" color="primary" @click="save" small elevation="0">Save</v-btn>
+<!--      <v-btn class="mr-4" color="primary" @click="save" small elevation="0">Save</v-btn>-->
       <v-btn class="mr-4" color="primary"  small elevation="0">Add a deal</v-btn>
     </parent-form>
   </div>
