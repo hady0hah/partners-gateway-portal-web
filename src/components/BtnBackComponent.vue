@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <button class="mr-4" :style="{ width: width }" color="primary" small elevation="0" @click="goBack">Back</button>
-    <slot></slot>
-  </div>
+  <button class="mr-4" :style="{ width: width }" color="primary" small elevation="0" @click="goBack">Back</button>
 </template>
 
 <script>

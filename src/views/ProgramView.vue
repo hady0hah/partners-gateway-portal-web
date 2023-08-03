@@ -1,8 +1,9 @@
 <template>
   <div>
     <parent-form @click="submitForm">
-<!--      <v-btn class="mr-4" color="primary" @click="save" small elevation="0">Save</v-btn>-->
-      <v-btn class="mr-4" color="primary"  small elevation="0">Add a deal</v-btn>
+      <template v-slot:header-left-post-back>
+        <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
+      </template>
     </parent-form>
   </div>
 </template>
@@ -21,8 +22,10 @@ export default {
       response: {
         title: 'Deal Registration Form',
         description: 'Dear Partner, please fill this form, if you wish to book a deal.',
-        '0': {
-          form_field: [
+        sections: [{
+          title: 'section 1',
+          description: 'desc 1',
+          fields: [
             {
               name: 'name',
               type: 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType',
@@ -31,31 +34,31 @@ export default {
             },
             {
               name: 'language',
-              type:  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
+              type: 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
               label: 'Language',
               required: true
             },
             {
               name: 'status',
-              type:  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
+              type: 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
               label: 'Status',
               required: true
             },
             {
               name: 'countries',
-              type:  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
+              type: 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
               label: 'Countries',
               required: true
             },
             {
               name: 'cities',
-              type:  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
+              type: 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
               label: 'Cities',
               required: true
             },
             {
               name: 'region',
-              type:  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
+              type: 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType',
               label: 'Region',
               required: true
             },
@@ -73,18 +76,18 @@ export default {
             },
             {
               name: 'some_date',
-              type:  'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType',
+              type: 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType',
               label: 'Some Date',
               required: true
             },
           ]
-        }
+        }]
       },
     };
   },
   mounted() {
-    const dataToSend =  this.response;
-    eventBus.$emit('data-received', dataToSend);
+    const dataToSend = this.response;
+    eventBus.$emit('form-received', dataToSend);
   },
   methods: {
     submitForm() {
