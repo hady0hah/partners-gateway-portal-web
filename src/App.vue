@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!--    TODO : make menu dynamic       -->
     <v-navigation-drawer v-model="drawer" app clipped v-if="User" width="210">
       <v-list dense nav class="mt-10">
         <v-list-item>
@@ -24,7 +25,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-icon><icon-base icon-name="program-overview"><icon-guide /></icon-base></v-list-item-icon>
-          <v-list-item-content><router-link to="/how_to_guides">How To Guides</router-link></v-list-item-content>
+          <v-list-item-content><router-link to="/howto">How To Guides</router-link></v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>

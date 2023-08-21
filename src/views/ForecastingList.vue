@@ -85,7 +85,7 @@ export default {
       return this.Regions.find(region => region.id === region_id)
     },
     addForecast() {
-      this.$router.push({ name: 'forecast_add' })
+      this.$router.push({ name: 'forecasting_add' })
     },
     tablePageUpdated(page) {
       this.page = page

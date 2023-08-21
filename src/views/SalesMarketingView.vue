@@ -232,13 +232,13 @@ export default {
     ...mapActions(["StateSetCountries", "StateSetMdfStatuses"]),
 
     viewProduct() {
-      this.$router.push({ name: 'productOrders'})
+      this.$router.push({ name: 'product_orders_list'})
     },
     viewForecast() {
-      this.$router.push({ name: 'forecasting'})
+      this.$router.push({ name: 'forecasting_list'})
     },
     viewQBR() {
-      this.$router.push({ name: 'QBR'})
+      this.$router.push({ name: 'QBR_list'})
     },
     viewActivity() {
       this.$router.push({ name: 'mdf'})

@@ -131,16 +131,16 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/how_to_guides',
-    name: 'how_to_guides',
+    path: '/howto',
+    name: 'howto',
     component: () => import('../views/HowToGuidesView.vue'),
     meta: { requiresAuth: true },
   },
 
 
   {
-    path: '/productOrders',
-    name: 'productOrders',
+    path: '/product_orders_list',
+    name: 'product_orders_list',
     component: () => import('../views/ProductOrdersList.vue'),
     props: true,
     meta: { requiresAuth: true },
@@ -160,15 +160,15 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/forecasting',
-    name: 'forecasting',
+    path: '/forecasting_list',
+    name: 'forecasting_list',
     component: () => import('../views/ForecastingList.vue'),
     props: true,
     meta: { requiresAuth: true },
   },
   {
-    path: '/forecast/add',
-    name: 'forecast_add',
+    path: '/forecasting/add',
+    name: 'forecasting_add',
     component: () => import('../views/ForecastView.vue'),
     props: true,
     meta: { requiresAuth: true },
@@ -181,8 +181,8 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/QBR',
-    name: 'QBR',
+    path: '/QBR_list',
+    name: 'QBR_list',
     component: () => import('../views/QuarterlyBusinessReviewList.vue'),
     props: true,
     meta: { requiresAuth: true },
