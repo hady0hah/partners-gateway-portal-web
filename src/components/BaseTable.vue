@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import eventBus from '@/eventBus'
 
 export default {
   props: ['url', 'headers'],
@@ -55,8 +56,9 @@ export default {
         .then(function (response) {
           t.$Progress.finish()
           t.count = response.data.count
-          t.items = response.data.data.deals
+          t.items = response.data.data.items
           t.params = response.data.data.params
+          eventBus.$emit('data-received', response);
         })
         .catch(err => {
           console.log(err);
