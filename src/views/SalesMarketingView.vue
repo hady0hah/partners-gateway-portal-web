@@ -42,59 +42,19 @@
             <v-data-table
               :headers="headers"
               :items="events"
-              :server-items-length="count"
-              :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"
-              @update:page="tablePageUpdated"
-              @update:items-per-page="tableItemsPerPageUpdated"
-              @update:sort-by="tableSortByUpdated"
-              @update:sort-desc="tableSortDescUpdated"
               class="table"
             >
-              <template v-slot:item.id="{ item }">
-                <router-link :to="'/mdf/'+item.id" >{{ item.id }}</router-link>
+              <template v-slot:item.product="{ item }">
+                {{ item.product }}
               </template>
-              <template v-slot:item.startDate.date="{ item }">
-                {{ friendlyDate(item.startDate.date) }}
+              <template v-slot:item.price="{ item }">
+                {{ item.price }}
               </template>
-              <template v-slot:item.country="{ item }">
-                {{ getCountry(item['country.id']).label }}
-              </template>
-              <template v-slot:item.status="{ item }">
-                <v-img :src="getMdfStatus(item['status.id']).imageFile" width="30"></v-img>
+              <template v-slot:item.discount="{ item }">
+                {{ item.discount }}
               </template>
               <template v-slot:item.actions="{ item }">
-                <router-link :to="'/mdf/'+item.id" v-if="item.isEditable">
-                  <v-icon
-                    small
-                    class="mr-2"
-                  >
-                    mdi-pencil
-                  </v-icon>
-                </router-link>
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="deleteEvent(item)"
-                  v-if="item.isEditable"
-                >
-                  mdi-delete
-                </v-icon>
-              </template>
-              <template v-slot:item.contributionCost="{ item }">
-                {{ (item.contributionCost ? item.contributionCost : '0') | currency }}
-              </template>
-              <template v-slot:top>
-                <v-dialog v-model="dialogEventDelete" max-width="500px">
-                  <v-card>
-                    <v-card-title>Are you sure you want to delete this event?</v-card-title>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="closeEventDelete">Cancel</v-btn>
-                      <v-btn color="primary" text @click="deleteEventItemConfirm">OK</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-                </v-toolbar>
+              <a @click="downloadFile()"><icon-base icon-name="download"><icon-download /></icon-base></a>
               </template>
             </v-data-table>
           </v-col>
@@ -180,11 +140,83 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: 'Event Date', value: 'startDate.date', sortable: false, align: 'center' },
-      { text: 'Country', value: 'country', sortable: false, align: 'center' },
-      { text: 'Cost', value: 'contributionCost', sortable: false, align: 'center' },
+      { text: 'Product/Service', value: 'product', sortable: false, align: 'center' },
+      { text: 'Price', value: 'price', sortable: false, align: 'center' },
+      { text: 'Discount', value: 'discount', sortable: false, align: 'center' },
+      { text: '', value: 'actions', sortable: false, align: 'center' },
     ],
-    events: [],
+    events: [
+      {
+        "product": "Darkivore",
+        "price": "1500",
+        "discount":"15%",
+        "actions":"file",
+      },
+      {
+        "product": "Test",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },
+      {
+        "product": "Tace",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },
+      {
+        "product": "TEst",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },  {
+        "product": "Darkivore",
+        "price": "1500",
+        "discount":"15%",
+        "actions":"file",
+      },
+      {
+        "product": "Test",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },
+      {
+        "product": "Tace",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },
+      {
+        "product": "TEst",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },  {
+        "product": "Darkivore",
+        "price": "1500",
+        "discount":"15%",
+        "actions":"file",
+      },
+      {
+        "product": "Test",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },
+      {
+        "product": "Tace",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },
+      {
+        "product": "TEst",
+        "price": "1200",
+        "discount":"20%",
+        "actions":"file",
+      },
+    ],
     count : 0,
     page: 1,
     itemsPerPage: 16,
@@ -289,19 +321,19 @@ export default {
       this.getEvents()
     },
     getEvents() {
-      const t = this
-      this.$Progress.start()
-
-      this.axios.get('private/mdf/list?filter[_page]='+this.page+'&filter[_per_page]='+this.itemsPerPage+'&filter[_sort_by]='+this.sortBy+'&filter[_sort_order]='+this.sortDesc, {})
-        .then(function (response) {
-          t.$Progress.finish()
-          t.count = response.data.count
-          t.events = response.data.data
-          console.log(t.events)
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // const t = this
+      // this.$Progress.start()
+      //
+      // this.axios.get('private/mdf/list?filter[_page]='+this.page+'&filter[_per_page]='+this.itemsPerPage+'&filter[_sort_by]='+this.sortBy+'&filter[_sort_order]='+this.sortDesc, {})
+      //   .then(function (response) {
+      //     t.$Progress.finish()
+      //     t.count = response.data.count
+      //     t.events = response.data.data
+      //     console.log(t.events)
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     },
     deleteEvent (item) {
       this.editedEventIndex = this.events.indexOf(item)
