@@ -29,7 +29,7 @@
           			Event Location
 								<v-select
 									:items="Countries"
-									item-text="label"
+									item-text="name"
 									item-value="id"
 									label="Select Country"
 									v-model="event['country.id']"
@@ -39,7 +39,7 @@
 								></v-select>
 								<v-select
 									:items="cities"
-									item-text="label"
+									item-text="name"
 									item-value="id"
 									label="City"
 									v-model="event['city.id']"
