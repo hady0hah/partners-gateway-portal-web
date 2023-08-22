@@ -37,6 +37,7 @@ import BaseListView from "./base/BaseListView.vue";
 import BaseTable from "@/components/BaseTable.vue";
 import IconSales from "@/components/icons/IconSales";
 import StatsStatus from "@/components/StatsStatus.vue";
+import eventBus from "@/eventBus";
 
 export default {
   props: [],
@@ -87,7 +88,17 @@ export default {
     addDeal() {
       this.$router.push({ name: 'deal_add', params: { deal: {} } })
     },
-  }
+    handleDataReceived(response) {
+      this.params = response.data.data.params
+    }
+  },
+  created() {
+    eventBus.$on('data-received', this.handleDataReceived);
+  },
+  destroyed() {
+    eventBus.$off('data-received', this.handleDataReceived);
+  },
+
 }
 </script>
 
