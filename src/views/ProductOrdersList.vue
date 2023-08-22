@@ -4,7 +4,7 @@
       <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
     </template>
     <template v-slot:table-content>
-      <base-table :headers="headers" :url="'private/deals/list'">
+      <base-table :headers="headers" :url="axios.defaults.endpoints.po_list.url">
         <template v-slot:item.renewalDate="{ item }">
           {{ friendlyDate(item.renewalDate.date) }}
         </template>
