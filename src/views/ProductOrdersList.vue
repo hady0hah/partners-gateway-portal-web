@@ -1,19 +1,7 @@
 <template>
   <base-list-view  :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addOrder" :main_action_title="main_action_title">
     <template v-slot:table-summary>
-      <v-row class="box">
-        <v-card elevation="2" shaped class="pa-4" style="display: flex; flex-wrap: wrap;width: 90%;">
-          <v-row :cols="12/Statuses.length" v-for="status in Statuses" :key="status.id" style="margin-top: 0px">
-            <v-col cols="3">
-              <v-img :src="status.icon"></v-img>
-            </v-col>
-            <v-col cols="9">
-              <div>{{ params[status.name] }}</div>
-              <div>{{ status.label }}</div>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-row>
+      <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
     </template>
     <template v-slot:table-content>
       <base-table :headers="headers" :url="'private/deals/list'">
@@ -41,12 +29,14 @@ import { mapActions } from "vuex";
 import BaseListView from "./base/BaseListView.vue";
 import BaseTable from "@/components/BaseTable.vue";
 import IconSales from "@/components/icons/IconSales";
+import StatsStatus from "@/components/StatsStatus.vue";
 
 export default {
   props: [],
   components: {
     BaseListView,
-    BaseTable
+    BaseTable,
+    StatsStatus,
   },
   data() {
     return {

@@ -46,11 +46,11 @@
           label="Region"></component>
 
         <component v-else-if="field.name === 'countries'" :is="getFieldComponent(field.type)" :items="Countries"
-          item-text="label" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['country.id']"
+          item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['country.id']"
           v-on:change="countryChange()" label="Select Country"></component>
 
         <component v-else-if="field.name === 'cities'" :is="getFieldComponent(field.type)" :items="cities"
-          item-text="label" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['city.id']"
+          item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['city.id']"
           v-on:change="valueChange()" label="City" ></component>
 
         <component
