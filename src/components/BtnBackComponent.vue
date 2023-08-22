@@ -1,5 +1,5 @@
 <template>
-  <button class="mr-4" :style="{ width: width }" color="primary" small elevation="0" @click="goBack">Back</button>
+  <v-btn class="mr-4" :style="{ width: width }" color="primary" small elevation="0" @click="goBack">Back</v-btn>
 </template>
 
 <script>

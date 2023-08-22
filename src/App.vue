@@ -1,27 +1,32 @@
 <template>
   <v-app>
+    <!--    TODO : make menu dynamic       -->
     <v-navigation-drawer v-model="drawer" app clipped v-if="User" width="210">
       <v-list dense nav class="mt-10">
         <v-list-item>
-          <v-list-item-icon><icon-base icon-name="sales"><icon-sales /></icon-base></v-list-item-icon>
-          <v-list-item-content><router-link to="/">Sales</router-link></v-list-item-content>
+          <v-list-item-icon><icon-base icon-name="program-overview"><icon-program /></icon-base></v-list-item-icon>
+          <v-list-item-content><router-link to="/program_overview">Program Overview</router-link></v-list-item-content>
         </v-list-item>
         <v-list-item>
-          <v-list-item-icon><icon-base icon-name="documentation"><icon-documentation /></icon-base></v-list-item-icon>
-          <v-list-item-content><router-link to="/documentation">Documentation</router-link></v-list-item-content>
+          <v-list-item-icon><icon-base icon-name="sales"><icon-deal /></icon-base></v-list-item-icon>
+          <v-list-item-content><router-link to="/sales">Deal Registration</router-link></v-list-item-content>
         </v-list-item>
-         <v-list-item>
-          <v-list-item-icon><icon-base icon-name="mdf"><icon-MDF /></icon-base></v-list-item-icon>
-          <v-list-item-content><router-link to="/mdf">MDF</router-link></v-list-item-content>
+        <v-list-item>
+          <v-list-item-icon><icon-base icon-name="sales"><icon-sales /></icon-base></v-list-item-icon>
+          <v-list-item-content><router-link to="/sales_marketing">Sales & Marketing</router-link></v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-icon><icon-base icon-name="technical"><icon-product /></icon-base></v-list-item-icon>
+          <v-list-item-content><router-link to="/products_technical">Products /Technical</router-link></v-list-item-content>
         </v-list-item>
         <v-list-item>
           <v-list-item-icon><icon-base icon-name="demo"><icon-demo /></icon-base></v-list-item-icon>
           <v-list-item-content><router-link to="/demo">Demo</router-link></v-list-item-content>
         </v-list-item>
-      <v-list-item>
-        <v-list-item-icon><icon-base icon-name="program-overview"><icon-demo /></icon-base></v-list-item-icon>
-        <v-list-item-content><router-link to="/program_overview">Program Overview</router-link></v-list-item-content>
-      </v-list-item>
+        <v-list-item>
+          <v-list-item-icon><icon-base icon-name="program-overview"><icon-guide /></icon-base></v-list-item-icon>
+          <v-list-item-content><router-link to="/howto">How To Guides</router-link></v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -143,7 +148,12 @@
   import IconDemo from "./components/icons/IconDemo.vue"
   import IconDocumentation from "./components/icons/IconDocumentation.vue"
   import IconMDF from "./components/icons/IconMDF.vue"
+  import IconDeal from "./components/icons/IconDeal.vue"
   import IconSales from "./components/icons/IconSales.vue"
+  import IconProduct from "./components/icons/IconProduct.vue"
+  import IconProgram from "./components/icons/IconProgram.vue"
+  import IconGuide from "./components/icons/IconGuide.vue"
+
 
   export default {
     name: 'App',
@@ -154,7 +164,11 @@
       IconDemo,
       IconDocumentation,
       IconMDF,
-      IconSales
+      IconSales,
+      IconDeal,
+      IconProduct,
+      IconProgram,
+      IconGuide
     },
 
     data: () => ({

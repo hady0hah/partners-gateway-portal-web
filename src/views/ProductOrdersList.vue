@@ -1,14 +1,22 @@
 <template>
-
-  <base-list-view :icon="getIcon()"  :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addDeal" :main_action_title="main_action_title" >
+  <base-list-view  :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addOrder" :main_action_title="main_action_title">
     <template v-slot:table-summary>
-      <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
+      <v-row class="box">
+        <v-card elevation="2" shaped class="pa-4" style="display: flex; flex-wrap: wrap;width: 90%;">
+          <v-row :cols="12/Statuses.length" v-for="status in Statuses" :key="status.id" style="margin-top: 0px">
+            <v-col cols="3">
+              <v-img :src="status.icon"></v-img>
+            </v-col>
+            <v-col cols="9">
+              <div>{{ params[status.name] }}</div>
+              <div>{{ status.label }}</div>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-row>
     </template>
     <template v-slot:table-content>
       <base-table :headers="headers" :url="'private/deals/list'">
-        <template v-slot:item.programLevel="{ item }">
-          <v-icon :color="ProgramLevel(item['partnerProgramLevel.id']).color" small>mdi-circle</v-icon>
-        </template>
         <template v-slot:item.renewalDate="{ item }">
           {{ friendlyDate(item.renewalDate.date) }}
         </template>
@@ -17,9 +25,6 @@
         </template>
         <template v-slot:item.status="{ item }">
           <v-img :src="getStatus(item['dealStatus.id']).icon" width="30"></v-img>
-        </template>
-        <template v-slot:item.region="{ item }">
-          {{ getRegion(item['region.id']).label }}
         </template>
         <template v-slot:item.actions="{ item }">
           <router-link :to="'/deal/' + item.id"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
@@ -36,32 +41,28 @@ import { mapActions } from "vuex";
 import BaseListView from "./base/BaseListView.vue";
 import BaseTable from "@/components/BaseTable.vue";
 import IconSales from "@/components/icons/IconSales";
-import StatsStatus from "@/components/StatsStatus.vue";
 
 export default {
   props: [],
   components: {
     BaseListView,
-    BaseTable,
-    StatsStatus,
+    BaseTable
   },
   data() {
     return {
       // list:{
       headers: [
-        { text: '', value: 'programLevel', sortable: false, align: 'center' },
         { text: 'Deal Name', value: 'name', sortable: true, align: 'center' },
         { text: 'Renewal Date', value: 'renewalDate', sortable: true, align: 'center' },
-        { text: 'Region', value: 'region', sortable: true, align: 'center' },
         { text: 'Amount', value: 'amount', sortable: true, align: 'center' },
         { text: 'Status', value: 'status', sortable: false, align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
       ],
       // },
-      title:'Sales View',
-      subtitle:"Deal Registration",
-      table_title:"List of Previously Created Deals",
-      main_action_title:"Add a deal",
+      title:'Sales & Marketing',
+      subtitle:"Ordering, Invoicing & Delivery",
+      table_title:"List of previously created POs",
+      main_action_title:"Add a Product Order (PO)",
 
 
       params: [],
@@ -83,17 +84,16 @@ export default {
   },
   methods: {
     ...mapActions(["StateSetStatuses", "StateSetRegions"]),
+
     getIcon(){
       return IconSales
     },
+
     getStatus(status_id) {
       return this.Statuses.find(status => status.id === status_id)
     },
-    getRegion(region_id) {
-      return this.Regions.find(region => region.id === region_id)
-    },
-    addDeal() {
-      this.$router.push({ name: 'deal_add', params: { deal: {} } })
+    addOrder() {
+      this.$router.push({ name: 'order_add' })
     },
     tablePageUpdated(page) {
       this.page = page
@@ -138,6 +138,14 @@ export default {
   created() {
     const t = this
     this.$Progress.start()
+    this.axios.get('private/status/list', {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.StateSetStatuses(response.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
     this.axios.get('private/region/list', {})
       .then(function (response) {
         t.$Progress.finish()

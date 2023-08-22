@@ -22,6 +22,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/',
+    name: 'welcome',
+    component: () => import('../views/WelcomeView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/deal/add',
     name: 'deal_add',
     // route level code-splitting
@@ -42,7 +48,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/',
+    path: '/sales',
     name: 'sales',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -125,19 +131,88 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/program/add',
-    name: 'program_add',
-    component: () => import('../views/ProgramAddView.vue'),
+    path: '/howto',
+    name: 'howto',
+    component: () => import('../views/HowToGuidesView.vue'),
+    meta: { requiresAuth: true },
+  },
+
+
+  {
+    path: '/product_orders_list',
+    name: 'product_orders_list',
+    component: () => import('../views/ProductOrdersList.vue'),
     props: true,
     meta: { requiresAuth: true },
   },
   {
-    path: '/program/:id',
-    name: 'program_view',
-    component: () => import('../views/ProgramView.vue'),
+    path: '/order/add',
+    name: 'order_add',
+    component: () => import('../views/ProductOrderView.vue'),
     props: true,
     meta: { requiresAuth: true },
-  }
+  },
+  {
+    path: '/order/:id',
+    name: 'order_view',
+    component: () => import('../views/ProductOrderView.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/forecasting_list',
+    name: 'forecasting_list',
+    component: () => import('../views/ForecastingList.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/forecasting/add',
+    name: 'forecasting_add',
+    component: () => import('../views/ForecastView.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/forecast/:id',
+    name: 'forecast_view',
+    component: () => import('../views/ForecastView.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/QBR_list',
+    name: 'QBR_list',
+    component: () => import('../views/QuarterlyBusinessReviewList.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  } ,
+  {
+    path: '/QBR/add',
+    name: 'QBR_add',
+    component: () => import('../views/QuarterlyBusinessReviewView.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/QBR/:id',
+    name: 'QBR_view',
+    component: () => import('../views/QuarterlyBusinessReviewView.vue'),
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/sales_marketing',
+    name: 'sales_marketing',
+    component: () => import('../views/SalesMarketingView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/products_technical',
+    name: 'products_technical',
+    component: () => import('../views/ProductsTechnicalView.vue'),
+    meta: { requiresAuth: true },
+  },
 ]
 
 const router = new VueRouter({

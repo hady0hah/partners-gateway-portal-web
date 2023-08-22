@@ -1,14 +1,7 @@
 <template>
-
-  <base-list-view :icon="getIcon()"  :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addDeal" :main_action_title="main_action_title" >
-    <template v-slot:table-summary>
-      <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
-    </template>
+  <base-list-view  :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addForecast" :main_action_title="main_action_title">
     <template v-slot:table-content>
       <base-table :headers="headers" :url="'private/deals/list'">
-        <template v-slot:item.programLevel="{ item }">
-          <v-icon :color="ProgramLevel(item['partnerProgramLevel.id']).color" small>mdi-circle</v-icon>
-        </template>
         <template v-slot:item.renewalDate="{ item }">
           {{ friendlyDate(item.renewalDate.date) }}
         </template>
@@ -36,20 +29,17 @@ import { mapActions } from "vuex";
 import BaseListView from "./base/BaseListView.vue";
 import BaseTable from "@/components/BaseTable.vue";
 import IconSales from "@/components/icons/IconSales";
-import StatsStatus from "@/components/StatsStatus.vue";
 
 export default {
   props: [],
   components: {
     BaseListView,
-    BaseTable,
-    StatsStatus,
+    BaseTable
   },
   data() {
     return {
       // list:{
       headers: [
-        { text: '', value: 'programLevel', sortable: false, align: 'center' },
         { text: 'Deal Name', value: 'name', sortable: true, align: 'center' },
         { text: 'Renewal Date', value: 'renewalDate', sortable: true, align: 'center' },
         { text: 'Region', value: 'region', sortable: true, align: 'center' },
@@ -58,10 +48,10 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
       ],
       // },
-      title:'Sales View',
-      subtitle:"Deal Registration",
-      table_title:"List of Previously Created Deals",
-      main_action_title:"Add a deal",
+      title:'Sales & Marketing',
+      subtitle:"Forecasting",
+      table_title:"List of previously created Forecasts",
+      main_action_title:"Add a Forecast",
 
 
       params: [],
@@ -83,17 +73,19 @@ export default {
   },
   methods: {
     ...mapActions(["StateSetStatuses", "StateSetRegions"]),
+
     getIcon(){
       return IconSales
     },
+
     getStatus(status_id) {
       return this.Statuses.find(status => status.id === status_id)
     },
     getRegion(region_id) {
       return this.Regions.find(region => region.id === region_id)
     },
-    addDeal() {
-      this.$router.push({ name: 'deal_add', params: { deal: {} } })
+    addForecast() {
+      this.$router.push({ name: 'forecasting_add' })
     },
     tablePageUpdated(page) {
       this.page = page
@@ -138,6 +130,14 @@ export default {
   created() {
     const t = this
     this.$Progress.start()
+    this.axios.get('private/status/list', {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.StateSetStatuses(response.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
     this.axios.get('private/region/list', {})
       .then(function (response) {
         t.$Progress.finish()

@@ -9,6 +9,7 @@
       <v-form
         ref="form"
         lazy-validation
+        :disabled="!this.disabled"
       >
         <v-row class="box">
           <v-col class="col-12">
@@ -26,21 +27,21 @@
 						<v-row>
           		<v-col class="col-12 col-md-6">
           			Event Location
-								<v-select 
-									:items="Countries" 
-									item-text="label" 
+								<v-select
+									:items="Countries"
+									item-text="label"
 									item-value="id"
-									label="Select Country" 
-									v-model="event['country.id']" 
+									label="Select Country"
+									v-model="event['country.id']"
 									v-on:change="countryChange()"
 									:rules="[v => !!v || 'Field is required']"
 									class="mb-2"
 								></v-select>
-								<v-select 
-									:items="cities" 
-									item-text="label" 
+								<v-select
+									:items="cities"
+									item-text="label"
 									item-value="id"
-									label="City" 
+									label="City"
 									v-model="event['city.id']"
 									v-on:change="valueChange()"
 									:rules="[v => !!v || 'Field is required']"
@@ -116,21 +117,21 @@
 						<v-row>
           		<v-col class="col-12">
           			Type of Participation
-								<v-select 
-									:items="participationTypes" 
-									item-text="name" 
+								<v-select
+									:items="participationTypes"
+									item-text="name"
 									item-value="id"
-									label="Sponsor" 
+									label="Sponsor"
 									v-model="event['participation.id']"
 									v-on:change="participationTypeChange()"
 									:rules="[v => !!v || 'Field is required']"
 									class="mb-2"
 								></v-select>
-								<v-select 
-									:items="sponsorshipTypes" 
-									item-text="name" 
+								<v-select
+									:items="sponsorshipTypes"
+									item-text="name"
 									item-value="id"
-									label="Type of Sponsorship" 
+									label="Type of Sponsorship"
 									v-model="event['sponshorshipType.id']"
 									v-on:change="valueChange()"
 									:rules="[v => !!v || 'Field is required']"
@@ -141,11 +142,11 @@
 						<v-row>
           		<v-col class="col-12">
           			Type of exhibition space
-								<v-select 
-									:items="spaces" 
-									item-text="name" 
+								<v-select
+									:items="spaces"
+									item-text="name"
 									item-value="id"
-									label="Booth" 
+									label="Booth"
 									v-model="event['space.id']"
 									v-on:change="valueChange()"
 									:rules="[v => !!v || 'Field is required']"
@@ -164,11 +165,11 @@
       			</v-row>
           	<v-row>
           		<p>What product will you be representing?
-							<v-select 
-								:items="products" 
-								item-text="name" 
+							<v-select
+								:items="products"
+								item-text="name"
 								item-value="id"
-								label="Select Product" 
+								label="Select Product"
 								v-model="event['product.id']"
 								v-on:change="valueChange()"
 								:rules="[v => !!v || 'Field is required']"
@@ -178,12 +179,12 @@
 						<v-row>
           		<p>Need any training on the related product?
 							<v-radio-group v-model="event.training" v-on:change="valueChange()" row>
-								<v-radio 
-									label="Yes" 
+								<v-radio
+									label="Yes"
 									:value="true">
 								</v-radio>
-								<v-radio 
-									label="No" 
+								<v-radio
+									label="No"
 									:value="false">
 								</v-radio>
 							</v-radio-group></p>
@@ -251,7 +252,7 @@
 <script>
 	import { mapGetters } from "vuex";
 	import { mapActions } from "vuex";
-	
+
   export default {
     props: ['id'],
     data: () => ({
@@ -277,7 +278,8 @@
       participationTypes: [],
       sponsorshipTypes: [],
       materials: {},
-      saved: true
+      saved: true,
+      disabled:null,
     }),
     computed: {
       ...mapGetters({
@@ -295,6 +297,7 @@
       }
     },
     mounted () {
+      this.disabled = this.$route.params.disabled
     },
     created () {
       const t = this
@@ -320,7 +323,7 @@
 					console.log(err);
 				});
 			}
-      
+
       if (!this.Countries) {
       	this.axios.get('private/country/list', {})
 				.then(function (response) {
@@ -331,7 +334,7 @@
 					console.log(err);
 				});
 			}
-			
+
 			if (!this.mdfStatuses) {
 				this.axios.get('private/mdfstatus/list', {})
         .then(function (response) {
@@ -342,7 +345,7 @@
           console.log(err);
         });
 			}
-			
+
 			this.$Progress.increase(10)
 			this.axios.get('private/participationType/list', {})
 			.then(function (response) {
@@ -352,7 +355,7 @@
 			.catch(err => {
 				console.log(err);
 			});
-			
+
 			this.$Progress.increase(10)
 			this.axios.get('private/exSpace/list', {})
 			.then(function (response) {
@@ -362,7 +365,7 @@
 			.catch(err => {
 				console.log(err);
 			});
-      
+
       this.$Progress.increase(10)
       this.axios.get('private/product/list', {})
       .then(function (response) {
@@ -372,7 +375,7 @@
       .catch(err => {
         console.log(err);
       });
-      
+
       this.$Progress.increase(10)
       this.axios.get('private/material/list', {})
       .then(function (response) {
@@ -389,7 +392,7 @@
     },
     methods: {
     	...mapActions(["StateSetCountries", "StateSetMdfStatuses"]),
-    	
+
       countryChange () {
       	const t = this
         this.axios.get('private/country/show?id='+this.event['country.id'], {})
@@ -423,7 +426,7 @@
       save (submit) {
         if (!this.$refs.form.validate())
           return;
-          
+
         const t = this
         this.$Progress.start()
         var endpoint = ""
@@ -433,7 +436,7 @@
           endpoint = 'private/mdf/edit?id='+this.event.id
         else
         	endpoint = 'private/mdf/submit?id='+this.event.id
-        	
+
         const formData = new FormData();
         formData.append("form[name]", this.event.name)
         formData.append("form[targetAudience]", this.event.targetAudience)
@@ -457,11 +460,11 @@
         else
         	formData.append("form[materialSubmission]", "")
         formData.append("form[materials]",  JSON.stringify(this.event.materials))
-          
+
         this.axios.post(endpoint, formData)
         .then(function (response) {
           t.$Progress.finish()
-          
+
           if (response.data.success == true) {
           	console.log(response)
           	t.event.id = response.data.data.id
