@@ -5,6 +5,10 @@ let endpoints={
     'deal_list' : {
         'url' : 'private/deals/list'
     }
+  ,
+  'QBR_list' : {
+    'url' : 'private/qb/list'
+  }
 }
 
 export default endpoints
