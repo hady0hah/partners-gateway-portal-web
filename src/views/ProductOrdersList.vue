@@ -33,6 +33,7 @@ import BaseListView from "./base/BaseListView.vue";
 import BaseTable from "@/components/BaseTable.vue";
 import IconSales from "@/components/icons/IconSales";
 import StatsStatus from "@/components/StatsStatus.vue";
+import eventBus from "@/eventBus";
 
 export default {
   props: [],
@@ -89,8 +90,15 @@ export default {
     addOrder() {
       this.$router.push({ name: 'order_add' })
     },
+    handleDataReceived(response) {
+      this.params = response.data.data.params
+    }
+  },
+  destroyed() {
+    eventBus.$off('data-received', this.handleDataReceived);
   },
   created() {
+    eventBus.$on('data-received', this.handleDataReceived);
     const t = this
     this.$Progress.start()
     this.axios.get('private/status/list', {})
