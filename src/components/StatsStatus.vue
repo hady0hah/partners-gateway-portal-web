@@ -5,8 +5,8 @@
         <v-col cols="3">
           <v-img :src="status.imageFile"></v-img>
         </v-col>
-        <v-col cols="9">
-          <div>{{ itemCount[status.name] }}</div>
+        <v-col cols="9" style="padding-left: 0px">
+          <div>{{ itemCount[status.name] !== undefined ? itemCount[status.name] : 0 }}</div>
           <div>{{ status.label }}</div>
         </v-col>
       </v-row>
