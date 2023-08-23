@@ -18,7 +18,7 @@
         <v-row class="box">
           <slot name="table-actions">
             <v-col>
-              <v-btn color="primary" dark class="ml-2" small elevation="0" @click="main_action_onclick">
+              <v-btn style="font-weight: bold" color="primary" dark class="ml-2" small elevation="0" @click="main_action_onclick">
                 {{ main_action_title }}
               </v-btn>
             </v-col>

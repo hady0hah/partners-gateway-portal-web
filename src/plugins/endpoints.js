@@ -8,6 +8,10 @@ let endpoints={
     'po_statuses' : {
         'url' : 'private/formstatus/list'
     }
+    ,
+    'forecasting_list' : {
+        'url' : 'private/fr/list'
+    }
 }
 
 export default endpoints
