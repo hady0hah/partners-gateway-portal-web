@@ -5,17 +5,20 @@
     </template>
     <template v-slot:table-content>
       <base-table :headers="headers" :url="axios.defaults.endpoints.po_list.url">
-        <template v-slot:item.renewalDate="{ item }">
-          {{ friendlyDate(item.renewalDate.date) }}
+        <template v-slot:item.id="{ item }">
+          {{ item.id }}
         </template>
-        <template v-slot:item.amount="{ item }">
-          {{ (item.amount ? item.amount : '0') | currency }}
+        <template v-slot:item.name="{ item }">
+          {{ item['endCustomer.name'] }}
+        </template>
+        <template v-slot:item.created="{ item }">
+          {{ friendlyDate(item.created.date) }}
         </template>
         <template v-slot:item.status="{ item }">
-          <v-img :src="getStatus(item['dealStatus.id']).icon" width="30"></v-img>
+          <v-img :src="getStatus(item['status.id']).imageFile" width="30"></v-img>
         </template>
         <template v-slot:item.actions="{ item }">
-          <router-link :to="'/deal/' + item.id"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
+          <router-link :to="{ name: 'order_view', params: { id: item.id } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
         </template>
       </base-table>
     </template>
@@ -42,9 +45,9 @@ export default {
     return {
       // list:{
       headers: [
-        { text: 'Deal Name', value: 'name', sortable: true, align: 'center' },
-        { text: 'Renewal Date', value: 'renewalDate', sortable: true, align: 'center' },
-        { text: 'Amount', value: 'amount', sortable: true, align: 'center' },
+        { text: 'PO Number', value: 'id', sortable: true, align: 'center' },
+        { text: 'Contact Name', value: 'endCustomer.name', sortable: true, align: 'center' },
+        { text: 'Order Date', value: 'created', sortable: true, align: 'center' },
         { text: 'Status', value: 'status', sortable: false, align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
       ],
@@ -54,7 +57,7 @@ export default {
       table_title:"List of previously created POs",
       main_action_title:"Add a Product Order (PO)",
 
-
+      POStatuses:[],
       params: [],
       deals: [],
       count: 0,
@@ -80,50 +83,12 @@ export default {
     },
 
     getStatus(status_id) {
-      return this.Statuses.find(status => status.id === status_id)
+
+      return this.POStatuses.find(status => status.id === status_id)
     },
     addOrder() {
       this.$router.push({ name: 'order_add' })
     },
-    tablePageUpdated(page) {
-      this.page = page
-      this.getDeals()
-    },
-    tableItemsPerPageUpdated(itemsPerPage) {
-      this.itemsPerPage = itemsPerPage
-      this.getDeals()
-    },
-    tableSortByUpdated(sortBy) {
-      if (sortBy) {
-        this.sortBy = sortBy
-        if (this.sortBy == 'renewalDate')
-          this.sortBy = 'renewal_date'
-      }
-      else
-        this.sortBy = ''
-      this.getDeals()
-    },
-    tableSortDescUpdated(sortDesc) {
-      if (sortDesc)
-        this.sortDesc = "DESC"
-      else
-        this.sortDesc = "ASC"
-      this.getDeals()
-    },
-    getDeals() {
-      const t = this
-      this.$Progress.start()
-      this.axios.get('private/deals/list?filter[_page]=' + this.page + '&filter[_per_page]=' + this.itemsPerPage + '&filter[_sort_by]=' + this.sortBy + '&filter[_sort_order]=' + this.sortDesc, {})
-        .then(function (response) {
-          t.$Progress.finish()
-          t.count = response.data.count
-          t.deals = response.data.data.deals
-          t.params = response.data.data.params
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
   },
   created() {
     const t = this
@@ -140,6 +105,14 @@ export default {
       .then(function (response) {
         t.$Progress.finish()
         t.StateSetRegions(response.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.axios.get(axios.defaults.endpoints.po_statuses.url, {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.POStatuses = response.data.data
       })
       .catch(err => {
         console.log(err);
