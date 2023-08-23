@@ -4,6 +4,9 @@ let endpoints={
     },
     'deal_list' : {
         'url' : 'private/deals/list'
+    },
+    'po_statuses' : {
+        'url' : 'private/formstatus/list'
     }
 }
 
