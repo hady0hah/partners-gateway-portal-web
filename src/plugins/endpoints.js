@@ -12,6 +12,10 @@ let endpoints={
     'forecasting_list' : {
         'url' : 'private/fr/list'
     }
+  ,
+  'QBR_list' : {
+    'url' : 'private/qb/list'
+  }
 }
 
 export default endpoints
