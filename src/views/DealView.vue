@@ -16,12 +16,12 @@
                 <v-text-field v-model="deal.name" label="Deal Name" :rules="[v => !!v || 'Field is required']"></v-text-field>
               </v-row>
               <v-row>
-                <v-select 
-                  label="Region" 
-                  :items="Regions" 
-                  item-text="label" 
+                <v-select
+                  label="Region"
+                  :items="Regions"
+                  item-text="label"
                   item-value="id"
-                  v-model="region.id" 
+                  v-model="region.id"
                   :rules="[v => !!v || 'Field is required']"
                 ></v-select>
               </v-row>
@@ -56,21 +56,21 @@
                   ></v-date-picker>
                 </v-menu>
               </v-row>
-            </v-col> 
+            </v-col>
             <v-col class="col-6 col-sm-4 col-lg-4">
               <v-card elevation="2" shaped class="pa-4">
                 <v-row>
                   <v-col cols="3">
-                    <v-img v-if="dealStatus" :src="dealStatus.icon"></v-img>
+                    <v-img v-if="dealStatus" :src="dealStatus.imageFile"></v-img>
                   </v-col>
                   <v-col cols="9">
                     <div><b>Status update</b></div>
                     <div>
-                      <v-select 
-                        :items="Statuses" 
-                        item-text="label" 
+                      <v-select
+                        :items="Statuses"
+                        item-text="label"
                         item-value="id"
-                        v-model="dealStatus.id" 
+                        v-model="dealStatus.id"
                         v-on:change="dealStatusChange()"
                         :rules="[v => !!v || 'Field is required']"
                       ></v-select>
@@ -82,7 +82,7 @@
             </v-col>
           </v-row>
         </v-col>
-      
+
         <v-col class="col-12 col-md-3">
           <v-card elevation="2" class="pa-8 mb-4 box">
             <v-row>
@@ -108,8 +108,8 @@
     </v-form>
     <v-row class="milestones" v-if="deal.id">
       <v-col class="box col-12 col-md-9">
-        <v-data-table 
-          :headers="milestonesHeaders" 
+        <v-data-table
+          :headers="milestonesHeaders"
           :items="deal.dealMilestones"
           :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"
         >
@@ -261,8 +261,8 @@
     </v-row>
     <v-row class="mt-10" v-if="payments">
       <v-col class="box col-12 col-md-6">
-        <v-data-table 
-          :headers="paymentsHeaders" 
+        <v-data-table
+          :headers="paymentsHeaders"
           :items="payments"
           :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"
         >
@@ -299,7 +299,7 @@
               {{ item.status }}
             </v-chip>
           </template>
-          <template v-slot:top>     
+          <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Payments</v-toolbar-title>
               <v-spacer></v-spacer>
@@ -334,7 +334,7 @@
                             v-model="editedPaymentItem.payment"
                             label="Payment"
                             prefix="$"
-                            type="number" 
+                            type="number"
                             :rules="[v => !!v || 'Field is required']"
                           ></v-text-field>
                         </v-col>
@@ -343,10 +343,10 @@
                           sm="6"
                           md="4"
                         >
-                          <v-select 
-                            :items="paymentStatuses" 
+                          <v-select
+                            :items="paymentStatuses"
                             label="Status"
-                            v-model="editedPaymentItem.status" 
+                            v-model="editedPaymentItem.status"
                             :rules="[v => !!v || 'Field is required']"
                           ></v-select>
                         </v-col>
@@ -462,9 +462,9 @@
   export default {
     name: 'DealView',
     props: ['id'],
-    
+
     data: () => ({
-      deal: {  
+      deal: {
         renewalDate: {
           date: ''
         }
@@ -542,7 +542,7 @@
     computed: {
       ...mapGetters({
         Statuses: "StateStatuses",
-        ProgramLevels: "StateProgramLevels", 
+        ProgramLevels: "StateProgramLevels",
         ProgramLevel: "StateProgramLevel",
         Regions: "StateRegions"
       }),
@@ -582,7 +582,7 @@
             t.deal.dealMilestones = []
           t.dealStatus = Object.assign({}, t.Statuses.find(status => status.id === t.deal['dealStatus.id']))
           t.region = Object.assign({}, t.Regions.find(region => region.id === t.deal['region.id']))
-      
+
           t.$Progress.increase(10)
           t.axios.get('private/contact/show?id='+t.deal['contact.id'], {})
           .then(function (response) {
@@ -592,7 +592,7 @@
           .catch(err => {
             console.log(err);
           });
-          
+
           t.$Progress.increase(10)
           t.axios.get('private/deal/payments?id='+t.id, {})
           .then(function (response) {
@@ -616,7 +616,7 @@
         this.axios.get('private/payments/financial?id='+this.id, {})
         .then(function (response) {
           t.$Progress.finish()
-          t.financialSummary = response.data.data 
+          t.financialSummary = response.data.data
         })
         .catch(err => {
           console.log(err);
@@ -625,38 +625,38 @@
       saveDeal() {
         if (!this.$refs.dealForm.validate())
           return;
-          
+
         const t = this
         var endpoint = ""
-        
+
         if (!this.contact.id)
           endpoint = 'private/contact/add'
         else
           endpoint = 'private/contact/edit?id='+this.contact.id
-          
+
         const formData = new FormData();
         formData.append("form[name]", this.contact.name);
         formData.append("form[phone]", this.contact.phone);
         formData.append("form[email]", this.contact.email);
         formData.append("form[address]", this.contact.address);
         formData.append("form[company]", this.contact.company);
-        
+
         this.$Progress.start()
         this.axios.post(endpoint, formData)
         .then(function (response) {
-          
+
           if (response.data.data == null)
             return
-          
+
           t.contact = response.data.data
-          
+
           var endpoint = ""
-          
+
           if (!t.deal.id)
             endpoint = 'private/deal/add'
           else
             endpoint = 'private/deals/edit?id='+t.deal.id
-          
+
           const formData = new FormData();
           formData.append("form[name]", t.deal.name);
           formData.append("form[renewal_date]", t.deal.renewalDate.date);
@@ -664,7 +664,7 @@
           formData.append("form[region]", t.region.id);
           formData.append("form[dealStatus]", t.dealStatus.id);
           formData.append("form[note]", t.deal.note);
-          
+
           t.$Progress.increase(10)
           t.axios.post(endpoint, formData)
           .then(function (response) {
@@ -682,7 +682,7 @@
           console.log(err);
         });
       },
-      
+
       editItem (item) {
         item.error = ''
         this.editedIndex = this.deal.dealMilestones.indexOf(item)
@@ -690,22 +690,22 @@
         this.oldMilestoneAmount = this.editedItem.amount
         this.dialog = true
       },
-      
+
       save () {
         var endpoint = ""
         if (this.editedIndex > -1)
           endpoint = 'private/dealms/edit?id='+this.editedItem.id
         else
           endpoint = 'private/dealms/add'
-        
+
         const t = this
-        
+
         const formData = new FormData();
         formData.append("form[project]", this.editedItem.project);
         formData.append("form[amount]", this.editedItem.amount);
         formData.append("form[deal]", this.deal.id);
         formData.append("form[date]", this.editedItem.date.date);
-        
+
         this.$Progress.start()
         this.axios.post(endpoint, formData)
         .then(function (response) {
@@ -752,7 +752,7 @@
           console.log(err);
         });
       },
-      
+
       close () {
         this.dialog = false
         this.$nextTick(() => {
@@ -768,35 +768,35 @@
           this.editedIndex = -1
         })
       },
-      
+
       addPaymentItem (item) {
         this.dialogPayment = true
         this.editedIndex = this.deal.dealMilestones.indexOf(item)
         this.editedItem = Object.assign({}, item)
       },
-      
-      editPaymentItem (item) {    
+
+      editPaymentItem (item) {
         item.error = ''
         this.editedPaymentIndex = this.payments.indexOf(item)
         this.editedPaymentItem = Object.assign({}, item)
         this.dialogPayment = true
       },
-      
+
       savePayment () {
         var endpoint = ""
         if (this.editedPaymentIndex > -1)
           endpoint = 'private/payments/edit?id='+this.editedPaymentItem.id
         else
           endpoint = 'private/payments/add'
-        
+
         const t = this
-        
+
         const formData = new FormData();
         formData.append("form[deal]", this.deal.id);
         formData.append("form[payment]", this.editedPaymentItem.payment);
         formData.append("form[status]", this.editedPaymentItem.status);
         formData.append("form[payment_date]", this.getDate(this.editedPaymentItem.paymentDate.date));
-        
+
         this.$Progress.start()
         this.axios.post(endpoint, formData)
         .then(function (response) {
@@ -816,13 +816,13 @@
           console.log(err);
         });
       },
-      
+
       deletePaymentItem (item) {
         this.editedPaymentIndex = this.payments.indexOf(item)
         this.editedPaymentItem = Object.assign({}, item)
         this.dialogPaymentDelete = true
       },
-      
+
       deletePaymentItemConfirm () {
         const t = this
         this.$Progress.start()
@@ -837,7 +837,7 @@
           console.log(err);
         });
       },
-      
+
       closePayment () {
         this.dialogPayment = false
         this.$nextTick(() => {
@@ -845,19 +845,19 @@
           this.editedPaymentIndex = -1
         })
       },
-      
+
       closePaymentDelete () {
         this.dialogPaymentDelete = false
         this.$nextTick(() => {
           this.editedPaymentItem = Object.assign({}, this.defaultPaymentItem)
           this.editedPaymentIndex = -1
         })
-      }, 
-      
+      },
+
       dealStatusChange () {
         this.dealStatus = Object.assign({}, this.Statuses.find(status => status.id === this.dealStatus.id))
       },
-      
+
       back() {
         this.$router.push("/");
       }
@@ -881,12 +881,12 @@
     height: 40px;
     font-size: 0.875rem;
   }
-  
+
   .financial-summary .text-left {
     font-weight: bold;
     font-size: 14px;
   }
-  
+
   .milestones {
     margin-top: -100px !important;
   }
