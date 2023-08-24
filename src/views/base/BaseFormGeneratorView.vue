@@ -30,9 +30,6 @@
     <v-row class="box mt-15" v-for="section, i in form.sections" :key="i">
 
       <div>
-        <div v-if="section.title" class="mb-4" >
-          <p>{{ section.title }}</p>
-        </div>
         <div v-if="section.description" class="mb-4">
           <h3>{{ section.description }}</h3>
         </div>
