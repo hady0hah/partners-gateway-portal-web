@@ -62,7 +62,7 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
       ],
       title:"Deal Registration",
-      // subtitle:"Deal Registration",
+      subtitle:null,
       table_title:"List of Previously Created Deals",
       main_action_title:"Add a deal",
       params: [],
