@@ -12,6 +12,9 @@
         <template v-slot:item.renewalDate="{ item }">
           {{ friendlyDate(item.renewalDate.date) }}
         </template>
+        <template v-slot:item.startDate="{ item }">
+          {{ friendlyDate(item.startDate.date) }}
+        </template>
         <template v-slot:item.amount="{ item }">
           {{ (item.amount ? item.amount : '0') | currency }}
         </template>
@@ -35,7 +38,7 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import BaseListView from "./base/BaseListView.vue";
 import BaseTable from "@/components/BaseTable.vue";
-import IconSales from "@/components/icons/IconSales";
+import IconDeal from "@/components/icons/IconDeal.vue";
 import StatsStatus from "@/components/StatsStatus.vue";
 import eventBus from "@/eventBus";
 
@@ -53,12 +56,13 @@ export default {
         { text: 'Deal Name', value: 'name', sortable: true, align: 'center' },
         { text: 'Renewal Date', value: 'renewalDate', sortable: true, align: 'center' },
         { text: 'Region', value: 'region', sortable: true, align: 'center' },
+        { text: 'Project Start Date', value: 'startDate', sortable: true, align: 'center' },
         { text: 'Amount', value: 'amount', sortable: true, align: 'center' },
         { text: 'Status', value: 'status', sortable: false, align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
       ],
-      title:'Sales View',
-      subtitle:"Deal Registration",
+      title:"Deal Registration",
+      // subtitle:"Deal Registration",
       table_title:"List of Previously Created Deals",
       main_action_title:"Add a deal",
       params: [],
@@ -75,7 +79,7 @@ export default {
   methods: {
     ...mapActions(["StateSetStatuses", "StateSetRegions"]),
     getIcon(){
-      return IconSales
+      return IconDeal
     },
     getStatus(status_id) {
       console.log(this.Statuses.find(status => status.id === status_id))
