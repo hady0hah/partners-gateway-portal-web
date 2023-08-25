@@ -53,7 +53,7 @@
           v-on:change="valueChange()" label="City" ></component>
 
         <component outlined
-                   v-else-if="field.type === 'Symfony\\Bridge\\Doctrine\\Form\\Type\\ChoiceType' || field.type === 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' && field.name !== 'dealStatus'"
+                   v-else-if="field.type ===  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' && field.name !== 'dealStatus' "
                    :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
                    v-on:change="valueChange()"></component>
 
@@ -64,7 +64,7 @@
 
         <component outlined
                    type="number"
-                   v-else-if="field.name === 'budget'"
+                   v-else-if="field.type === 'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType'"
                    :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
                    v-on:change="valueChange()"></component>
 
@@ -73,7 +73,10 @@
 <!--          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="baseForm['date']"-->
 <!--          v-on:change="valueChange()"></component>-->
 
-        <div v-else-if="field.name === 'date' || field.name === 'renewal_date' || field.name === 'lastMeetingDate' || field.name === 'startDate' " >
+<!--        <div v-else-if="field.name === 'date' || field.name === 'renewal_date' || field.name === 'lastMeetingDate' || field.name === 'startDate' " >-->
+          <div v-else-if="field.type === 'date'" >
+<!--          <div v-else-if="field.type === 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType'" >-->
+
           <v-menu
             :close-on-content-click="false"
             :nudge-right="40"
@@ -96,6 +99,23 @@
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
+        </div>
+
+        <div v-else-if="field.type === 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType'">
+          <p style="color: #205023">{{ field.label }}
+            <v-radio-group v-model="baseForm[field.name]" v-on:change="valueChange()" row>
+              <v-radio label="Yes" :value="true"></v-radio>
+              <v-radio label="No" :value="false"></v-radio>
+              <v-radio label="Other" :value="null"></v-radio>
+              <v-text-field
+                v-if="baseForm[field.name] === null"
+                v-model="baseForm[field.name]"
+                label="Other"
+                outlined
+              ></v-text-field>
+            </v-radio-group>
+          </p>
+
         </div>
 
         <div v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
@@ -143,6 +163,7 @@ import { VTextField } from 'vuetify/lib';
 import { VDatePicker } from 'vuetify/lib';
 import { VSelect } from 'vuetify/lib';
 import { VTextarea } from 'vuetify/lib';
+import { VRadioGroup } from 'vuetify/lib'
 
 import { mapActions, mapGetters } from "vuex";
 import BtnBackComponent from "@/components/BtnBackComponent";
@@ -159,13 +180,6 @@ export default {
       Statuses: "StateStatuses",
       Regions: "StateRegions",
     }),
-    // combinedLabel() {
-    //   // return (item) =>  `"<img src='${item.imageFile}' alt='Image' width='20' height='20' />" ${item.label}`;
-    //   // const imageFile = (item) => `${item.imageFile}`;
-    //   return (item) => `${item.imageFile} - ${item.label}`;
-    //     // return (item) => `${item.name} - ${item.country}`;
-    //
-    // },
   },
   data() {
     return {
@@ -214,8 +228,8 @@ export default {
         'string': VTextField,
         'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType': VDatePicker,
         'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType': VSelect,
-        'Symfony\\Bridge\\Doctrine\\Form\\Type\\ChoiceType': VSelect,
-        "Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType":VTextField,
+        'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType': VRadioGroup,
+        'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType':VTextField,
         'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextAreaType': VTextarea,
       };
       return fieldComponents[type] || 'VTextField';
