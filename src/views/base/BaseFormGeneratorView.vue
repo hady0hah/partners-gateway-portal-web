@@ -17,11 +17,11 @@
       </v-col>
     </v-row>
 
-    <v-row class="mb-4">
+    <v-row class="mb-4" style="color: #205023">
       <h3>{{ form.title }}</h3>
     </v-row>
 
-    <v-row class="mb-4">
+    <v-row class="mb-4" style="color: #205023">
       <p style="font-size: smaller;">{{ form.description }}</p>
     </v-row>
 
@@ -29,7 +29,7 @@
 
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
-      <div>
+      <div style="padding: 10px;font-weight: bold;color: #205023">
         <div v-if="section.label" class="mb-4" >
           <p>{{ section.label }}</p>
         </div>
@@ -52,13 +52,28 @@
           item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['city.id']"
           v-on:change="valueChange()" label="City" ></component>
 
+        <component outlined
+                   v-else-if="field.type === 'Symfony\\Bridge\\Doctrine\\Form\\Type\\ChoiceType' || field.type === 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' && field.name !== 'dealStatus'"
+                   :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
+                   v-on:change="valueChange()"></component>
+
+        <component outlined
+          v-else-if="field.name === 'opportunity_desc'"
+          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
+          v-on:change="valueChange()"></component>
+
+        <component outlined
+                   type="number"
+                   v-else-if="field.name === 'budget'"
+                   :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
+                   v-on:change="valueChange()"></component>
 
 <!--        <component-->
 <!--          v-else-if="field.name === 'date'"-->
 <!--          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="baseForm['date']"-->
 <!--          v-on:change="valueChange()"></component>-->
 
-        <v-row v-else-if="field.name === 'date' || field.name === 'renewal_date' || field.name === 'lastMeetingDate' || field.name === 'startDate' ">
+        <div v-else-if="field.name === 'date' || field.name === 'renewal_date' || field.name === 'lastMeetingDate' || field.name === 'startDate' " >
           <v-menu
             :close-on-content-click="false"
             :nudge-right="40"
@@ -68,8 +83,9 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
+                outlined
                 v-model="baseForm[field.name]"
-                prepend-icon="mdi-calendar"
+                append-icon="mdi-calendar"
                 readonly
                 v-bind="fieldProps(field)"
                 v-on="on"
@@ -80,20 +96,33 @@
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
-        </v-row>
+        </div>
 
-<!--        <v-card v-else-if="field.name === 'status' || field.name === 'dealStatus' " elevation="2" shaped class="pa-4">-->
-          <v-row v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
-<!--            <v-col cols="2">-->
-<!--              <v-img v-if="status && field.name === 'status'|| field.name === 'dealStatus'" :src="status.imageFile"></v-img>-->
-<!--            </v-col>-->
-            <v-col cols="9">
-              <component :is="getFieldComponent(field.type)" :items="Statuses" item-text="label" item-value="id" outlined
-                v-bind="fieldProps(field)" v-model="status.id" v-on:change="statusChange()"></component>
+        <div v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
+            <v-select outlined
+              v-model="status.id"
+              v-on:change="statusChange()"
+              :items="Statuses"
+              item-text="label"
+              item-value="id"
+              return-object
+              v-bind="fieldProps(field)"
+            >
+              <template v-slot:item="{ item }">
+                <template
+                  v-bind="fieldProps(field)"
+                  v-on:change="statusChange()">
+                  <v-list-item-avatar>
+                    <img :src="item.imageFile" alt="Image" />
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.label }}</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+              </template>
+            </v-select>
+        </div>
 
-            </v-col>
-          </v-row>
-<!--        </v-card>-->
 
         <component
           v-else
@@ -131,9 +160,9 @@ export default {
       Regions: "StateRegions",
     }),
     // combinedLabel() {
-    //   return (item) =>  `"<img src='${item.imageFile}' alt='Image' width='20' height='20' />" ${item.label}`;
+    //   // return (item) =>  `"<img src='${item.imageFile}' alt='Image' width='20' height='20' />" ${item.label}`;
     //   // const imageFile = (item) => `${item.imageFile}`;
-    //   // return (item) => `${item.id} - ${item.label}`;
+    //   return (item) => `${item.imageFile} - ${item.label}`;
     //     // return (item) => `${item.name} - ${item.country}`;
     //
     // },
