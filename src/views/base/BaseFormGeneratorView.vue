@@ -27,11 +27,11 @@
 
 
 
-    <v-row class="box mt-15" v-for="section, i in form.sections" :key="i">
+    <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
       <div>
-        <div v-if="section.title" class="mb-4" >
-          <p>{{ section.title }}</p>
+        <div v-if="section.label" class="mb-4" >
+          <p>{{ section.label }}</p>
         </div>
         <div v-if="section.description" class="mb-4">
           <h3>{{ section.description }}</h3>
@@ -41,9 +41,8 @@
       <v-row class="box">
       <v-col v-for="field in section.fields" :key="field.name" class="col-12 col-md-4">
 
-        <component v-if="field.name === 'region'" :is="getFieldComponent(field.type)" :items="Regions"
-          item-text="label" item-value="id" v-bind="fieldProps(field)" v-model="region.id" v-on:change="valueChange()"
-          label="Region"></component>
+        <component v-if="field.name === 'region'" :is="getFieldComponent(field.type)" :items="Regions" outlined
+          item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="region.id" v-on:change="valueChange()"></component>
 
         <component v-else-if="field.name === 'countries'" :is="getFieldComponent(field.type)" :items="Countries"
           item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['country.id']"
@@ -53,23 +52,48 @@
           item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['city.id']"
           v-on:change="valueChange()" label="City" ></component>
 
-        <component
-          v-else-if="field.name === 'date'"
-          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="baseForm['date']"
-          v-on:change="valueChange()"></component>
 
-        <v-card v-else-if="field.name === 'status'" elevation="2" shaped class="pa-4">
-          <v-row>
-            <v-col cols="2">
-              <v-img v-if="status && field.name === 'status'" :src="status.icon"></v-img>
-            </v-col>
+<!--        <component-->
+<!--          v-else-if="field.name === 'date'"-->
+<!--          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="baseForm['date']"-->
+<!--          v-on:change="valueChange()"></component>-->
+
+        <v-row v-else-if="field.name === 'date' || field.name === 'renewal_date' || field.name === 'lastMeetingDate' || field.name === 'startDate' ">
+          <v-menu
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="baseForm[field.name]"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="fieldProps(field)"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="baseForm[field.name]"
+              @input="menu2 = false"
+            ></v-date-picker>
+          </v-menu>
+        </v-row>
+
+<!--        <v-card v-else-if="field.name === 'status' || field.name === 'dealStatus' " elevation="2" shaped class="pa-4">-->
+          <v-row v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
+<!--            <v-col cols="2">-->
+<!--              <v-img v-if="status && field.name === 'status'|| field.name === 'dealStatus'" :src="status.imageFile"></v-img>-->
+<!--            </v-col>-->
             <v-col cols="9">
-              <component :is="getFieldComponent(field.type)" :items="Statuses" item-text="label" item-value="id"
+              <component :is="getFieldComponent(field.type)" :items="Statuses" item-text="label" item-value="id" outlined
                 v-bind="fieldProps(field)" v-model="status.id" v-on:change="statusChange()"></component>
 
             </v-col>
           </v-row>
-        </v-card>
+<!--        </v-card>-->
 
         <component
           v-else
@@ -105,7 +129,14 @@ export default {
       Countries: "StateCountries",
       Statuses: "StateStatuses",
       Regions: "StateRegions",
-    })
+    }),
+    // combinedLabel() {
+    //   return (item) =>  `"<img src='${item.imageFile}' alt='Image' width='20' height='20' />" ${item.label}`;
+    //   // const imageFile = (item) => `${item.imageFile}`;
+    //   // return (item) => `${item.id} - ${item.label}`;
+    //     // return (item) => `${item.name} - ${item.country}`;
+    //
+    // },
   },
   data() {
     return {
@@ -151,8 +182,11 @@ export default {
     getFieldComponent(type) {
       const fieldComponents = {
         'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': VTextField,
+        'string': VTextField,
         'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType': VDatePicker,
         'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType': VSelect,
+        'Symfony\\Bridge\\Doctrine\\Form\\Type\\ChoiceType': VSelect,
+        "Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType":VTextField,
         'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextAreaType': VTextarea,
       };
       return fieldComponents[type] || 'VTextField';
