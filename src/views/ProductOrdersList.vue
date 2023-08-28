@@ -1,7 +1,7 @@
 <template>
   <base-list-view  :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addOrder" :main_action_title="main_action_title">
     <template v-slot:table-summary>
-      <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
+      <stats-status :itemCount="params" :statuses="POStatuses"></stats-status>
     </template>
     <template v-slot:table-content>
       <base-table :headers="headers" :url="axios.defaults.endpoints.po_list.url">
@@ -117,7 +117,7 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    this.axios.get(axios.defaults.endpoints.po_statuses.url, {})
+    this.axios.get(axios.defaults.endpoints.marketing_statuses.url, {})
       .then(function (response) {
         t.$Progress.finish()
         t.POStatuses = response.data.data
