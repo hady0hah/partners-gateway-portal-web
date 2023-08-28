@@ -1,8 +1,5 @@
 <template>
   <base-list-view  :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addQBR" :main_action_title="main_action_title">
-    <template v-slot:table-summary>
-      <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
-    </template>
     <template v-slot:table-content>
       <base-table :headers="headers" :url="axios.defaults.endpoints.QBR_list.url">
         <template v-slot:item.name="{ item }">
@@ -15,7 +12,7 @@
           {{ friendlyDate(item.created.date) }}
         </template>
         <template v-slot:item.actions="{ item }">
-          <router-link :to="{ name: 'QBR_view', params: { id: item.id } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
+          <router-link :to="{ name: 'QBR_view', params: { id: item.id } }"><v-btn x-small elevation="0">View</v-btn></router-link>
         </template>
       </base-table>
     </template>
