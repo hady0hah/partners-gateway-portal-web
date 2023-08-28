@@ -5,7 +5,7 @@
 
         <div class="box pa-8">
           <v-row class="mt-4">
-            <icon-base icon-name="program-overview"><icon-program /></icon-base><p class="section-text" style="padding-left: 10px"> Program Overview</p>
+            <p class="greeting-text" style="padding-left: 10px"> Welcome, {{ firstName }} :)</p>
           </v-row>
           <v-row class="mt-16">
             <img :src="ThidesoftImagePath" alt="ThideSoft">
@@ -18,9 +18,6 @@
         <span class="vertical-line"></span>
 
         <div class="box pa-8">
-          <v-row class="mt-4">
-            <p class="greeting-text" style="padding-left: 10px"> Welcome, {{ firstName }} :)</p>
-          </v-row>
           <v-row class="mt-16">
             <p class="welcome-paragraph"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet
               odio mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum,

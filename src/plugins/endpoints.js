@@ -5,7 +5,7 @@ let endpoints={
     'deal_list' : {
         'url' : 'private/deals/list'
     },
-    'po_statuses' : {
+    'marketing_statuses' : {
         'url' : 'private/formstatus/list'
     }
     ,

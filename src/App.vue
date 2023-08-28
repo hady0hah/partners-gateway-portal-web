@@ -4,10 +4,6 @@
     <v-navigation-drawer v-model="drawer" app clipped v-if="User" width="210">
       <v-list dense nav class="mt-10">
         <v-list-item>
-          <v-list-item-icon class="mr-4"><icon-base icon-name="program-overview"><icon-program /></icon-base></v-list-item-icon>
-          <v-list-item-content><router-link to="/program_overview">Program Overview</router-link></v-list-item-content>
-        </v-list-item>
-        <v-list-item>
           <v-list-item-icon class="mr-4"><icon-base icon-name="sales"><icon-deal /></icon-base></v-list-item-icon>
           <v-list-item-content><router-link to="/sales">Deal Registration</router-link></v-list-item-content>
         </v-list-item>
