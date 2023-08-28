@@ -13,13 +13,13 @@
                 <v-icon :color="ProgramLevel(deal['partnerProgramLevel.id']).color">mdi-square</v-icon>
               </v-row>
               <v-row>
-                <v-text-field v-model="deal.name" label="Deal Name" :rules="[v => !!v || 'Field is required']"></v-text-field>
+                <v-text-field  v-model="deal.name" label="Deal Name" :rules="[v => !!v || 'Field is required']"></v-text-field>
               </v-row>
               <v-row>
                 <v-select
                   label="Region"
                   :items="Regions"
-                  item-text="label"
+                  item-text="name"
                   item-value="id"
                   v-model="region.id"
                   :rules="[v => !!v || 'Field is required']"
