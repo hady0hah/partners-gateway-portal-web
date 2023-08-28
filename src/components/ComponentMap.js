@@ -3,13 +3,14 @@ import { VTextField } from 'vuetify/lib';
 import { VSelect } from 'vuetify/lib';
 import { VTextarea } from 'vuetify/lib';
 import DatePicker from './DatePicker'
+import VNumber from "@/components/VNumber";
 
 let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': {
         'component': VTextField
     },
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType': {
-        'component': VTextField
+        'component': VNumber
     },
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextAreaType': {
         'component': VTextarea
