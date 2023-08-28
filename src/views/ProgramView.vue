@@ -212,7 +212,7 @@ export default {
 
     const t = this
     this.$Progress.start()
-    this.axios.get('private/form/deal', {})
+    this.axios.get(axios.defaults.endpoints.deal_form.url, {})
       .then(function (response) {
         t.$Progress.finish()
         console.log(response.data.data)
@@ -232,9 +232,9 @@ export default {
       var endpoint = ""
       const t = this
       if (!t.baseForm.id)
-        endpoint = 'private/deal/add'
+        endpoint = axios.defaults.endpoints.deal_add.url
       else
-        endpoint = 'private/deals/edit?id='+t.deal.id
+        endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
 
       ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
     },

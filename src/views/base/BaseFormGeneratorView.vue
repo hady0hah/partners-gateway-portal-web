@@ -16,14 +16,17 @@
         <slot name="header-right"></slot>
       </v-col>
     </v-row>
-    <v-row class="mb-4">
+
+    <v-row class="mb-4" style="color: #205023">
       <h3>{{ form.title }}</h3>
     </v-row>
-    <v-row class="mb-4">
+
+    <v-row class="mb-4" style="color: #205023">
       <p style="font-size: smaller;">{{ form.description }}</p>
     </v-row>
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
-      <div>
+
+      <div style="padding: 10px;font-weight: bold;color: #205023">
         <div v-if="section.label" class="mb-4" >
           <p>{{ section.label }}</p>
         </div>
@@ -44,8 +47,25 @@
           item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['city.id']"
           v-on:change="valueChange()" label="City" ></component>
 
+        <component outlined
+                   v-else-if="field.type ===  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' && field.name !== 'dealStatus' "
+                   :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
+                   v-on:change="valueChange()"></component>
 
-        <v-row v-if="field.name === 'lastMeetingDate' || field.name === 'startDate' ">
+        <component outlined
+          v-else-if="field.name === 'opportunity_desc'"
+          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
+          v-on:change="valueChange()"></component>
+
+        <component outlined
+                   type="number"
+                   v-else-if="field.type === 'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType'"
+                   :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
+                   v-on:change="valueChange()"></component>
+
+          <div v-else-if="field.type === 'date'" >
+
+
           <v-menu
             :close-on-content-click="false"
             :nudge-right="40"
@@ -55,8 +75,9 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
+                outlined
                 v-model="baseForm[field.name]"
-                prepend-icon="mdi-calendar"
+                append-icon="mdi-calendar"
                 readonly
                 v-bind="getFieldProps(field)"
                 v-on="on"
@@ -67,17 +88,51 @@
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
-        </v-row>
+        </div>
 
+        <div v-else-if="field.type === 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType'">
+          <p style="color: #205023">{{ field.label }}
+            <v-radio-group v-model="baseForm[field.name]" v-on:change="valueChange()" row>
+              <v-radio label="Yes" :value="true"></v-radio>
+              <v-radio label="No" :value="false"></v-radio>
+              <v-radio label="Other" :value="null"></v-radio>
+              <v-text-field
+                v-if="baseForm[field.name] === null"
+                v-model="baseForm[field.name]"
+                label="Other"
+                outlined
+              ></v-text-field>
+            </v-radio-group>
+          </p>
 
-          <v-row v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
-            <v-col cols="9">
-              <component :is="getFieldComponent(field.type)" :items="Statuses" item-text="label" item-value="id" outlined
-                v-bind="fieldProps(field)" v-model="status.id" v-on:change="statusChange()"></component>
+        </div>
 
-            </v-col>
-          </v-row>
--->
+        <div v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
+            <v-select outlined
+              v-model="status.id"
+              v-on:change="statusChange()"
+              :items="Statuses"
+              item-text="label"
+              item-value="id"
+              return-object
+              v-bind="fieldProps(field)"
+            >
+              <template v-slot:item="{ item }">
+                <template
+                  v-bind="fieldProps(field)"
+                  v-on:change="statusChange()">
+                  <v-list-item-avatar>
+                    <img :src="item.imageFile" alt="Image" />
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.label }}</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+              </template>
+            </v-select>
+        </div>
+      -->
+
 
         <component 
             :is="getFieldComponent(field)" 
@@ -113,13 +168,6 @@ export default {
       Statuses: "StateStatuses",
       Regions: "StateRegions",
     }),
-    // combinedLabel() {
-    //   return (item) =>  `"<img src='${item.imageFile}' alt='Image' width='20' height='20' />" ${item.label}`;
-    //   // const imageFile = (item) => `${item.imageFile}`;
-    //   // return (item) => `${item.id} - ${item.label}`;
-    //     // return (item) => `${item.name} - ${item.country}`;
-    //
-    // },
   },
   data() {
     return {

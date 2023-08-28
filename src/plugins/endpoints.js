@@ -15,6 +15,15 @@ let endpoints={
   ,
   'QBR_list' : {
     'url' : 'private/qb/list'
+  },
+  'deal_form' : {
+    'url' : 'private/form/deal'
+  },
+  'deal_add' : {
+    'url' : 'private/deal/add'
+  },
+  'deal_edit' : {
+    'url' : 'private/deals/edit?id='
   }
 }
 
