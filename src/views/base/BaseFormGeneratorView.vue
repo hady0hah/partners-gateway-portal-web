@@ -16,19 +16,13 @@
         <slot name="header-right"></slot>
       </v-col>
     </v-row>
-
     <v-row class="mb-4">
       <h3>{{ form.title }}</h3>
     </v-row>
-
     <v-row class="mb-4">
       <p style="font-size: smaller;">{{ form.description }}</p>
     </v-row>
-
-
-
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
-
       <div>
         <div v-if="section.label" class="mb-4" >
           <p>{{ section.label }}</p>
@@ -37,11 +31,9 @@
           <h3>{{ section.description }}</h3>
         </div>
       </div>
-
       <v-row class="box">
       <v-col v-for="field in section.fields" :key="field.name" class="col-12 col-md-4">
-
-        <component v-if="field.name === 'region'" :is="getFieldComponent(field.type)" :items="Regions" outlined
+<!--        <component v-if="field.name === 'region'" :is="getFieldComponent(field.type)" :items="Regions" outlined
           item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="region.id" v-on:change="valueChange()"></component>
 
         <component v-else-if="field.name === 'countries'" :is="getFieldComponent(field.type)" :items="Countries"
@@ -53,12 +45,7 @@
           v-on:change="valueChange()" label="City" ></component>
 
 
-<!--        <component-->
-<!--          v-else-if="field.name === 'date'"-->
-<!--          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="baseForm['date']"-->
-<!--          v-on:change="valueChange()"></component>-->
-
-        <v-row v-else-if="field.name === 'date' || field.name === 'renewal_date' || field.name === 'lastMeetingDate' || field.name === 'startDate' ">
+        <v-row v-if="field.name === 'lastMeetingDate' || field.name === 'startDate' ">
           <v-menu
             :close-on-content-click="false"
             :nudge-right="40"
@@ -71,7 +58,7 @@
                 v-model="baseForm[field.name]"
                 prepend-icon="mdi-calendar"
                 readonly
-                v-bind="fieldProps(field)"
+                v-bind="getFieldProps(field)"
                 v-on="on"
               ></v-text-field>
             </template>
@@ -82,23 +69,22 @@
           </v-menu>
         </v-row>
 
-<!--        <v-card v-else-if="field.name === 'status' || field.name === 'dealStatus' " elevation="2" shaped class="pa-4">-->
+
           <v-row v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
-<!--            <v-col cols="2">-->
-<!--              <v-img v-if="status && field.name === 'status'|| field.name === 'dealStatus'" :src="status.imageFile"></v-img>-->
-<!--            </v-col>-->
             <v-col cols="9">
               <component :is="getFieldComponent(field.type)" :items="Statuses" item-text="label" item-value="id" outlined
                 v-bind="fieldProps(field)" v-model="status.id" v-on:change="statusChange()"></component>
 
             </v-col>
           </v-row>
-<!--        </v-card>-->
+-->
 
-        <component
-          v-else
-          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
-          v-on:change="valueChange()"></component>
+        <component 
+            :is="getFieldComponent(field)" 
+            v-bind="getFieldProps(field)" 
+            v-model="form[field.name]" 
+            v-on:change="valueChange()">
+        </component>
 
       </v-col>
     </v-row>
@@ -110,13 +96,10 @@
 <script>
 import eventBus from '@/eventBus.js';
 
-import { VTextField } from 'vuetify/lib';
-import { VDatePicker } from 'vuetify/lib';
-import { VSelect } from 'vuetify/lib';
-import { VTextarea } from 'vuetify/lib';
-
 import { mapActions, mapGetters } from "vuex";
 import BtnBackComponent from "@/components/BtnBackComponent";
+
+import ComponentMapper from "@/components/ComponentMapper";
 
 export default {
   components: {
@@ -179,26 +162,11 @@ export default {
     statusChange() {
       this.status = Object.assign({}, this.Statuses.find(status => status.id === this.status.id))
     },
-    getFieldComponent(type) {
-      const fieldComponents = {
-        'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': VTextField,
-        'string': VTextField,
-        'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType': VDatePicker,
-        'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType': VSelect,
-        'Symfony\\Bridge\\Doctrine\\Form\\Type\\ChoiceType': VSelect,
-        "Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType":VTextField,
-        'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextAreaType': VTextarea,
-      };
-      return fieldComponents[type] || 'VTextField';
+    getFieldComponent(field) {
+      return ComponentMapper.mapType(field)
     },
-    fieldProps(field) {
-      if (field.required) {
-        var required = [v => !!v || 'Field is required'];
-      }
-      return {
-        label: field.label,
-        rules: required,
-      };
+    getFieldProps(field) {
+      return ComponentMapper.mapProps(field)
     },
     handleFormReceived(form) {
       this.form = form
