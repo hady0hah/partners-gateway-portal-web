@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" >
+    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :name="'program_view'" >
       <template v-slot:header-left-post-back>
         <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
 <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
@@ -209,7 +209,6 @@ export default {
     };
   },
   mounted() {
-
     const t = this
     this.$Progress.start()
     this.axios.get(axios.defaults.endpoints.deal_form.url, {})

@@ -160,7 +160,7 @@ export default {
   components: {
     BtnBackComponent,
   },
-  props: ['id','main_action_onsubmit'],
+  props: ['id','main_action_onsubmit', 'name'],
   computed: {
     ...mapGetters({
       // MdfStatuses: "StateMdfStatuses",
@@ -211,7 +211,7 @@ export default {
       this.status = Object.assign({}, this.Statuses.find(status => status.id === this.status.id))
     },
     getFieldComponent(field) {
-      return ComponentMapper.mapType(field)
+      return ComponentMapper.mapType(field, this.name)
     },
     getFieldProps(field) {
       return ComponentMapper.mapProps(field)
