@@ -24,6 +24,15 @@ let endpoints={
   },
   'deal_edit' : {
     'url' : 'private/deals/edit?id='
+  },
+  'po_form' : {
+      'url' : 'private/form/po'
+  },
+  'forecasting_form' : {
+    'url' : 'private/form/business/review/forecasting'
+  },
+  'qbr_form' : {
+    'url' : 'private/form/business/review/quarterly'
   }
 }
 
