@@ -134,9 +134,11 @@
             </v-select>
         </div>
       -->
-
+        <!--          item-text="name"-->
+        <!--          :items="Regions"-->
 
         <component
+            item-text="label"
             :is="getFieldComponent(field)"
             v-bind="getFieldProps(field)"
             v-model="form[field.name]"
@@ -187,7 +189,6 @@ export default {
     };
   },
   mounted() {
-
   },
   created() {
     eventBus.$on('form-received', this.handleFormReceived);
