@@ -1,8 +1,15 @@
 <template>
   <div class="container">
-  	<div class="box pa-8">
+          <v-row class="mt-4">
+            <v-col cols="12" style="margin-left: -60px;">
+              <icon-base style="min-width: 60px;padding: 0 8px;">
+                <icon-demo />
+              </icon-base><span style="color:#035730;">Demo</span>
+            </v-col>
+          </v-row>
+  	<div class="box pa-8 mt-14">
 			<v-row>
-				<h5>Demo</h5>
+				<h4>Demo</h4>
 				<v-btn
 					color="primary"
 					dark
@@ -11,7 +18,7 @@
 					elevation="0"
 					@click="bookDemo"
 				>
-					Book a demo
+          Book a demo
 				</v-btn>
 			</v-row>
 			<v-row>
@@ -47,12 +54,12 @@
 			</v-row>
 			<v-row>
 				<v-col cols="12">
-					<v-data-table 
-						:headers="headers" 
-						:items="demos" 
-						:server-items-length="count" 
+					<v-data-table
+						:headers="headers"
+						:items="demos"
+						:server-items-length="count"
 						:footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"
-						@update:page="tablePageUpdated" 
+						@update:page="tablePageUpdated"
 						@update:items-per-page="tableItemsPerPageUpdated"
 						@update:sort-by="tableSortByUpdated"
 						@update:sort-desc="tableSortDescUpdated"
@@ -89,7 +96,14 @@
 </template>
 
 <script>
+import IconBase from "@/components/IconBase.vue"
+import IconDemo from "@/components/icons/IconDemo.vue"
+
   export default {
+    components: {
+      IconBase,
+      IconDemo,
+    },
     data: () => ({
     	headers: [
     		{ text: 'Date', value: 'timeslot.day.date', sortable: false, align: 'center' },
@@ -113,15 +127,15 @@
     	dateRangeText () {
     		if (this.dates.length == 0)
     			return ""
-    			
+
     		if (this.dates.length == 2) {
-					const startDate = this.dates.reduce(function (a, b) { return a < b ? a : b; }); 
+					const startDate = this.dates.reduce(function (a, b) { return a < b ? a : b; });
 					const endDate = this.dates.reduce(function (a, b) { return a > b ? a : b; });
 					this.dates = []
 					this.dates.push(startDate)
 					this.dates.push(endDate)
 				}
-				
+
         return this.dates.join(' ~ ')
       },
     },
@@ -162,7 +176,7 @@
     	getDemos(sd, sm, sy, ed, em, ey) {
     	  const t = this
     	  var endpoint = 'private/demo/list?filter[_page]='+this.page+'&filter[_per_page]='+this.itemsPerPage+'&filter[_sort_by]='+this.sortBy+'&filter[_sort_order]='+this.sortDesc
-    	  
+
     	  if (sd && sm && sy && ed && em && ey) {
     	  	endpoint += '&filter[timeslot__day][value][start][day]='+sd
     	  	endpoint += '&filter[timeslot__day][value][start][month]='+sm
@@ -179,7 +193,7 @@
     	  	endpoint += '&filter[timeslot__day][value][start][month]='+sm
     	  	endpoint += '&filter[timeslot__day][value][start][year]='+sy
     	  }
-    	  
+
     	  this.$Progress.start()
 				this.axios.get(endpoint, {})
 				.then(function (response) {
@@ -207,7 +221,7 @@
 				});
     	},
     	filter() {
-    		const startDate = this.dates.reduce(function (a, b) { return a < b ? a : b; }); 
+    		const startDate = this.dates.reduce(function (a, b) { return a < b ? a : b; });
     		const endDate = this.dates.reduce(function (a, b) { return a > b ? a : b; });
     		const sd = this.getDay(startDate)
     		const sm = this.getMonth(startDate)
@@ -215,7 +229,7 @@
     		const ed = this.getDay(endDate)
     		const em = this.getMonth(endDate)
     		const ey = this.getYear(endDate)
-    		
+
     		this.getDemos(sd, sm, sy, ed, em, ey)
     	},
     	clear() {
@@ -225,7 +239,7 @@
     },
     created () {
       const t = this
-      
+
       this.axios.get('private/deals/list', {})
       .then(function (response) {
         t.deals = response.data.data.deals
@@ -233,7 +247,7 @@
       .catch(err => {
         console.log(err);
       });
-      
+
       this.$Progress.increase(10)
       this.axios.get('private/product/list', {})
       .then(function (response) {
@@ -243,7 +257,7 @@
       .catch(err => {
         console.log(err);
       });
-      
+
       this.getDemos()
     }
   }
@@ -252,6 +266,9 @@
 <style lang="scss">
   .table a {
     text-decoration: none;
+  }
+  .v-btn {
+    font-weight: bold;
   }
 </style>
 

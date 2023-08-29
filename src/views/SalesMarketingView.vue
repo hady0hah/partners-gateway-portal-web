@@ -7,11 +7,6 @@
       <div class="box pa-8">
         <v-row>
           <v-col>
-            <p>Section 1</p>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
             <h4 class="section-text">Brand Assets & Marketing Material</h4>
           </v-col>
         </v-row>
@@ -27,11 +22,6 @@
         </div>
       </div>
       <div class="box pa-8">
-        <v-row>
-          <v-col>
-            <p class="section-text">Section 2</p>
-          </v-col>
-        </v-row>
         <v-row>
           <v-col>
             <h4 class="section-text">Pricelists & Discounts</h4>
@@ -65,11 +55,6 @@
       <div class="box pa-8">
         <v-row>
           <v-col>
-            <p class="section-text">Section 3</p>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
             <h4 class="section-text">Ordering, Invoicing & Delivery</h4>
           </v-col>
         </v-row>
@@ -80,11 +65,6 @@
         </v-row>
       </div>
       <div class="box pa-8">
-        <v-row>
-          <v-col>
-            <p class="section-text">Section 4</p>
-          </v-col>
-        </v-row>
         <v-row>
           <v-col>
             <h4 class="section-text">Forecasting & Quarterly Business Review (QBR)</h4>
@@ -102,11 +82,6 @@
         </v-row>
       </div>
       <div class="box pa-8">
-        <v-row>
-          <v-col>
-            <p>Section 5</p>
-          </v-col>
-        </v-row>
         <v-row>
           <v-col>
             <h4 class="section-text">Marketing Development Fund (MDF)</h4>

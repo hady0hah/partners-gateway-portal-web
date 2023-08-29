@@ -18,12 +18,25 @@ class ComponentMapper {
     if (field.required) {
       var required = [v => !!v || 'Field is required'];
     }
-    
+    if(field.choices){
+     var choices = ComponentMapper.parseChoices(field.choices)
+    }
+
     return {
       label: field.label,
       rules: required,
-      hint: field.sonata_help
+      hint: field.sonata_help,
+      disabled: field.disabled,
+      items:  choices,
     };
+  }
+
+  static parseChoices(items)
+  {
+   return  Object.values(items).map(item => ({
+      "value": item.value,
+      "label": item.label
+    }));
   }
 }
 

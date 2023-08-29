@@ -61,7 +61,7 @@
               <v-card elevation="2" shaped class="pa-4">
                 <v-row>
                   <v-col cols="3">
-                    <v-img v-if="dealStatus" :src="dealStatus.icon"></v-img>
+                    <v-img v-if="dealStatus" :src="dealStatus.imageFile"></v-img>
                   </v-col>
                   <v-col cols="9">
                     <div><b>Status update</b></div>

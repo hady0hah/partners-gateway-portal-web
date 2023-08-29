@@ -21,9 +21,10 @@
       <h3>{{ form.title }}</h3>
     </v-row>
 
-    <v-row class="mb-4" style="color: #205023">
-      <p style="font-size: smaller;">{{ form.description }}</p>
+    <v-row class="mb-4" style="color: #205023;font-size: smaller;">
+      <div v-html="form.description"></div>
     </v-row>
+
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
       <div style="padding: 10px;font-weight: bold;color: #205023">
@@ -77,7 +78,6 @@ export default {
     };
   },
   mounted() {
-
   },
   methods: {
     ...mapActions(["StateSetCountries"]),

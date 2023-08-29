@@ -17,9 +17,6 @@
       </div>
       <div class="d-flex">
         <v-col v-for="(section, index) in product.sections" :key="index" class="box pa-8" >
-          <v-row class="section-text">
-            {{section.title}}
-          </v-row>
           <v-row class="mb-4" >
             <h3 class="header">{{ section.description }}</h3>
           </v-row>

@@ -5,7 +5,7 @@ let endpoints={
     'deal_list' : {
         'url' : 'private/deals/list'
     },
-    'po_statuses' : {
+    'marketing_statuses' : {
         'url' : 'private/formstatus/list'
     }
     ,
@@ -24,6 +24,15 @@ let endpoints={
   },
   'deal_edit' : {
     'url' : 'private/deals/edit?id='
+  },
+  'po_form' : {
+      'url' : 'private/form/po'
+  },
+  'forecasting_form' : {
+    'url' : 'private/form/business/review/forecasting'
+  },
+  'qbr_form' : {
+    'url' : 'private/form/business/review/quarterly'
   }
 }
 

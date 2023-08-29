@@ -1,7 +1,7 @@
 <template>
   <base-list-view :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addEvent" :main_action_title="main_action_title" >
     <template v-slot:table-summary>
-      <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
+      <stats-status :itemCount="params" :statuses="MDFStatuses"></stats-status>
     </template>
     <template v-slot:table-content>
       <v-data-table
@@ -99,6 +99,7 @@
       main_action_title:"Add a MDF",
       // main_action_on_click:"addDeal",
       params:[],
+      MDFStatuses:[],
       events: [],
       count : 0,
       page: 1,
@@ -143,6 +144,14 @@
       .catch(err => {
         console.log(err);
       });
+      this.axios.get(axios.defaults.endpoints.marketing_statuses.url, {})
+        .then(function (response) {
+          t.$Progress.finish()
+          t.MDFStatuses = response.data.data
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     methods: {
       ...mapActions(["StateSetCountries", "StateSetMdfStatuses"]),
