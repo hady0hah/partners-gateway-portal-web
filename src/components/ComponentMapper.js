@@ -7,9 +7,9 @@ class ComponentMapper {
   static mapType(field, formName) {
     let fullFieldName = formName + "|" + field.name
     if (fullFieldName in map) {
-      return map[fullFieldName]
+      return map[fullFieldName].component
     } else if (field.name in map) {
-      return map[field.name]
+      return map[field.name].component
     } else {
       return map[field.type].component
     }
@@ -28,6 +28,7 @@ class ComponentMapper {
       hint: field.sonata_help,
       disabled: field.disabled,
       items:  choices,
+      fields: field.form,
     };
   }
 

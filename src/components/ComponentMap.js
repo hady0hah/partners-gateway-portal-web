@@ -4,6 +4,7 @@ import { VSelect } from 'vuetify/lib';
 import { VTextarea } from 'vuetify/lib';
 import DatePicker from './DatePicker'
 import VNumber from "@/components/VNumber";
+import FormCollection from './FormCollection'
 
 let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': {
@@ -12,7 +13,7 @@ let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType': {
         'component': VNumber
     },
-    'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextAreaType': {
+    'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType': {
         'component': VTextarea
     },
     'date': {
@@ -26,6 +27,9 @@ let map = {
     },
     'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType': {
         'component': VSelect
+    },
+    'Sonata\\AdminBundle\\Form\\Type\\CollectionType' : {
+        'component': FormCollection
     },
 }
 
