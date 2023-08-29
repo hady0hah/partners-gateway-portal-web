@@ -7,9 +7,9 @@ class ComponentMapper {
   static mapType(field, formName) {
     let fullFieldName = formName + "|" + field.name
     if (fullFieldName in map) {
-      return map[fullFieldName]
+      return map[fullFieldName].component
     } else if (field.name in map) {
-      return map[field.name]
+      return map[field.name].component
     } else {
       return map[field.type].component
     }
@@ -35,7 +35,8 @@ class ComponentMapper {
   {
    return  Object.values(items).map(item => ({
       "value": item.value,
-      "label": item.label
+      "label": item.label,
+      "icon": item.icon,
     }));
   }
 }

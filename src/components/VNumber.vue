@@ -1,5 +1,5 @@
 <template>
-  <v-text-field type="number" >
+  <v-text-field type="number" v-bind="$attrs">
 </v-text-field>
 </template>
 <script>

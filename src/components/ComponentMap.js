@@ -4,6 +4,7 @@ import { VSelect } from 'vuetify/lib';
 import { VTextarea } from 'vuetify/lib';
 import DatePicker from './DatePicker'
 import VNumber from "@/components/VNumber";
+import DealStatuses from "@/components/DealStatuses";
 
 let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': {
@@ -26,6 +27,9 @@ let map = {
     },
     'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType': {
         'component': VSelect
+    },
+    'program_view|dealStatus':{
+      'component': DealStatuses
     },
 }
 

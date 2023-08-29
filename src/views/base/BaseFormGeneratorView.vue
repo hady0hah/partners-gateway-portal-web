@@ -35,7 +35,7 @@
           <h3>{{ section.description }}</h3>
         </div>
       </div>
-      <form-section :section="section"></form-section>
+      <form-section :section="section" :name="name"></form-section>
     </v-row>
 
   </v-form>

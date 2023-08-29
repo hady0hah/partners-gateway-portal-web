@@ -1,9 +1,9 @@
 <template>
-  <component 
+  <component
       item-text="label"
-      :is="getFieldComponent()" 
-      v-bind="getFieldProps()" 
-      v-model="form[field.name]" 
+      :is="getFieldComponent()"
+      v-bind="getFieldProps()"
+      v-model="form[field.name]"
       v-on:change="valueChange()">
   </component>
 </template>
@@ -12,7 +12,7 @@ import ComponentMapper from "@/components/ComponentMapper";
 import FormMixin from "@/mixins/FormMixin";
 
 export default {
-  props : ['field'],
+  props : ['field','name'],
   mixins : [FormMixin],
   methods: {
     getFieldComponent() {
