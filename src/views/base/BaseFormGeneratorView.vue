@@ -110,6 +110,7 @@
         <div v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
             <v-select outlined
               v-model="status.id"
+
               v-on:change="statusChange()"
               :items="Statuses"
               item-text="label"
@@ -134,10 +135,10 @@
       -->
 
 
-        <component 
-            :is="getFieldComponent(field)" 
-            v-bind="getFieldProps(field)" 
-            v-model="form[field.name]" 
+        <component
+            :is="getFieldComponent(field)"
+            v-bind="getFieldProps(field)"
+            v-model="form[field.name]"
             v-on:change="valueChange()">
         </component>
 

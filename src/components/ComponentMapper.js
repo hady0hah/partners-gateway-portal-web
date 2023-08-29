@@ -18,11 +18,13 @@ class ComponentMapper {
     if (field.required) {
       var required = [v => !!v || 'Field is required'];
     }
-    
+
     return {
       label: field.label,
       rules: required,
-      hint: field.sonata_help
+      hint: field.sonata_help,
+      disabled: field.disabled,
+
     };
   }
 }
