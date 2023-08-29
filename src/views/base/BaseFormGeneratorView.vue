@@ -35,135 +35,25 @@
           <h3>{{ section.description }}</h3>
         </div>
       </div>
-      <v-row class="box">
-      <v-col v-for="field in section.fields" :key="field.name" class="col-12 col-md-4">
-<!--        <component v-if="field.name === 'region'" :is="getFieldComponent(field.type)" :items="Regions" outlined
-          item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="region.id" v-on:change="valueChange()"></component>
-
-        <component v-else-if="field.name === 'countries'" :is="getFieldComponent(field.type)" :items="Countries"
-          item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['country.id']"
-          v-on:change="countryChange()" label="Select Country"></component>
-
-        <component v-else-if="field.name === 'cities'" :is="getFieldComponent(field.type)" :items="cities"
-          item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="baseForm['city.id']"
-          v-on:change="valueChange()" label="City" ></component>
-
-        <component outlined
-                   v-else-if="field.type ===  'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' && field.name !== 'dealStatus' "
-                   :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
-                   v-on:change="valueChange()"></component>
-
-        <component outlined
-          v-else-if="field.name === 'opportunity_desc'"
-          :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
-          v-on:change="valueChange()"></component>
-
-        <component outlined
-                   type="number"
-                   v-else-if="field.type === 'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType'"
-                   :is="getFieldComponent(field.type)" v-bind="fieldProps(field)" v-model="form[field.name]"
-                   v-on:change="valueChange()"></component>
-
-          <div v-else-if="field.type === 'date'" >
-
-
-          <v-menu
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                outlined
-                v-model="baseForm[field.name]"
-                append-icon="mdi-calendar"
-                readonly
-                v-bind="getFieldProps(field)"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="baseForm[field.name]"
-              @input="menu2 = false"
-            ></v-date-picker>
-          </v-menu>
-        </div>
-
-        <div v-else-if="field.type === 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType'">
-          <p style="color: #205023">{{ field.label }}
-            <v-radio-group v-model="baseForm[field.name]" v-on:change="valueChange()" row>
-              <v-radio label="Yes" :value="true"></v-radio>
-              <v-radio label="No" :value="false"></v-radio>
-              <v-radio label="Other" :value="null"></v-radio>
-              <v-text-field
-                v-if="baseForm[field.name] === null"
-                v-model="baseForm[field.name]"
-                label="Other"
-                outlined
-              ></v-text-field>
-            </v-radio-group>
-          </p>
-
-        </div>
-
-        <div v-else-if="field.name === 'status' || field.name === 'dealStatus' ">
-            <v-select outlined
-              v-model="status.id"
-
-              v-on:change="statusChange()"
-              :items="Statuses"
-              item-text="label"
-              item-value="id"
-              return-object
-              v-bind="fieldProps(field)"
-            >
-              <template v-slot:item="{ item }">
-                <template
-                  v-bind="fieldProps(field)"
-                  v-on:change="statusChange()">
-                  <v-list-item-avatar>
-                    <img :src="item.imageFile" alt="Image" />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title>{{ item.label }}</v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </template>
-            </v-select>
-        </div>
-      -->
-        <!--          item-text="name"-->
-        <!--          :items="Regions"-->
-
-        <component
-            item-text="label"
-            :is="getFieldComponent(field)"
-            v-bind="getFieldProps(field)"
-            v-model="form[field.name]"
-            v-on:change="valueChange()">
-        </component>
-
-      </v-col>
-    </v-row>
+      <form-section :section="section"></form-section>
     </v-row>
 
   </v-form>
 </template>
 
 <script>
-import eventBus from '@/eventBus.js';
+import FormMixin from "@/mixins/FormMixin.js"
 
 import { mapActions, mapGetters } from "vuex";
 import BtnBackComponent from "@/components/BtnBackComponent";
-
-import ComponentMapper from "@/components/ComponentMapper";
+import FormSection from '@/components/FormSection.vue';
 
 export default {
   components: {
     BtnBackComponent,
+    FormSection
   },
+  mixins : [FormMixin],
   props: ['id','main_action_onsubmit', 'name'],
   computed: {
     ...mapGetters({
@@ -176,7 +66,6 @@ export default {
   data() {
     return {
       buttonWidth: "30px",
-      form: {},
       status: {},
       region: {},
       statuses: [],
@@ -189,12 +78,6 @@ export default {
     };
   },
   mounted() {
-  },
-  created() {
-    eventBus.$on('form-received', this.handleFormReceived);
-  },
-  destroyed() {
-    eventBus.$off('form-received', this.handleFormReceived);
   },
   methods: {
     ...mapActions(["StateSetCountries"]),
@@ -212,15 +95,6 @@ export default {
     },
     statusChange() {
       this.status = Object.assign({}, this.Statuses.find(status => status.id === this.status.id))
-    },
-    getFieldComponent(field) {
-      return ComponentMapper.mapType(field, this.name)
-    },
-    getFieldProps(field) {
-      return ComponentMapper.mapProps(field)
-    },
-    handleFormReceived(form) {
-      this.form = form
     },
     valueChange() {
       this.saved = false
