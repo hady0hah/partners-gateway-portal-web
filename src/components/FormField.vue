@@ -1,5 +1,6 @@
 <template>
   <component 
+      item-text="label"
       :is="getFieldComponent()" 
       v-bind="getFieldProps()" 
       v-model="form[field.name]" 
