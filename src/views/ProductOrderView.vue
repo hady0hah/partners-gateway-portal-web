@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <parent-form @click="submitForm">
+  <div class="container">
+    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :name="'program_view'" >
       <template v-slot:header-left-post-back>
         <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
+        <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
       </template>
     </parent-form>
   </div>
@@ -19,29 +20,37 @@ export default {
   mixins: [ParentForm],
   data() {
     return {
-      response: null,
+      response : [],
     };
   },
-  created() {
+  mounted() {
     const t = this
     this.$Progress.start()
-    this.axios.get('private/mdf/list', {})
+    this.axios.get(axios.defaults.endpoints.po_form.url, {})
       .then(function (response) {
-        t.response = response.data.data
-        console.log(response)
-        console.log(this.response)
         t.$Progress.finish()
-          })
+        console.log(response.data.data)
+        t.response = response.data.data
+        t.sendForm()
+      })
       .catch(err => {
         console.log(err);
       });
   },
-  mounted() {
-    const dataToSend = this.response;
-    eventBus.$emit('form-received', dataToSend);
-  },
   methods: {
+    sendForm(){
+      console.log(this.response)
+      eventBus.$emit('form-received', this.response);
+    },
     submitForm() {
+      var endpoint = ""
+      const t = this
+      if (!t.baseForm.id)
+        endpoint = axios.defaults.endpoints.deal_add.url
+      else
+        endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
+
+      ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
     },
   },
 };
