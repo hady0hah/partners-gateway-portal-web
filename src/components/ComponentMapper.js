@@ -28,7 +28,7 @@ class ComponentMapper {
       hint: field.sonata_help,
       disabled: field.disabled,
       items:  choices,
-      fields: field.form,
+      fields: field.fields,
     };
   }
 
