@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     sendForm(){
-      console.log(this.response)
       eventBus.$emit('form-received', this.response);
     },
     submitForm() {

@@ -33,15 +33,6 @@ let map = {
     'Sonata\\AdminBundle\\Form\\Type\\CollectionType' : {
         'component': FormCollection
     },
-    'program_view|dealStatus':{
-      'component': DealStatuses
-    },
-    'program_view|technicalPresentationOption':{
-    'component': VYesNoOther
-    },
-    'dealRegistrationOption':{
-    'component': VYesNoOther
-  },
 }
 
 export default map
