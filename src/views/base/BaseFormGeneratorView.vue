@@ -35,7 +35,7 @@
           <h3>{{ section.description }}</h3>
         </div>
       </div>
-      <form-section :section="section"></form-section>
+      <form-section :section="section" :form_name="form_name"></form-section>
     </v-row>
 
   </v-form>
@@ -54,7 +54,7 @@ export default {
     FormSection
   },
   mixins : [FormMixin],
-  props: ['id','main_action_onsubmit', 'name'],
+  props: ['id','main_action_onsubmit', 'form_name'],
   computed: {
     ...mapGetters({
       // MdfStatuses: "StateMdfStatuses",

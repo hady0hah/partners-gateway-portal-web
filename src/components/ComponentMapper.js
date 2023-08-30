@@ -36,7 +36,8 @@ class ComponentMapper {
   {
    return  Object.values(items).map(item => ({
       "value": item.value,
-      "label": item.label
+      "label": item.label,
+      "icon": item.icon,
     }));
   }
 }

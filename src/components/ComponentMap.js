@@ -4,7 +4,8 @@ import { VSelect } from 'vuetify/lib';
 import { VTextarea } from 'vuetify/lib';
 import DatePicker from './DatePicker'
 import VNumber from "@/components/VNumber";
-import FormCollection from './FormCollection'
+import DealStatuses from "@/components/DealStatuses";
+import FormCollection from './FormCollection';
 
 let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': {
@@ -30,6 +31,9 @@ let map = {
     },
     'Sonata\\AdminBundle\\Form\\Type\\CollectionType' : {
         'component': FormCollection
+    },
+    'program_view|dealStatus':{
+      'component': DealStatuses
     },
 }
 
