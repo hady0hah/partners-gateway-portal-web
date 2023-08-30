@@ -1,6 +1,6 @@
 <template>
   <v-row class="box">
-      <v-col v-for="field in section.fields" :key="field.name" class="col-12 col-md-4">
+      <v-col v-for="field, k in section.fields" :key="k" :class="field.row_class?field.row_class:'col-12 col-md-4'">
 <!--        <component v-if="field.name === 'region'" :is="getFieldComponent(field.type)" :items="Regions" outlined
           item-text="name" item-value="id" v-bind="fieldProps(field)" v-model="region.id" v-on:change="valueChange()"></component>
 
