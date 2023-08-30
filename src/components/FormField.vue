@@ -12,11 +12,11 @@ import ComponentMapper from "@/components/ComponentMapper";
 import FormMixin from "@/mixins/FormMixin";
 
 export default {
-  props : ['field','name'],
+  props : ['field','form_name'],
   mixins : [FormMixin],
   methods: {
     getFieldComponent() {
-      return ComponentMapper.mapType(this.field, this.name)
+      return ComponentMapper.mapType(this.field, this.form_name)
     },
     getFieldProps() {
       return ComponentMapper.mapProps(this.field)

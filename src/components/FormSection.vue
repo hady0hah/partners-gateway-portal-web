@@ -100,7 +100,7 @@
 
 
         <form-field
-            :field="field" :form="form" :name="name">
+            :field="field" :form="form" :form_name="form_name">
         </form-field>
 
       </v-col>
@@ -111,7 +111,7 @@ import FormMixin from '@/mixins/FormMixin';
 import FormField from './FormField.vue';
 
 export default {
-  props : ['section','name'],
+  props : ['section','form_name'],
   components : {
     FormField
   },

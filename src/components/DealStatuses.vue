@@ -27,7 +27,7 @@ import FormMixin from "@/mixins/FormMixin";
 
 
 export default {
-  props : ['field','name'],
+  props : ['field','form_name'],
   mixins : [FormMixin],
   methods: {
     getFieldComponent() {
