@@ -6,6 +6,7 @@ class ComponentMapper {
   }
   static mapType(field, formName) {
     let fullFieldName = formName + "|" + field.name
+    console.log(fullFieldName)
     if (fullFieldName in map) {
       return map[fullFieldName].component
     } else if (field.name in map) {
