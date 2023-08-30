@@ -39,6 +39,9 @@ let map = {
     'program_view|technicalPresentationOption':{
     'component': VYesNoOther
     },
+    'dealRegistrationOption':{
+    'component': VYesNoOther
+  },
 }
 
 export default map
