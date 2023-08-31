@@ -1,11 +1,11 @@
 <template>
-  <v-form ref="form" lazy-validation style="margin-inline: 40px" >
-    <v-row class="mb-4" style="margin-top: 30px">
+  <v-form ref="form" lazy-validation style="padding-inline: 40px">
+    <v-row class="mb-4 mt-4">
       <v-col class="text-left">
         <slot name="header-left">
-          <slot name="header-left-pre-back" ></slot>
+          <slot name="header-left-pre-back"></slot>
           <btn-back-component :width="buttonWidth"></btn-back-component>
-            <v-btn class="mr-4" color="primary" small elevation="0" @click="main_action_onsubmit">Save</v-btn>
+          <v-btn class="mr-4" color="primary" small elevation="0" @click="config.main_action_onsubmit">Save</v-btn>
           <slot name="header-left-post-back"></slot>
         </slot>
       </v-col>
@@ -28,23 +28,23 @@
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
       <div style="padding: 10px;font-weight: bold;color: #205023">
-        <div v-if="section.label" class="mb-4" >
+        <div v-if="section.label" class="mb-4">
           <p>{{ section.label }}</p>
         </div>
         <div v-if="section.description" class="mb-4">
           <h3>{{ section.description }}</h3>
         </div>
       </div>
-      <form-section :section="section" :form_name="form_name"></form-section>
+      <form-section :section="section" :form_name="config.form_name" v-model="model"></form-section>
     </v-row>
 
   </v-form>
 </template>
 
 <script>
-import FormMixin from "@/mixins/FormMixin.js"
+// import FormMixin from "@/mixins/FormMixin.js"
+import eventBus from "@/eventBus";
 
-import { mapActions, mapGetters } from "vuex";
 import BtnBackComponent from "@/components/BtnBackComponent";
 import FormSection from '@/components/FormSection.vue';
 
@@ -53,53 +53,45 @@ export default {
     BtnBackComponent,
     FormSection
   },
-  mixins : [FormMixin],
-  props: ['id','main_action_onsubmit', 'form_name'],
+  // mixins: [FormMixin],
+  props: ['config'],
   computed: {
-    ...mapGetters({
-      // MdfStatuses: "StateMdfStatuses",
-      Countries: "StateCountries",
-      Statuses: "StateStatuses",
-      Regions: "StateRegions",
-    }),
   },
   data() {
     return {
       buttonWidth: "30px",
-      status: {},
-      region: {},
-      statuses: [],
-      cities: [],
-      baseForm: {
-        id: '',
-        date:'',
-        saved: true,
+      form:{},
+      model: {
+        name: '12',
+        opportunities: {name:'aa'}
       },
+      // baseForm: {
+      //   id: '',
+      //   date: '',
+      //   saved: true,
+      // },
+      // model:{}
     };
   },
   mounted() {
+    const t = this
+    this.$Progress.start()
+    this.axios.get(this.config.form_url, {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.form = response.data.data
+        eventBus.$emit('form-received', t.form);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  created() {
+    // console.log(this)
   },
   methods: {
-    ...mapActions(["StateSetCountries"]),
-    countryChange() {
-      const t = this
-      this.axios.get('private/country/show?id=' + this.baseForm['country.id'], {})
-        .then(function (response) {
-          t.$Progress.finish()
-          t.cities = response.data.data.cities
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.saved = false
-    },
-    statusChange() {
-      this.status = Object.assign({}, this.Statuses.find(status => status.id === this.status.id))
-    },
-    valueChange() {
-      this.saved = false
-    },
-    submitForm(form,endpoint,t,formRef){
+
+    submitForm(form, endpoint, t, formRef) {
 
       if (!formRef.formRef.$refs.form.validate())
         return;
@@ -121,13 +113,13 @@ export default {
         });
       });
 
-          t.$Progress.increase(10)
-          t.axios.post(endpoint, formData)
-            .then(function (response) {
-              t.$Progress.finish()
-              t.deal = response.data.data
-              t.$root.$emit('refreshClientProfile')
-            })
+      t.$Progress.increase(10)
+      t.axios.post(endpoint, formData)
+        .then(function (response) {
+          t.$Progress.finish()
+          t.deal = response.data.data
+          t.$root.$emit('refreshClientProfile')
+        })
         .catch(err => {
           console.log(err);
         });

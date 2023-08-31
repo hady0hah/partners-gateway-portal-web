@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :name="'program_view'" >
+    <parent-form lazy-validation ref="formRef" :config="formConfig">
       <template v-slot:header-left-post-back>
         <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
         <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
@@ -11,37 +11,25 @@
 
 <script>
 import ParentForm from '../views/base/BaseFormGeneratorView.vue';
-import eventBus from '@/eventBus.js';
+// import eventBus from '@/eventBus.js';
 
 export default {
   components: {
     ParentForm
   },
-  mixins: [ParentForm],
+  // mixins: [ParentForm],
   data() {
     return {
       response : [],
+      formConfig: {
+        form_name : 'program_view',
+        form_url: axios.defaults.endpoints.qbr_form.url,
+        form_action: '',
+        main_action_onsubmit:this.submitForm,
+      }
     };
   },
-  mounted() {
-    const t = this
-    this.$Progress.start()
-    this.axios.get(axios.defaults.endpoints.qbr_form.url, {})
-      .then(function (response) {
-        t.$Progress.finish()
-        console.log(response.data.data)
-        t.response = response.data.data
-        t.sendForm()
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  },
   methods: {
-    sendForm(){
-      console.log(this.response)
-      eventBus.$emit('form-received', this.response);
-    },
     submitForm() {
       var endpoint = ""
       const t = this
