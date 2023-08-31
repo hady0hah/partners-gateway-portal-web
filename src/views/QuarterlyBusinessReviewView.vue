@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :name="'program_view'" >
+    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :form_name="'QBR_view'" >
       <template v-slot:header-left-post-back>
         <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
         <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
@@ -12,6 +12,9 @@
 <script>
 import ParentForm from '../views/base/BaseFormGeneratorView.vue';
 import eventBus from '@/eventBus.js';
+import ComponentMapper from "@/components/ComponentMapper";
+import VQBRForm from "@/components/VQBRForm";
+import VCollectionNameField from "@/components/VCollectionNameField";
 
 export default {
   components: {
@@ -23,13 +26,16 @@ export default {
       response : [],
     };
   },
+  created() {
+    ComponentMapper.addMapping('QBR_view|opportunities',{'component': VQBRForm})
+    ComponentMapper.addMapping('QBR_view|name',{'component': VCollectionNameField})
+  },
   mounted() {
     const t = this
     this.$Progress.start()
     this.axios.get(axios.defaults.endpoints.qbr_form.url, {})
       .then(function (response) {
         t.$Progress.finish()
-        console.log(response.data.data)
         t.response = response.data.data
         t.sendForm()
       })
@@ -39,7 +45,6 @@ export default {
   },
   methods: {
     sendForm(){
-      console.log(this.response)
       eventBus.$emit('form-received', this.response);
     },
     submitForm() {
