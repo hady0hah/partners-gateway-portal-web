@@ -33,6 +33,9 @@ let endpoints={
   },
   'qbr_form' : {
     'url' : 'private/form/business/review/quarterly'
+  },
+  'how_to' : {
+      'url' : 'private/how-to-guides'
   }
 }
 
