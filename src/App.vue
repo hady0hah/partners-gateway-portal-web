@@ -149,6 +149,8 @@
   import IconProduct from "./components/icons/IconProduct.vue"
   import IconProgram from "./components/icons/IconProgram.vue"
   import IconGuide from "./components/icons/IconGuide.vue"
+  import ComponentMapper from "@/components/ComponentMapper";
+  import VYesNoOther from "@/components/VYesNoOther";
 
 
   export default {
@@ -195,6 +197,7 @@
     },
 
     created() {
+      ComponentMapper.addMapping('dealRegistrationOption',{'component': VYesNoOther})
       this.drawer = true
 
       this.loadClientProfile()

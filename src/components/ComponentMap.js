@@ -6,6 +6,7 @@ import DatePicker from './DatePicker'
 import VNumber from "@/components/VNumber";
 import DealStatuses from "@/components/DealStatuses";
 import FormCollection from './FormCollection';
+import VYesNoOther from "@/components/VYesNoOther";
 
 let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': {
@@ -31,9 +32,6 @@ let map = {
     },
     'Sonata\\AdminBundle\\Form\\Type\\CollectionType' : {
         'component': FormCollection
-    },
-    'program_view|dealStatus':{
-      'component': DealStatuses
     },
 }
 

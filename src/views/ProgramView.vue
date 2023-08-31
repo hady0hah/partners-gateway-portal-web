@@ -12,6 +12,9 @@
 <script>
 import ParentForm from '../views/base/BaseFormGeneratorView.vue';
 import eventBus from '@/eventBus.js';
+import ComponentMapper from "@/components/ComponentMapper";
+import DealStatuses from "@/components/DealStatuses";
+import VYesNoOther from "@/components/VYesNoOther";
 
 export default {
   components: {
@@ -23,6 +26,10 @@ export default {
       response : [],
       model: {}
     };
+  },
+  created() {
+    ComponentMapper.addMapping('program_view|dealStatus',{'component': DealStatuses})
+    ComponentMapper.addMapping('program_view|technicalPresentationOption',{'component': VYesNoOther})
   },
   mounted() {
     const t = this
