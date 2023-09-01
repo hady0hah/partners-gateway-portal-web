@@ -19,11 +19,7 @@
 
         <div class="box pa-8">
           <v-row class="mt-16">
-            <p class="welcome-paragraph"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet
-              odio mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum,
-              ac aliquet odio mattis.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet
-              odio mattis.</p>
+            <p class="welcome-paragraph"> {{response.description}}</p>
           </v-row>
         </div>
 
@@ -61,6 +57,7 @@ export default {
   },
   data() {
     return {
+      response:[],
       ThidesoftImagePath: ThideSoftScreen,
       WelcomeImagePath:WelcomeScreen,
       client: null,
@@ -81,13 +78,22 @@ export default {
 
 
   created() {
+    console.log(this.client)
     this.loadClientProfile()
+    const t = this
+    this.$Progress.start()
+    this.axios.get(axios.defaults.endpoints.welcome_page.url, {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.response = response.data.data
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   methods: {
     loadClientProfile () {
-      if (!this.User)
-        return;
       const t = this
       this.$Progress.start()
       this.axios.get('private/client/show', {})
