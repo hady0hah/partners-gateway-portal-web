@@ -169,14 +169,14 @@ const routes = [
   {
     path: '/forecasting/add',
     name: 'forecasting_add',
-    component: () => import('../views/ForecastView.vue'),
+    component: () => import('../views/ForecastingView.vue'),
     props: true,
     meta: { requiresAuth: true },
   },
   {
     path: '/forecasting/:id',
     name: 'forecasting_view',
-    component: () => import('../views/ForecastView.vue'),
+    component: () => import('../views/ForecastingView.vue'),
     props: true,
     meta: { requiresAuth: true },
   },

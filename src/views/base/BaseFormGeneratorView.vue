@@ -27,15 +27,15 @@
 
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
-      <div style="padding: 10px;font-weight: bold;color: #205023">
-        <div v-if="section.label" class="mb-4" >
+      <div class="container">
+        <div v-if="section.label" class="mb-4" style="padding: 10px;font-weight: bold;color: #205023" >
           <p>{{ section.label }}</p>
         </div>
         <div v-if="section.description" class="mb-4">
           <h3>{{ section.description }}</h3>
         </div>
+        <form-section :section="section" :form_name="form_name"></form-section>
       </div>
-      <form-section :section="section" :form_name="form_name"></form-section>
     </v-row>
 
   </v-form>

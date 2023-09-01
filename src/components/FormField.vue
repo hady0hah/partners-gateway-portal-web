@@ -1,5 +1,7 @@
 <template>
   <component
+      :field="field"
+      :outlined="outlined"
       item-text="label"
       :is="getFieldComponent()"
       v-bind="getFieldProps()"
@@ -12,7 +14,7 @@ import ComponentMapper from "@/components/ComponentMapper";
 import FormMixin from "@/mixins/FormMixin";
 
 export default {
-  props : ['field','form_name'],
+  props : ['field','form_name','outlined'],
   mixins : [FormMixin],
   methods: {
     getFieldComponent() {
