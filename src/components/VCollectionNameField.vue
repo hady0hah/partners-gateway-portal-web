@@ -28,7 +28,6 @@ export default {
     FormField,
   },
   data: () => ({
-    form_name:'Forecasting_view',
   }),
   created() {
   },

@@ -37,7 +37,6 @@ export default {
     this.axios.get(axios.defaults.endpoints.forecasting_form.url, {})
       .then(function (response) {
         t.$Progress.finish()
-        console.log(response.data.data)
         t.response = response.data.data
         t.sendForm()
       })
