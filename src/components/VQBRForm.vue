@@ -60,6 +60,7 @@
         :field="fields['remarks']" :form="form" :form_name="form_name" outlined>
       </form-field>
     </v-col>
+    <span class="horizontal-line"></span>
   </v-row>
 </template>
 <script>
@@ -92,5 +93,13 @@ export default {
   border-bottom:1px solid #E0E0E0;
   padding-bottom:10px;
   padding-top:10px;
+}
+.horizontal-line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #E0E0E0;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 </style>
