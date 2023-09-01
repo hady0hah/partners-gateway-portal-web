@@ -4,7 +4,7 @@
       <icon-base icon-name="how-to-guides"><icon-sales /></icon-base><p style="margin-left: 10px" >Sales & Marketing</p>
     </v-row>
     <div class="sections" style="margin-top: 20px">
-      <div class="box pa-8">
+      <div class="box pa-8" style="width: 600px;">
         <v-row>
           <v-col>
             <h4 class="section-text">Brand Assets & Marketing Material</h4>
@@ -12,10 +12,18 @@
         </v-row>
         <div class="scrollable-table">
 
-          <v-row style="flex: 0 1 auto;width: 90%;margin-top: 10px;margin-left: 1px;" class="section-text" >
+          <v-row style="flex: 0 1 auto;width: 90%;margin-top: 15px;margin-left: 1px;" class="section-text" v-for="(material, index) in marketingMaterials" :key="index">
 
-              <div>Darkivore</div><hr class="dotted-line" style="flex: 1 1 auto"><a @click="downloadFile()" ><icon-base icon-name="download"><icon-download /></icon-base> </a>
-
+            <div >{{material.label}}:</div>
+              <div style="padding-left: 5px">
+                <a
+                  v-if="isLink(material.description)"
+                  :href="material.description"
+                  target="_blank"
+                >{{ material.description }}</a>
+                <span v-else>{{ material.description }}</span>
+              </div>
+            <hr class="dotted-line" style="flex: 1 1 auto"><a @click="downloadFile(material)" ><icon-base icon-name="download"><icon-download /></icon-base> </a>
           </v-row>
 
 
@@ -31,20 +39,14 @@
           <v-col cols="12" class="scrollable-table">
             <v-data-table
               :headers="headers"
-              :items="events"
+              :items="priceLists"
               class="table"
             >
-              <template v-slot:item.product="{ item }">
-                {{ item.product }}
-              </template>
-              <template v-slot:item.price="{ item }">
-                {{ item.price }}
-              </template>
-              <template v-slot:item.discount="{ item }">
-                {{ item.discount }}
+              <template v-slot:item.region="{ item }">
+                {{ item.region }}
               </template>
               <template v-slot:item.actions="{ item }">
-              <a @click="downloadFile()"><icon-base icon-name="download"><icon-download /></icon-base></a>
+              <a @click="downloadFile()"><span style="padding: 5px">Download</span><icon-base icon-name="download"><icon-download /></icon-base></a>
               </template>
             </v-data-table>
           </v-col>
@@ -114,83 +116,11 @@ export default {
     IconSales,
   },
   data: () => ({
+    marketingMaterials: [],
+    priceLists: [],
     headers: [
-      { text: 'Product/Service', value: 'product', sortable: false, align: 'center' },
-      { text: 'Price', value: 'price', sortable: false, align: 'center' },
-      { text: 'Discount', value: 'discount', sortable: false, align: 'center' },
-      { text: '', value: 'actions', sortable: false, align: 'center' },
-    ],
-    events: [
-      {
-        "product": "Darkivore",
-        "price": "1500",
-        "discount":"15%",
-        "actions":"file",
-      },
-      {
-        "product": "Test",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },
-      {
-        "product": "Tace",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },
-      {
-        "product": "TEst",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },  {
-        "product": "Darkivore",
-        "price": "1500",
-        "discount":"15%",
-        "actions":"file",
-      },
-      {
-        "product": "Test",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },
-      {
-        "product": "Tace",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },
-      {
-        "product": "TEst",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },  {
-        "product": "Darkivore",
-        "price": "1500",
-        "discount":"15%",
-        "actions":"file",
-      },
-      {
-        "product": "Test",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },
-      {
-        "product": "Tace",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },
-      {
-        "product": "TEst",
-        "price": "1200",
-        "discount":"20%",
-        "actions":"file",
-      },
+      { text: 'Region', value: 'region', sortable: false, align: 'center' },
+      { text: 'Action', value: 'actions', sortable: false, align: 'center' },
     ],
     count : 0,
     page: 1,
@@ -206,30 +136,22 @@ export default {
       id: 0
     },
   }),
-  computed: {
-    ...mapGetters({
-      Countries: "StateCountries",
-      MdfStatuses: "StateMdfStatuses"
-    })
-  },
-  created() {
+  mounted() {
     const t = this
     this.$Progress.start()
-    this.axios.get('private/country/list', {})
+    this.axios.get(axios.defaults.endpoints.marketing_material.url, {})
       .then(function (response) {
         t.$Progress.finish()
-        t.StateSetCountries(response.data.data)
-
-        t.axios.get('private/mdfstatus/list', {})
-          .then(function (response) {
-            t.$Progress.finish()
-            t.StateSetMdfStatuses(response.data.data)
-
-            t.getEvents()
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        t.marketingMaterials = response.data.data
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$Progress.start()
+    this.axios.get(axios.defaults.endpoints.price_discounts.url, {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.priceLists = response.data.data
       })
       .catch(err => {
         console.log(err);
@@ -250,6 +172,10 @@ export default {
     viewActivity() {
       this.$router.push({ name: 'mdf'})
     },
+    isLink(value) {
+      const urlPattern = /^(http|https|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+      return urlPattern.test(value);
+    },
     downloadFile (doc) {
       this.axios.get(doc.file, { responseType: 'blob' })
         .then(response => {
@@ -260,15 +186,6 @@ export default {
           link.click()
           URL.revokeObjectURL(link.href)
         }).catch(console.error)
-    },
-    getCountry(country_id) {
-      return this.Countries.find(country => country.id === country_id)
-    },
-    getMdfStatus(status_id) {
-      return this.MdfStatuses.find(status => status.id === status_id)
-    },
-    addEvent() {
-      this.$router.push({ name: 'mdf_add', params: { event: {} }})
     },
     tablePageUpdated(page) {
       this.page = page
@@ -295,46 +212,6 @@ export default {
         this.sortDesc= "ASC"
       this.getEvents()
     },
-    getEvents() {
-      // const t = this
-      // this.$Progress.start()
-      //
-      // this.axios.get('private/mdf/list?filter[_page]='+this.page+'&filter[_per_page]='+this.itemsPerPage+'&filter[_sort_by]='+this.sortBy+'&filter[_sort_order]='+this.sortDesc, {})
-      //   .then(function (response) {
-      //     t.$Progress.finish()
-      //     t.count = response.data.count
-      //     t.events = response.data.data
-      //     console.log(t.events)
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-    },
-    deleteEvent (item) {
-      this.editedEventIndex = this.events.indexOf(item)
-      this.editedEventItem = Object.assign({}, item)
-      this.dialogEventDelete = true
-    },
-    deleteEventItemConfirm() {
-      const t = this
-      this.$Progress.start()
-      this.axios.post('private/mdf/delete?id='+this.editedEventItem.id, {})
-        .then(function (response) {
-          t.$Progress.finish()
-          t.events.splice(t.editedEventIndex, 1)
-          t.closeEventDelete()
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    closeEventDelete () {
-      this.dialogEventDelete = false
-      this.$nextTick(() => {
-        this.editedEventItem = Object.assign({}, this.defaultEventItem)
-        this.editedEventIndex = -1
-      })
-    }
   }
 }
 </script>
