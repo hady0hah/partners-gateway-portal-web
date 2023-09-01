@@ -9,20 +9,20 @@
       </v-col>
     </v-row>
 
-    <v-row v-for="(product, index) in response.products" :key="index" class="base-product-wrapper" >
+    <v-row v-for="(product, productName) in response" :key="productName" class="base-product-wrapper" >
       <div class="mb-4" >
         <v-col>
-          <h3 class="header">{{ product.name }}</h3>
+          <h3 class="header">{{ productName }}</h3>
         </v-col>
       </div>
       <div class="d-flex">
-        <v-col v-for="(section, index) in product.sections" :key="index" class="box pa-8" >
+        <v-col v-for="(section, sectionName) in product" :key="sectionName" class="box pa-8" >
           <v-row class="mb-4" >
-            <h3 class="header">{{ section.description }}</h3>
+            <h3 class="header">{{ sectionName }}</h3>
           </v-row>
           <div class="scrollable-table">
-            <v-row v-for="(field, index) in section.fields" :key="index" style="width: 90%;margin-top: 10px;margin-left: 1px;">
-              <div style="flex: 0 1 auto" class="section-text">{{field.name}}</div><hr class="dotted-line" style="flex: 1 1 auto"><a @click="downloadFile()" ><icon-base icon-name="download"><icon-download /></icon-base> </a>
+            <v-row v-for="(field, fieldName) in section" :key="fieldName" style="width: 90%;margin-top: 10px;margin-left: 1px;">
+              <div style="flex: 0 1 auto" class="section-text">{{ fieldName }}</div><hr class="dotted-line" style="flex: 1 1 auto"><a @click="downloadFile(field)" ><icon-base icon-name="download"><icon-download /></icon-base> </a>
             </v-row>
           </div>
 
@@ -48,163 +48,23 @@ export default {
     IconProduct,
     IconDownload,
   },
+  mounted() {
+    const t = this
+    this.$Progress.start()
+    this.axios.get(axios.defaults.endpoints.products_technical.url, {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.response = response.data.data
+        console.log(response.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
 
   data() {
     return {
-      response: {
-        products: [
-          {
-            name:'DARKIVORE',
-            sections:[{
-              title: 'section 1',
-              description: 'Proof of Concept (POC)',
-              fields: [
-                {
-                  name: 'Darkivore Procedure',
-                },
-                {
-                  name: 'Darkivore Success criteria',
-                },
-                {
-                  name: 'Darkivore User Manual',
-                },
-                {
-                  name: 'Darkivore Procedure',
-                },
-              ],
-            },
-              {
-                title: 'section 2',
-                description: 'Datasheets & Brochures',
-                fields: [
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Success criteria',
-                  },
-                  {
-                    name: 'Darkivore User Manual',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Success criteria',
-                  },
-                  {
-                    name: 'Darkivore User Manual',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Success criteria',
-                  },
-                  {
-                    name: 'Darkivore User Manual',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Success criteria',
-                  },
-                  {
-                    name: 'Darkivore User Manual',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                ],
-              },
-              {
-                title: 'section 3',
-                description: 'User Manual',
-                fields: [
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Success criteria',
-                  },
-                  {
-                    name: 'Darkivore User Manual',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                ],
-              }]
-          },
-          {
-            name:'TACIVOAR',
-            sections:[{
-              title: 'section 1',
-              description: 'Proof of Concept (POC)',
-              fields: [
-                {
-                  name: 'Darkivore Procedure',
-                },
-                {
-                  name: 'Darkivore Success criteria',
-                },
-                {
-                  name: 'Darkivore User Manual',
-                },
-                {
-                  name: 'Darkivore Procedure',
-                },
-              ],
-            },
-              {
-                title: 'section 2',
-                description: 'Datasheets & Brochures',
-                fields: [
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Success criteria',
-                  },
-                  {
-                    name: 'Darkivore User Manual',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                ],
-              },
-              {
-                title: 'section 3',
-                description: 'User Manual',
-                fields: [
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                  {
-                    name: 'Darkivore Success criteria',
-                  },
-                  {
-                    name: 'Darkivore User Manual',
-                  },
-                  {
-                    name: 'Darkivore Procedure',
-                  },
-                ],
-              }]
-          }
-        ]
-      }
+      response : [],
     }
   },
   methods: {
