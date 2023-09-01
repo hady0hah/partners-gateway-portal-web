@@ -27,17 +27,17 @@
     </v-col>
     <v-col class="col-12 col-md-4">
 
-      <VYesNoOther v-bind="fields['dealRegistrationOption']">
+      <yes-no-other v-bind="fields['dealRegistrationOption']">
 
-      </VYesNoOther>
+      </yes-no-other>
 
       <form-field
         :field="fields['stage']" :form="form" :form_name="form_name" outlined>
       </form-field>
 
-      <VDatePicker v-bind="fields['closeDate']" outlined>
+      <date-picker v-bind="fields['closeDate']" outlined>
 
-      </VDatePicker>
+      </date-picker>
 
       <table>
         <tr>
@@ -67,8 +67,8 @@
 // This form is rendered statically due to its specific design and cannot be dynamically generated using the baseForm Generator
 import FormField from "@/components/FormField";
 import FormMixin from "@/mixins/FormMixin";
-import VDatePicker from "@/components/DatePicker";
-import VYesNoOther from "@/components/VYesNoOther"
+import DatePicker from "@/components/DatePicker";
+import YesNoOther from "@/components/VYesNoOther"
 
 export default {
   // props : ['section','form_name'],
@@ -76,8 +76,8 @@ export default {
   mixins : [FormMixin],
   components : {
     FormField,
-    VDatePicker,
-    VYesNoOther,
+    DatePicker,
+    YesNoOther,
   },
   data: () => ({
     model: [],

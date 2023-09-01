@@ -28,7 +28,7 @@ export default {
   },
   created() {
     ComponentMapper.addMapping('QBR_view|opportunities',{'component': VQBRForm})
-    ComponentMapper.addMapping('QBR_view|name',{'component': VCollectionNameField})
+    // ComponentMapper.addMapping('QBR_view|name',{'component': VCollectionNameField})
   },
   mounted() {
     const t = this
