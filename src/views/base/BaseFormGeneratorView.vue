@@ -1,10 +1,10 @@
 <template>
-  <v-form ref="form" lazy-validation style="margin-inline: 40px" >
+  <v-form ref="form" lazy-validation style="margin-inline: 40px" :disabled="this.disabled">
     <v-row class="mb-4" style="margin-top: 30px">
       <v-col class="text-left">
         <slot name="header-left">
           <slot name="header-left-pre-back" ></slot>
-          <btn-back-component :width="buttonWidth"></btn-back-component>
+          <btn-back-component  :width="buttonWidth"></btn-back-component>
             <v-btn class="mr-4" color="primary" small elevation="0" @click="main_action_onsubmit">Save</v-btn>
           <slot name="header-left-post-back"></slot>
         </slot>
@@ -74,10 +74,12 @@ export default {
         id: '',
         date:'',
         saved: true,
+        disabled:null,
       },
     };
   },
   mounted() {
+    this.disabled = this.$route.params.disabled
   },
   methods: {
     ...mapActions(["StateSetCountries"]),
