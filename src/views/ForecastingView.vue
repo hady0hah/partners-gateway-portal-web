@@ -29,7 +29,7 @@ export default {
   },
   created() {
     ComponentMapper.addMapping('forecasting_view|opportunities',{'component': VForecastingForm})
-    ComponentMapper.addMapping('forecasting_view|name',{'component': VCollectionNameField})
+    // ComponentMapper.addMapping('forecasting_view|name',{'component': VCollectionNameField})
   },
   mounted() {
     const t = this
