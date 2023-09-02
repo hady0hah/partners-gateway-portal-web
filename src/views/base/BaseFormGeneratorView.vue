@@ -1,11 +1,11 @@
 <template>
-  <v-form ref="form" lazy-validation style="padding-inline: 40px">
-    <v-row class="mb-4 mt-4">
+  <v-form ref="form" lazy-validation style="margin-inline: 40px" :disabled="this.disabled">
+    <v-row class="mb-4" style="margin-top: 30px">
       <v-col class="text-left">
         <slot name="header-left">
-          <slot name="header-left-pre-back"></slot>
-          <btn-back-component :width="buttonWidth"></btn-back-component>
-          <v-btn class="mr-4" color="primary" small elevation="0" @click="config.main_action_onsubmit">Save</v-btn>
+          <slot name="header-left-pre-back" ></slot>
+          <btn-back-component  :width="buttonWidth"></btn-back-component>
+            <v-btn class="mr-4" color="primary" small elevation="0" @click="main_action_onsubmit">Save</v-btn>
           <slot name="header-left-post-back"></slot>
         </slot>
       </v-col>
@@ -27,15 +27,15 @@
 
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
-      <div style="padding: 10px;font-weight: bold;color: #205023">
-        <div v-if="section.label" class="mb-4">
+      <div class="container">
+        <div v-if="section.label" class="mb-4" style="padding: 10px;font-weight: bold;color: #205023" >
           <p>{{ section.label }}</p>
         </div>
         <div v-if="section.description" class="mb-4">
           <h3>{{ section.description }}</h3>
         </div>
+        <form-section :section="section" :form_name="form_name"></form-section>
       </div>
-      <form-section :section="section" :form_name="config.form_name" v-model="model"></form-section>
     </v-row>
 
   </v-form>
@@ -61,10 +61,7 @@ export default {
     return {
       buttonWidth: "30px",
       form:{},
-      model: {
-        name: '12',
-        opportunities: {name:'aa'}
-      },
+      model: {},
       // baseForm: {
       //   id: '',
       //   date: '',
@@ -88,6 +85,7 @@ export default {
   },
   created() {
     // console.log(this)
+    this.disabled = this.$route.params.disabled
   },
   methods: {
 

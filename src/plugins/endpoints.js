@@ -33,6 +33,21 @@ let endpoints={
   },
   'qbr_form' : {
     'url' : 'private/form/business/review/quarterly'
+  },
+  'how_to' : {
+      'url' : 'private/how-to-guides'
+  },
+  'welcome_page' : {
+    'url' : 'private/welcome-page'
+  },
+  'marketing_material' : {
+    'url' : 'private/marketing_material/list'
+  },
+  'price_discounts' : {
+    'url' : 'private/pricelists'
+  },
+  'products_technical' : {
+    'url' : 'private/product_materials/list'
   }
 }
 

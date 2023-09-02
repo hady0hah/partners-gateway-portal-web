@@ -16,14 +16,14 @@
       >
         <v-row>
           <v-col class="col-12 col-md-6">
-            <v-select 
-              :items="deals" 
-              item-text="name" 
+            <v-select
+              :items="deals"
+              item-text="name"
               item-value="id"
-              label="Deal Ref" 
-              v-model="demo['deal.id']" 
+              label="Deal Ref"
+              v-model="demo['deal.id']"
               v-on:change="dealChange()"
-              :rules="[v => !!v || 'Field is required']"
+              :rules="isDealRequired()"
               class="mb-2"
             ></v-select>
             <v-card elevation="2" shaped class="pa-4">
@@ -53,14 +53,14 @@
             </v-card>
           </v-col>
           <v-col class="col-12 col-md-6">
-            <v-select 
-              :items="products" 
-              item-text="name" 
+            <v-select
+              :items="products"
+              item-text="name"
               item-value="id"
-              label="Demo Product" 
-              v-model="demo['product.id']" 
+              label="Demo Product"
+              v-model="demo['product.id']"
               v-on:change="productChange()"
-              :rules="[v => !!v || 'Field is required']"
+              :rules="isProductRequired()"
               class="mb-2"
             ></v-select>
             <v-card elevation="2" shaped class="pa-4">
@@ -173,7 +173,7 @@
       .catch(err => {
         console.log(err);
       });
-      
+
       this.$Progress.increase(10)
       this.axios.get('private/product/list', {})
       .then(function (response) {
@@ -183,7 +183,7 @@
       .catch(err => {
         console.log(err);
       });
-      
+
       if (this.demo.id) {
         this.$Progress.start()
         this.axios.get('private/timeslots/show?id='+this.demo['timeslot.id'], {})
@@ -200,6 +200,16 @@
       }
     },
     methods: {
+      isDealRequired(){
+        if (!this.demo['product.id']) {
+          return [v => !!v || 'Field is required'];
+        }
+      },
+      isProductRequired(){
+        if (!this.demo['deal.id']) {
+          return [v => !!v || 'Field is required'];
+        }
+      },
       setToday () {
         this.focus = ''
       },
@@ -230,7 +240,7 @@
               timed: true
             })
           });
-        
+
           t.events = events
         })
         .catch(err => {
@@ -263,12 +273,12 @@
       save () {
         if (!this.$refs.form.validate())
           return;
-          
+
         if (!this.timeslot) {
           alert("Please pick a timeslot")
           return
         }
-          
+
         const t = this
         this.$Progress.start()
         var endpoint = ""
@@ -276,14 +286,14 @@
           endpoint = 'private/demo/add'
         else
           endpoint = 'private/demo/edit?id='+this.id
-          
+
         const formData = new FormData();
         formData.append("form[deal]", this.demo['deal.id'])
         formData.append("form[product]", this.demo['product.id'])
         formData.append("form[timeslot]", this.timeslot.id)
         formData.append("form[pax_number]", this.demo.paxNumber)
         formData.append("form[due_expectations]", this.demo.dueExpectations)
-          
+
         this.axios.post(endpoint, formData)
         .then(function (response) {
           t.$Progress.finish()
@@ -301,7 +311,7 @@
       cancelDemo() {
         const t = this
         this.$Progress.start()
-          
+
         this.axios.post('private/demo/cancel?id='+this.id, {})
         .then(function (response) {
           console.log(response)

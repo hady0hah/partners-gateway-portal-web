@@ -1,5 +1,7 @@
 <template>
   <component
+      :field="field"
+      :outlined="outlined"
       item-text="label"
       :is="getFieldComponent()"
       v-bind="getFieldProps()"
@@ -11,7 +13,7 @@
 import ComponentMapper from "@/components/ComponentMapper";
 
 export default {
-  props : ['field','form_name'],
+  props : ['field','form_name','outlined'],
   methods: {
     getFieldComponent() {
       return ComponentMapper.mapType(this.field, this.form_name)

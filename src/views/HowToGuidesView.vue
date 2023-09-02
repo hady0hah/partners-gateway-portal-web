@@ -8,7 +8,7 @@
 
     <div class="box">
       <div class="box-container" >
-        <div class="inner-box" v-for="(box, index) in response.guides" :key="index" ><a @click="viewFile(box)">{{box.name}}</a></div>
+        <div class="inner-box" v-for="(box, index) in response" :key="index" ><a @click="viewFile(box)">{{box.label}}</a></div>
       </div>
     </div>
 
@@ -37,83 +37,22 @@ export default {
         });
     },
   },
-
+  mounted() {
+    const t = this
+    this.$Progress.start()
+    this.axios.get(axios.defaults.endpoints.how_to.url, {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.response = response.data.data
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
 
   data() {
     return {
-      response: {
-        guides: [
-          {
-          name: 'Deal Registration'
-        },
-          {
-            name: 'Marketing Development Fund (MDF) '
-          },
-          {
-            name: 'Deal Registration'
-          },
-          {
-            name: 'Product Order (PO)'
-          },
-          {
-            name: 'Product Order (PO)'
-          },
-          {
-            name: 'Product Order (PO)'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Marketing Development Fund (MDF)'
-          },
-          {
-            name: 'Marketing Development Fund (MDF)'
-          },
-          {
-            name: 'Deal Registration'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Deal Registration'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          },
-          {
-            name: 'Test 2'
-          }
-        ]
-      }
+    response : [],
     }
   }
 };
