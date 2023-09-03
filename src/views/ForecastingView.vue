@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :form_name="'forecasting_view'" >
+    <parent-form  lazy-validation :config="formConfig"  ref="formRef" >
       <template v-slot:header-left-post-back>
         <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
         <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
@@ -25,6 +25,13 @@ export default {
   data() {
     return {
       response : [],
+
+      formConfig: {
+        form_name : 'forecasting_view',
+        form_url: this.axios.defaults.endpoints.forecasting.form,
+        form_action: this.axios.defaults.endpoints.deal_add.url,
+        main_action_onsubmit:this.submitForm,
+      }
     };
   },
   created() {

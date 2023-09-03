@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :form_name="'program_view'" v-model="model" >
+    <parent-form  lazy-validation :config="formConfig" ref="formRef" v-model="model" >
       <template v-slot:header-left-post-back>
         <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
 <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
@@ -24,7 +24,13 @@ export default {
   data() {
     return {
       response : [],
-      model: {}
+      model: {},
+      formConfig: {
+        form_name : 'program_view',
+        form_url: this.axios.defaults.endpoints.deal_form.url,
+        form_action: this.axios.defaults.endpoints.deal_add.url,
+        main_action_onsubmit:this.submitForm,
+      }
     };
   },
   created() {
@@ -34,7 +40,7 @@ export default {
   mounted() {
     const t = this
     this.$Progress.start()
-    this.axios.get(axios.defaults.endpoints.deal_form.url, {})
+    this.axios.get(this.axios.defaults.endpoints.deal_form.url, {})
       .then(function (response) {
         t.$Progress.finish()
         console.log(response.data.data)
@@ -54,9 +60,9 @@ export default {
       var endpoint = ""
       const t = this
       if (!t.baseForm.id)
-        endpoint = axios.defaults.endpoints.deal_add.url
+        endpoint = this.axios.defaults.endpoints.deal_add.url
       else
-        endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
+        endpoint = this.axios.defaults.endpoints.deal_edit.url+t.deal.id
 
       ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
     },

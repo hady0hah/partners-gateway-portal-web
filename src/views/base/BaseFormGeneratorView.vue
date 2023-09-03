@@ -54,7 +54,19 @@ export default {
     FormSection
   },
   // mixins: [FormMixin],
-  props: ['config'],
+  props: {
+    config: {
+      default: () =>{
+        return {
+          form_name : null,
+          form_url: null,
+          form_action: null,
+          main_action_onsubmit:null,
+        }
+      },
+      type: Object
+    }
+  },
   computed: {
   },
   data() {
