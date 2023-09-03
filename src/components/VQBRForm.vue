@@ -83,6 +83,8 @@
       </form-field>
     </v-col>
     <span class="horizontal-line"></span>
+    </v-row>
+    <button  type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addForm">ADD MORE</button>
   </v-row>
 </template>
 <script>
