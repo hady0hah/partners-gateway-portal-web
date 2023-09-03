@@ -5,17 +5,15 @@
       item-text="label"
       :is="getFieldComponent()"
       v-bind="getFieldProps()"
-      v-model="form[field.name]"
-      v-on:change="valueChange()">
+      v-bind:value="$attrs.value"
+      v-on:input="$emit('input', $event)">
   </component>
 </template>
 <script>
 import ComponentMapper from "@/components/ComponentMapper";
-import FormMixin from "@/mixins/FormMixin";
 
 export default {
   props : ['field','form_name','outlined'],
-  mixins : [FormMixin],
   methods: {
     getFieldComponent() {
       return ComponentMapper.mapType(this.field, this.form_name)

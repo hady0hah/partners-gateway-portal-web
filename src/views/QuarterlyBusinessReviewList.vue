@@ -12,7 +12,7 @@
           {{ friendlyDate(item.created.date) }}
         </template>
         <template v-slot:item.actions="{ item }">
-          <router-link :to="{ name: 'QBR_view', params: { id: item.id } }"><v-btn x-small elevation="0">View</v-btn></router-link>
+          <router-link :to="{ name: 'QBR_view', params: { id: item.id, disabled: true } }"><v-btn x-small elevation="0">View</v-btn></router-link>
         </template>
       </base-table>
     </template>

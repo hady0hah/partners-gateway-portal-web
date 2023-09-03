@@ -29,6 +29,7 @@ class ComponentMapper {
       disabled: field.disabled,
       items:  choices,
       fields: field.fields,
+      name: field.full_name
     };
   }
 

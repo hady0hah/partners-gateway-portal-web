@@ -49,17 +49,17 @@
       </v-col>
       <v-col class="col-12 col-md-4">
 
-        <VYesNoOther v-bind="fields['dealRegistrationOption']">
+      <yes-no-other v-bind="fields['dealRegistrationOption']">
 
-        </VYesNoOther>
+      </yes-no-other>
 
         <form-field
           :field="fields['stage']" :form="form" :form_name="form_name" outlined>
         </form-field>
 
-        <VDatePicker v-bind="fields['closeDate']" outlined>
+      <date-picker v-bind="fields['closeDate']" outlined>
 
-        </VDatePicker>
+      </date-picker>
 
         <table>
           <tr>
@@ -78,29 +78,27 @@
           </tr>
         </table>
 
-        <form-field
-          :field="fields['remarks']" :form="form" :form_name="form_name" outlined>
-        </form-field>
-      </v-col>
-      <span class="horizontal-line"></span>
-    </v-row>
-    <button  type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addForm">ADD MORE</button>
+      <form-field
+        :field="fields['remarks']" :form="form" :form_name="form_name" outlined>
+      </form-field>
+    </v-col>
+    <span class="horizontal-line"></span>
   </v-row>
 </template>
 <script>
 // This form is rendered statically due to its specific design and cannot be dynamically generated using the baseForm Generator
 import FormField from "@/components/FormField";
 import FormMixin from "@/mixins/FormMixin";
-import VDatePicker from "@/components/DatePicker";
-import VYesNoOther from "@/components/VYesNoOther"
+import DatePicker from "@/components/DatePicker";
+import YesNoOther from "@/components/VYesNoOther"
 
 export default {
   props : ['fields'],
   mixins : [FormMixin],
   components : {
     FormField,
-    VDatePicker,
-    VYesNoOther,
+    DatePicker,
+    YesNoOther,
   },
   data: () => ({
     tableRows: [{}],

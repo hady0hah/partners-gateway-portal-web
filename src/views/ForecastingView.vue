@@ -29,12 +29,12 @@ export default {
   },
   created() {
     ComponentMapper.addMapping('forecasting_view|opportunities',{'component': VForecastingForm})
-    ComponentMapper.addMapping('forecasting_view|name',{'component': VCollectionNameField})
+    // ComponentMapper.addMapping('forecasting_view|name',{'component': VCollectionNameField})
   },
   mounted() {
     const t = this
     this.$Progress.start()
-    this.axios.get(axios.defaults.endpoints.forecasting_form.url, {})
+    this.axios.get(this.axios.defaults.endpoints.forecasting.form, {})
       .then(function (response) {
         t.$Progress.finish()
         t.response = response.data.data
