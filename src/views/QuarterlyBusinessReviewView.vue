@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :form_name="'QBR_view'" >
+    <parent-form  lazy-validation ref="formRef" :config="formConfig">
       <template v-slot:header-left-post-back>
         <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
         <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
@@ -11,10 +11,8 @@
 
 <script>
 import ParentForm from '../views/base/BaseFormGeneratorView.vue';
-import eventBus from '@/eventBus.js';
 import ComponentMapper from "@/components/ComponentMapper";
 import VQBRForm from "@/components/VQBRForm";
-import VCollectionNameField from "@/components/VCollectionNameField";
 
 export default {
   components: {
@@ -25,9 +23,9 @@ export default {
     return {
       response : [],
       formConfig: {
-        form_name : 'program_view',
-        form_url: axios.defaults.endpoints.qbr_form.url,
-        form_action: '',
+        form_name : 'QBR_view',
+        form_url: this.axios.defaults.endpoints.qbr.form,
+        form_action: this.axios.defaults.endpoints.qbr.add,
         main_action_onsubmit:this.submitForm,
       }
     };
@@ -37,31 +35,32 @@ export default {
     // ComponentMapper.addMapping('QBR_view|name',{'component': VCollectionNameField})
   },
   mounted() {
-    const t = this
-    this.$Progress.start()
-    this.axios.get(axios.defaults.endpoints.qbr_form.url, {})
-      .then(function (response) {
-        t.$Progress.finish()
-        t.response = response.data.data
-        t.sendForm()
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // const t = this
+    // this.$Progress.start()
+    // this.axios.get(axios.defaults.endpoints.qbr_form.url, {})
+    //   .then(function (response) {
+    //     t.$Progress.finish()
+    //     t.response = response.data.data
+    //     t.sendForm()
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   },
   methods: {
     sendForm(){
-      eventBus.$emit('form-received', this.response);
+      // eventBus.$emit('form-received', this.response);
     },
     submitForm() {
-      var endpoint = ""
-      const t = this
-      if (!t.baseForm.id)
-        endpoint = axios.defaults.endpoints.deal_add.url
-      else
-        endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
+      console.log(this.$refs)
+      // var endpoint = ""
+      // const t = this
+      // if (!t.baseForm.id)
+      //   endpoint = axios.defaults.endpoints.deal_add.url
+      // else
+      //   endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
 
-      ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
+      // ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
     },
   },
 };
