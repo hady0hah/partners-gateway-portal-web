@@ -18,26 +18,20 @@
     </v-row>
 
     <v-row class="mb-4" style="color: #205023">
-      <h3>{{ form.title }}</h3>
+      <v-col class="col-12">
+        <h3>{{ form.title }}</h3>
+      </v-col>
+      <v-col class="mb-4 col-12" style="color: #205023;font-size: smaller;">
+        <div v-html="form.description"></div>
+      </v-col>
+
+      <v-col class="box col-12" v-for="section, i in form.form" :key="i">
+        <form-section :section="section" :form_name="config.form_name" v-model="model"></form-section>
+      </v-col>
     </v-row>
-
-    <v-row class="mb-4" style="color: #205023;font-size: smaller;">
-      <div v-html="form.description"></div>
-    </v-row>
-
-    <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
-
-      <div class="container">
-        <div v-if="section.label" class="mb-4" style="padding: 10px;font-weight: bold;color: #205023" >
-          <p>{{ section.label }}</p>
-        </div>
-        <div v-if="section.description" class="mb-4">
-          <h3>{{ section.description }}</h3>
-        </div>
-        <form-section :section="section" :form_name="config.form_name"></form-section>
-      </div>
-    </v-row>
-
+    <code>
+      {{ model }}
+    </code>
   </v-form>
 </template>
 
@@ -77,6 +71,7 @@ export default {
     };
   },
   mounted() {
+    if(!this.config.form_url) return
     const t = this
     this.$Progress.start()
     this.axios.get(this.config.form_url, {})
