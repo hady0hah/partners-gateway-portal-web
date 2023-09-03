@@ -1,7 +1,7 @@
 <template>
   <base-list-view  :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addForecast" :main_action_title="main_action_title">
     <template v-slot:table-content>
-      <base-table :headers="headers" :url="axios.defaults.endpoints.forecasting_list.url">
+      <base-table :headers="headers" :url="axios.defaults.endpoints.forecasting.list">
                 <template v-slot:item.name="{ item }">
                   {{ item.name }}
                 </template>
