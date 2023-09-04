@@ -25,6 +25,7 @@
       <div v-html="form.description"></div>
     </v-row>
 
+    <slot name="form-sections">
     <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
       <div class="container">
@@ -37,12 +38,13 @@
         <form-section :section="section" :form_name="config.form_name"></form-section>
       </div>
     </v-row>
+    </slot>
 
   </v-form>
 </template>
 
 <script>
-// import FormMixin from "@/mixins/FormMixin.js"
+import FormMixin from "@/mixins/FormMixin.js"
 import eventBus from "@/eventBus";
 
 import BtnBackComponent from "@/components/BtnBackComponent";
@@ -53,7 +55,7 @@ export default {
     BtnBackComponent,
     FormSection
   },
-  // mixins: [FormMixin],
+  mixins: [FormMixin],
   props: {
     config: {
       default: () =>{
@@ -113,7 +115,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      
+
 
       // if (!formRef.formRef.$refs.form.validate())
       //   return;
