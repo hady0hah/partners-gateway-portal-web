@@ -1,5 +1,13 @@
 <template>
-  <v-row class="box">
+  <v-row class="pa-4">
+    <v-col class="col-12">
+      <div v-if="section.label" class="mb-4" style="font-weight: bold;color: #205023" >
+        <p>{{ section.label }}</p>
+      </div>
+      <div v-if="section.description" class="mb-4">
+        <h3>{{ section.description }}</h3>
+      </div>
+    </v-col>
     <v-col v-for="field, k in section.fields" :key="k" :class="field.row_class?field.row_class:'col-12 col-md-4'">
       <form-field :field="field" :form_name="form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field,$event)"></form-field>
     </v-col>
