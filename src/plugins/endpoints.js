@@ -45,7 +45,10 @@ let endpoints = {
     },
     'products_technical': {
         'url': 'private/product_materials/list'
-    }
+    },
+    'mdf' : {
+      'form' : 'private/form/mdf'
+  },
 }
 
 export default endpoints
