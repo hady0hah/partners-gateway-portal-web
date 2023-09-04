@@ -1,121 +1,112 @@
 <template>
-  <v-row >
-    <v-row v-for="(component, index) in formComponents" :key="index">
-      <v-col class="col-12 col-md-4">
-
-        <form-field
-          :field="fields['name']" :form="form" :form_name="form_name" outlined>
-        </form-field>
-        <form-field
-          :field="fields['customer']" :form="form" :form_name="form_name">
-        </form-field>
-        <form-field
-          :field="fields['reseller']" :form="form" :form_name="form_name">
-        </form-field>
-        <form-field
-          :field="fields['country']" :form="form" :form_name="form_name" outlined>
-        </form-field>
-      </v-col>
-      <v-col class="col-12 col-md-4">
-        <table style="margin-top: 15px" class="products-table">
-          <thead>
-          <tr>
-            <th>{{ fields['reviewProducts']['fields']['product'].label }}</th>
-            <th>{{ fields['reviewProducts']['fields']['quantity'].label }}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="(row, index) in tableRows" :key="index">
-            <td>
-              <form-field
-                :field="fields['reviewProducts']['fields']['product']"
-                :form="form"
-                :form_name="form_name"
-                outlined
-              ></form-field>
-            </td>
-            <td style="padding: 5px">
-              <form-field
-                :field="fields['reviewProducts']['fields']['quantity']"
-                :form="form"
-                :form_name="form_name"
-                outlined
-              ></form-field>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <button  type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addRow">ADD MORE</button>
-      </v-col>
-      <v-col class="col-12 col-md-4">
-
-      <yes-no-other v-bind="fields['dealRegistrationOption']">
-
-      </yes-no-other>
-
-        <form-field
-          :field="fields['stage']" :form="form" :form_name="form_name" outlined>
-        </form-field>
-
-      <date-picker v-bind="fields['closeDate']" outlined>
-
-      </date-picker>
-
-        <table>
-          <tr>
-            <td>
-              <p class="mb-4" style="color: #205023">{{ fields['amount'].label }}</p>
-            </td>
-            <td style="padding-left: 35px">
-              <v-text-field
-                type="number"
-                :field="fields['amount']"
-                v-model="form[fields['amount'].name]"
-                outlined
-              >
-              </v-text-field>
-            </td>
-          </tr>
-        </table>
-
-      <form-field
-        :field="fields['remarks']" :form="form" :form_name="form_name" outlined>
-      </form-field>
-    </v-col>
-    <span class="horizontal-line"></span>
-    </v-row>
-    <button  type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addForm">ADD MORE</button>
-  </v-row>
+  <form-collection :fields="fields" :key="tableChangeDetector" v-model="items">
+    <template v-slot:collection-item="{ fields, item, index }">
+      <v-row>
+        <v-col class="col-12 col-md-4">
+          <form-field :field="fields['name']" :form_name="form_name" outlined v-bind:value="item.name" v-on:input="onInput($event, index, 'name')">
+          </form-field>
+          <form-field :field="fields['customer']" :form_name="form_name" v-bind:value="item.customer" v-on:input="onInput($event, index, 'customer')">
+          </form-field>
+          <form-field :field="fields['reseller']" :form_name="form_name" v-bind:value="item.reseller" v-on:input="onInput($event, index, 'reseller')">
+          </form-field>
+          <form-field :field="fields['country']" :form_name="form_name" outlined v-bind:value="item.country" v-on:input="onInput($event, index, 'country')">
+          </form-field>
+        </v-col>
+        <v-col class="col-12 col-md-4">
+          <table style="margin-top: 15px" class="products-table">
+            <thead>
+              <tr>
+                <th>{{ fields['reviewProducts']['fields']['product'].label }}</th>
+                <th>{{ fields['reviewProducts']['fields']['quantity'].label }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(tableitem, tableindex) in item.reviewProducts" :key="tableindex">
+                <td>
+                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['product'],index),tableindex)" :form_name="form_name"
+                    outlined v-bind:value="tableitem.product" v-on:input="onInputTable($event, index, tableindex, 'product')"></form-field>
+                </td>
+                <td style="padding: 5px">
+                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['quantity'],index),tableindex)" :form_name="form_name"
+                    outlined v-bind:value="tableitem.quantity" v-on:input="onInputTable($event, index, tableindex, 'quantity')"></form-field>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td><button type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addTableItem(index)">ADD MORE</button></td>
+              </tr>
+            </tfoot>
+          </table>
+        </v-col>
+        <v-col class="col-12 col-md-4">
+          <yes-no-other v-bind="fields['dealRegistrationOption']" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')"></yes-no-other>
+          <form-field :field="fields['stage']" :form_name="form_name" outlined v-bind:value="item.stage" v-on:input="onInput($event, index, 'stage')"></form-field>
+          <date-picker v-bind="fields['closeDate']" outlined v-bind:value="item.closeDate" v-on:input="onInput($event, index, 'closeDate')"></date-picker>
+          <table>
+            <tr>
+              <td>
+                <p class="mb-4" style="color: #205023">{{ fields['amount'].label }}</p>
+              </td>
+              <td style="padding-left: 35px">
+                <v-text-field type="number" :field="fields['amount']" outlined v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')">
+                </v-text-field>
+              </td>
+            </tr>
+          </table>
+          <form-field :field="fields['remarks']" :form_name="form_name" outlined v-bind:value="item.remarks" v-on:input="onInput($event, index, 'remarks')"></form-field>
+        </v-col>
+        <span class="horizontal-line"></span>
+      </v-row>
+    </template>
+  </form-collection>
 </template>
 <script>
 // This form is rendered statically due to its specific design and cannot be dynamically generated using the baseForm Generator
+import CollectionMixin from "@/mixins/CollectionMixin"
+import FormCollection from "./FormCollection.vue";
 import FormField from "@/components/FormField";
-import FormMixin from "@/mixins/FormMixin";
 import DatePicker from "@/components/DatePicker";
 import YesNoOther from "@/components/VYesNoOther"
 
 export default {
-  props : ['fields'],
-  mixins : [FormMixin],
-  components : {
+  props: ['fields'],
+  components: {
     FormField,
     DatePicker,
     YesNoOther,
+    FormCollection
   },
-  data: () => ({
-    tableRows: [{}],
-    formComponents: [{}],
-    model: [],
-    radio: [],
-    date:'',
-    form_name:'forecasting_view',
-  }),
-  methods:{
-    addRow() {
-      this.tableRows.push({});
+  mixins: [CollectionMixin],
+  data() {
+    return {
+      items: this.$attrs.value?this.$attrs.value:[],
+      tableRows: this.$attrs.value?this.$attrs.value:[{}],
+      model: [],
+      radio: [],
+      date: '',
+      form_name: 'forecasting_view',
+      tableChangeDetector:0
+    }
+  },
+  methods: {
+    onInput($event, index, fieldName) {
+      if(!(index in this.items))
+        this.items[index] = {}
+      this.items[index][fieldName] = $event
+      this.$emit('input', this.items)
     },
-    addForm() {
-      this.formComponents.push({});
+    onInputTable($event, index, tableindex, fieldName) {
+      console.log($event, index, tableindex, fieldName)
+    },
+    addTableItem(index) {
+      if(!(index in this.items))
+        this.items[index] = {}
+      if(!('reviewProducts' in this.items[index]))
+        this.items[index]['reviewProducts'] = []
+      this.items[index]['reviewProducts'].push({});
+      this.$emit('input', this.items)
+      this.tableChangeDetector++
     },
   },
   created() {
@@ -123,11 +114,13 @@ export default {
 }
 </script>
 <style>
-.products-table th,.products-table td{
-  border-bottom:1px solid #E0E0E0;
-  padding-bottom:10px;
-  padding-top:10px;
+.products-table th,
+.products-table td {
+  border-bottom: 1px solid #E0E0E0;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
+
 .horizontal-line {
   display: block;
   width: 100%;
