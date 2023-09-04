@@ -1,7 +1,7 @@
 <template>
   <base-list-view  :icon="getIcon()" :title="title" :subtitle="subtitle" :table_title="table_title" :main_action_onclick="addQBR" :main_action_title="main_action_title">
     <template v-slot:table-content>
-      <base-table :headers="headers" :url="axios.defaults.endpoints.QBR_list.url">
+      <base-table :headers="headers" :url="axios.defaults.endpoints.qbr.list">
         <template v-slot:item.name="{ item }">
           {{ item.name }}
         </template>
