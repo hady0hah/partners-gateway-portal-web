@@ -18,8 +18,8 @@ let endpoints = {
     'deal_edit': {
         'url': 'private/deals/edit?id='
     },
-    'po_form': {
-        'url': 'private/form/po'
+    'po': {
+        'form': 'private/form/po'
     },
     'forecasting': {
         'list': 'private/fr/list',
