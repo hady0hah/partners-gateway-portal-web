@@ -118,7 +118,7 @@
     </v-app-bar>
 
     <v-main>
-      <v-container fluid>
+      <v-container fluid :class="'px-6'">
         <router-view></router-view>
         <vue-progress-bar></vue-progress-bar>
       </v-container>
