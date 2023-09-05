@@ -2,7 +2,6 @@
   <div class="container">
     <parent-form  lazy-validation :config="formConfig"  ref="formRef" >
       <template v-slot:header-left-post-back>
-        <v-btn class="mr-4" color="primary" small elevation="0">Add a deal</v-btn>
         <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
       </template>
     </parent-form>

@@ -15,14 +15,14 @@
           <v-row style="flex: 0 1 auto;width: 90%;margin-top: 15px;margin-left: 1px;" class="section-text" v-for="(material, index) in marketingMaterials" :key="index">
 
             <div >{{material.label}}:</div>
-              <div style="padding-left: 5px">
-                <a
-                  v-if="isLink(material.description)"
-                  :href="material.description"
-                  target="_blank"
-                >{{ material.description }}</a>
-                <span v-else>{{ material.description }}</span>
-              </div>
+<!--              <div style="padding-left: 5px">-->
+<!--                <a-->
+<!--                  v-if="isLink(material.description)"-->
+<!--                  :href="material.description"-->
+<!--                  target="_blank"-->
+<!--                >{{ material.description }}</a>-->
+<!--                <span v-else>{{ material.description }}</span>-->
+<!--              </div>-->
             <hr class="dotted-line" style="flex: 1 1 auto"><a @click="downloadFile(material)" ><icon-base icon-name="download"><icon-download /></icon-base> </a>
           </v-row>
 
@@ -46,7 +46,7 @@
                 {{ item.region }}
               </template>
               <template v-slot:item.actions="{ item }">
-              <a @click="downloadFile()"><span style="padding: 5px">Download</span><icon-base icon-name="download"><icon-download /></icon-base></a>
+              <a @click="downloadFile(item)"><span style="padding: 5px">Download</span><icon-base icon-name="download"><icon-download /></icon-base></a>
               </template>
             </v-data-table>
           </v-col>
@@ -177,12 +177,14 @@ export default {
       return urlPattern.test(value);
     },
     downloadFile (doc) {
+      console.log(doc)
       this.axios.get(doc.file, { responseType: 'blob' })
         .then(response => {
           const blob = new Blob([response.data], { type: 'application/pdf' })
           const link = document.createElement('a')
           link.href = URL.createObjectURL(blob)
-          link.download = "download"
+          let fileName = response.headers["content-disposition"].split("filename=")[1];
+          link.download = fileName;
           link.click()
           URL.revokeObjectURL(link.href)
         }).catch(console.error)
