@@ -1,6 +1,6 @@
 <template>
-  <v-form ref="baseform" lazy-validation style="padding-inline: 40px">
-    <v-row class="mb-4 mt-4">
+  <v-form ref="baseform" lazy-validation>
+    <v-row >
       <v-col class="text-left">
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
@@ -65,6 +65,7 @@ export default {
   },
   data() {
     return {
+      objectid: null,
       buttonWidth: "30px",
       form:{},
       model: {},
@@ -76,17 +77,31 @@ export default {
     this.$Progress.start()
     this.axios.get(this.config.form_url, {})
       .then(function (response) {
-        t.$Progress.finish()
         t.form = response.data.data
         eventBus.$emit('form-received', t.form);
+        if(t.objectid){
+          t.axios.get(t.config.form_data, {})
+            .then(function (response) {
+              t.model = response.data.data
+              eventBus.$emit('data-received', t.model);
+              t.model.name="TEST"
+              t.$Progress.finish()
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          t.$Progress.finish()
+        }
       })
       .catch(err => {
         console.log(err);
       });
   },
   created() {
-    // console.log(this)
     this.disabled = this.$route.params.disabled
+    this.objectid = this.$route.params.id?this.$route.params.id:null
+    
   },
   methods: {
     submitForm() {
