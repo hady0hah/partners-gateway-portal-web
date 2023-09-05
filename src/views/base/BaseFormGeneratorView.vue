@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="baseform" lazy-validation style="padding-inline: 40px">
+  <v-form ref="baseform" lazy-validation style="padding-inline: 40px" :disabled="this.disabled">
     <v-row class="mb-4 mt-4">
       <v-col class="text-left">
         <slot name="header-left">

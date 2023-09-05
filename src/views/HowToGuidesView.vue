@@ -8,7 +8,7 @@
 
     <div class="box">
       <div class="box-container" >
-        <div class="inner-box" v-for="(box, index) in response" :key="index" ><a @click="viewFile(box)">{{box.label}}</a></div>
+        <div class="inner-box" v-for="(box, index) in response" :key="index" ><a @click="downloadFile(box)">{{box.label}}</a></div>
       </div>
     </div>
 
@@ -36,7 +36,20 @@ export default {
           console.log(err);
         });
     },
+      downloadFile (doc) {
+        this.axios.get(doc.file, { responseType: 'blob' })
+          .then(response => {
+            const blob = new Blob([response.data], { type: 'application/pdf' })
+            const link = document.createElement('a')
+            link.href = URL.createObjectURL(blob)
+            let fileName = response.headers["content-disposition"].split("filename=")[1];
+            link.download = fileName;
+            link.click()
+            URL.revokeObjectURL(link.href)
+          }).catch(console.error)
+      },
   },
+
   mounted() {
     const t = this
     this.$Progress.start()
