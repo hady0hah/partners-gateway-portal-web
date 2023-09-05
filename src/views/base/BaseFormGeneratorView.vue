@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="baseform" lazy-validation>
+  <v-form ref="baseform" lazy-validation :disabled="config.disabled">
     <v-row >
       <v-col class="text-left">
         <slot name="header-left">
@@ -56,6 +56,7 @@ export default {
           form_url: null,
           form_action: null,
           main_action_onsubmit:null,
+          disabled: false
         }
       },
       type: Object
@@ -84,7 +85,6 @@ export default {
             .then(function (response) {
               t.model = response.data.data
               eventBus.$emit('data-received', t.model);
-              t.model.name="TEST"
               t.$Progress.finish()
             })
             .catch(err => {

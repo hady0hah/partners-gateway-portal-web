@@ -23,6 +23,7 @@ export default {
         form_action: this.axios.defaults.endpoints.forecasting.add,
         form_data: this.axios.defaults.endpoints.forecasting.show,
         main_action_onsubmit:this.submitForm,
+        disabled: false
       }
     };
   },
@@ -31,6 +32,7 @@ export default {
     this.objectid = this.$route.params.id?this.$route.params.id:null
     if(this.objectid) {
       this.formConfig.form_data = this.axios.defaults.endpoints.resolve(this.formConfig.form_data, { id: this.objectid })
+      this.formConfig.disabled = true
     }
   },
   mounted() {
