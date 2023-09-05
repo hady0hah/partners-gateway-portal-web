@@ -82,11 +82,9 @@ export default {
       return IconDeal
     },
     getStatus(status_id) {
-      console.log(this.Statuses.find(status => status.id === status_id))
       return this.Statuses.find(status => status.id === status_id)
     },
     getRegion(region_id) {
-      console.log(this.Regions.find(region => region.id === region_id))
       return this.Regions.find(region => region.id === region_id)
     },
     addDeal() {
