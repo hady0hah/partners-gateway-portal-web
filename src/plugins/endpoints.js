@@ -18,8 +18,8 @@ let endpoints = {
     'deal_edit': {
         'url': 'private/deals/edit?id='
     },
-    'po_form': {
-        'url': 'private/form/po'
+    'po': {
+        'form': 'private/form/po'
     },
     'forecasting': {
         'list': 'private/fr/list',
@@ -47,14 +47,16 @@ let endpoints = {
     'products_technical': {
         'url': 'private/product_materials/list'
     },
-
+    'mdf': {
+        'form': 'private/form/mdf'
+    },
     resolve(url, params) {
         let _url = url
-        for(let [k, v] of Object.entries(params)) {
-            _url = _url.replace(':'+k,v)
+        for (let [k, v] of Object.entries(params)) {
+            _url = _url.replace(':' + k, v)
         }
         return _url
-    }
+    },
 }
 
 export default endpoints
