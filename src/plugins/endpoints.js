@@ -25,6 +25,7 @@ let endpoints = {
         'list': 'private/fr/list',
         'form': 'private/form/business/review/forecasting',
         'add': 'private/form/business/review/forecasting',
+        'show': 'private/fr/:id/show'
     },
     'qbr': {
         'list': 'private/qb/list',
@@ -45,6 +46,14 @@ let endpoints = {
     },
     'products_technical': {
         'url': 'private/product_materials/list'
+    },
+
+    resolve(url, params) {
+        let _url = url
+        for(let [k, v] of Object.entries(params)) {
+            _url = _url.replace(':'+k,v)
+        }
+        return _url
     }
 }
 
