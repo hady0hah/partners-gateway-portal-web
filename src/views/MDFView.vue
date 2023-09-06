@@ -113,8 +113,7 @@ export default {
       model: {},
       formConfig: {
         form_name : 'mdf_view',
-        form_url: this.axios.defaults.endpoints.deal_form.url,
-        form_action: this.axios.defaults.endpoints.deal_add.url,
+        form_url: this.axios.defaults.endpoints.mdf.form,
         main_action_onsubmit:this.submitForm,
       }
     };

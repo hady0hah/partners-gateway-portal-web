@@ -18,7 +18,7 @@
           <v-img :src="getStatus(item['status.id']).imageFile" width="30"></v-img>
         </template>
         <template v-slot:item.actions="{ item }">
-          <router-link :to="{ name: 'order_view', params: { id: item.id } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
+          <router-link :to="{ name: 'order_view', params: { id: item.id, disabled: !item.isEditable } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
         </template>
       </base-table>
     </template>
