@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <parent-form  lazy-validation :config="formConfig" >
-      <template v-slot:header-left-post-back>
-      </template>
       <template v-slot:form-sections >
         <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
 
