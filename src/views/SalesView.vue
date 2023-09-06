@@ -5,7 +5,7 @@
       <stats-status :itemCount="params" :statuses="Statuses"></stats-status>
     </template>
     <template v-slot:table-content>
-      <base-table :headers="headers" :url="axios.defaults.endpoints.deal_list.url">
+      <base-table :headers="headers" :url="axios.defaults.endpoints.deal.list">
         <template v-slot:item.programLevel="{ item }">
           <v-icon :color="ProgramLevel(item['partnerProgramLevel.id']).color" small>mdi-circle</v-icon>
         </template>
@@ -82,11 +82,9 @@ export default {
       return IconDeal
     },
     getStatus(status_id) {
-      console.log(this.Statuses.find(status => status.id === status_id))
       return this.Statuses.find(status => status.id === status_id)
     },
     getRegion(region_id) {
-      console.log(this.Regions.find(region => region.id === region_id))
       return this.Regions.find(region => region.id === region_id)
     },
     addDeal() {

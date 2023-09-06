@@ -142,9 +142,9 @@ export default {
       var endpoint = ""
       const t = this
       if (!t.baseForm.id)
-        endpoint = axios.defaults.endpoints.deal_add.url
+        endpoint = this.axios.defaults.endpoints.deal.add
       else
-        endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
+        endpoint = this.axios.defaults.endpoints.resolve(this.axios.defaults.endpoints.deal.edit, t.deal.id)
 
       ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
     },

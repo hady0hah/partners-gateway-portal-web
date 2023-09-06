@@ -1,9 +1,9 @@
 <template>
-  <form-collection :fields="fields" :key="tableChangeDetector" v-model="items">
+  <form-collection :fields="fields" :key="tableChangeDetector" v-model="$attrs.value">
     <template v-slot:collection-item="{ fields, item, index }">
       <v-row>
         <v-col class="col-12 col-md-4">
-          <form-field :field="fields['name']" :form_name="form_name" outlined v-bind:value="item.name" v-on:input="onInput($event, index, 'name')">
+          <form-field :field="fields['name']" :form_name="form_name" v-bind:value="item.name" v-on:input="onInput($event, index, 'name')">
           </form-field>
           <form-field :field="fields['customer']" :form_name="form_name" v-bind:value="item.customer" v-on:input="onInput($event, index, 'customer')">
           </form-field>
@@ -11,36 +11,9 @@
           </form-field>
           <form-field :field="fields['country']" :form_name="form_name" outlined v-bind:value="item.country" v-on:input="onInput($event, index, 'country')">
           </form-field>
-        </v-col>
-        <v-col class="col-12 col-md-4">
-          <table style="margin-top: 15px" class="products-table">
-            <thead>
-              <tr>
-                <th>{{ fields['reviewProducts']['fields']['product'].label }}</th>
-                <th>{{ fields['reviewProducts']['fields']['quantity'].label }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(tableitem, tableindex) in item.reviewProducts" :key="tableindex">
-                <td>
-                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['product'],index),tableindex)" :form_name="form_name"
-                    outlined v-bind:value="tableitem.product" v-on:input="onInputTable($event, index, tableindex, 'product')"></form-field>
-                </td>
-                <td style="padding: 5px">
-                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['quantity'],index),tableindex)" :form_name="form_name"
-                    outlined v-bind:value="tableitem.quantity" v-on:input="onInputTable($event, index, tableindex, 'quantity')"></form-field>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td><button type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addTableItem(index)">ADD MORE</button></td>
-              </tr>
-            </tfoot>
-          </table>
-        </v-col>
-        <v-col class="col-12 col-md-4">
           <yes-no-other v-bind="fields['dealRegistrationOption']" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')"></yes-no-other>
+        </v-col>
+        <v-col class="col-12 col-md-4">
           <form-field :field="fields['stage']" :form_name="form_name" outlined v-bind:value="item.stage" v-on:input="onInput($event, index, 'stage')"></form-field>
           <date-picker v-bind="fields['closeDate']" outlined v-bind:value="item.closeDate" v-on:input="onInput($event, index, 'closeDate')"></date-picker>
           <table>
@@ -55,6 +28,33 @@
             </tr>
           </table>
           <form-field :field="fields['remarks']" :form_name="form_name" outlined v-bind:value="item.remarks" v-on:input="onInput($event, index, 'remarks')"></form-field>
+        </v-col>
+        <v-col class="col-12 col-md-4">
+          <table style="margin-top: 15px" class="products-table">
+            <thead>
+              <tr>
+                <th>{{ fields['reviewProducts']['fields']['product'].label }}</th>
+                <th>{{ fields['reviewProducts']['fields']['quantity'].label }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(tableitem, tableindex) in item.reviewProducts" :key="tableindex">
+                <td>
+                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['product'],index),tableindex)" :form_name="form_name"
+                    v-bind:value="tableitem.product" v-on:input="onInputTable($event, index, tableindex, 'product')"></form-field>
+                </td>
+                <td style="padding: 5px">
+                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['quantity'],index),tableindex)" :form_name="form_name"
+                    v-bind:value="tableitem.quantity" v-on:input="onInputTable($event, index, tableindex, 'quantity')"></form-field>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"><button type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addTableItem(index)">ADD MORE</button></td>
+              </tr>
+            </tfoot>
+          </table>
         </v-col>
         <span class="horizontal-line"></span>
       </v-row>
@@ -80,32 +80,27 @@ export default {
   mixins: [CollectionMixin],
   data() {
     return {
-      items: this.$attrs.value?this.$attrs.value:[],
-      tableRows: this.$attrs.value?this.$attrs.value:[{}],
-      model: [],
-      radio: [],
-      date: '',
       form_name: 'forecasting_view',
       tableChangeDetector:0
     }
   },
   methods: {
     onInput($event, index, fieldName) {
-      if(!(index in this.items))
-        this.items[index] = {}
-      this.items[index][fieldName] = $event
-      this.$emit('input', this.items)
+      if(!(index in this.$attrs.value))
+        this.$attrs.value[index] = {}
+      this.$attrs.value[index][fieldName] = $event
+      this.$emit('input', this.$attrs.value)
     },
     onInputTable($event, index, tableindex, fieldName) {
       console.log($event, index, tableindex, fieldName)
     },
     addTableItem(index) {
-      if(!(index in this.items))
-        this.items[index] = {}
-      if(!('reviewProducts' in this.items[index]))
-        this.items[index]['reviewProducts'] = []
-      this.items[index]['reviewProducts'].push({});
-      this.$emit('input', this.items)
+      if(!(index in this.$attrs.value))
+        this.$attrs.value[index] = {}
+      if(!('reviewProducts' in this.$attrs.value[index]))
+        this.$attrs.value[index]['reviewProducts'] = []
+      this.$attrs.value[index]['reviewProducts'].push({});
+      this.$emit('input', this.$attrs.value)
       this.tableChangeDetector++
     },
   },

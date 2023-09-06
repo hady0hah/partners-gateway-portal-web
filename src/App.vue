@@ -31,9 +31,7 @@
       <div v-if="client" class="partner-program-level-box" :style="'background-color: '+ProgramLevel(client['partnerProgramLevel.id']).color"></div>
       <div v-if="client" class="partner-program-level-text">
         <span>a</span>
-        <span v-if="client['partnerProgramLevel.id'] == 1"> platinum </span>
-        <span v-if="client['partnerProgramLevel.id'] == 2"> gold </span>
-        <span v-if="client['partnerProgramLevel.id'] == 3"> silver </span>
+        <span style="padding: 5px;">{{ ProgramLevel(client['partnerProgramLevel.id']).label }}</span>
         <span>partner of</span>
       </div>
       <div class="partner-program-level-logo">
@@ -118,7 +116,7 @@
     </v-app-bar>
 
     <v-main>
-      <v-container fluid>
+      <v-container fluid :class="'px-6'">
         <router-view></router-view>
         <vue-progress-bar></vue-progress-bar>
       </v-container>
@@ -208,6 +206,10 @@
     methods: {
       ...mapActions(["StateSetProgramLevels"]),
 
+      // getLevelLabel(programId) {
+      //   const level = this.ProgramLevels.find(item => item.id === programId);
+      //   return level ? level.label : '';
+      // },
       loadClientProfile () {
         if (!this.User)
           return;

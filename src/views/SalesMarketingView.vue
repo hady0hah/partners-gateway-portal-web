@@ -42,11 +42,14 @@
               :items="priceLists"
               class="table"
             >
+              <template v-slot:item.level="{ item }">
+                <v-icon :color="ProgramLevel(item.level).color" small>mdi-circle</v-icon>
+              </template>
               <template v-slot:item.region="{ item }">
                 {{ item.region }}
               </template>
               <template v-slot:item.actions="{ item }">
-              <a @click="downloadFile(item)"><span style="padding: 5px">Download</span><icon-base icon-name="download"><icon-download /></icon-base></a>
+              <a @click="downloadFile(item)"><icon-base icon-name="download"><icon-download /></icon-base></a>
               </template>
             </v-data-table>
           </v-col>
@@ -119,6 +122,7 @@ export default {
     marketingMaterials: [],
     priceLists: [],
     headers: [
+      { text: 'Level', value: 'level', sortable: false,align: 'center'},
       { text: 'Region', value: 'region', sortable: false, align: 'center' },
       { text: 'Action', value: 'actions', sortable: false, align: 'center' },
     ],
@@ -156,6 +160,12 @@ export default {
       .catch(err => {
         console.log(err);
       });
+  },
+  computed: {
+    ...mapGetters({
+      ProgramLevel: "StateProgramLevel",
+
+    })
   },
   methods: {
     ...mapActions(["StateSetCountries", "StateSetMdfStatuses"]),

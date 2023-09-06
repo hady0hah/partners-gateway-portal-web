@@ -1,11 +1,11 @@
 <template>
-  <v-form ref="baseform" lazy-validation style="padding-inline: 40px" :disabled="this.disabled">
-    <v-row class="mb-4 mt-4">
+  <v-form ref="baseform" lazy-validation :disabled="config.disabled">
+    <v-row >
       <v-col class="text-left">
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
           <btn-back-component :width="buttonWidth"></btn-back-component>
-          <v-btn class="mr-4" color="primary" small elevation="0" @click="config.main_action_onsubmit">Save</v-btn>
+          <v-btn class="mr-4" color="primary" small elevation="0" @click="config.main_action_onsubmit ? config.main_action_onsubmit: submitForm">Save</v-btn>
           <slot name="header-left-post-back"></slot>
         </slot>
       </v-col>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import FormMixin from "@/mixins/FormMixin.js"
+// import FormMixin from "@/mixins/FormMixin.js"
 import eventBus from "@/eventBus";
 
 import BtnBackComponent from "@/components/BtnBackComponent";
@@ -50,15 +50,18 @@ export default {
     BtnBackComponent,
     FormSection
   },
-  mixins: [FormMixin],
+  // mixins: [FormMixin],
   props: {
     config: {
       default: () =>{
         return {
           form_name : null,
           form_url: null,
-          form_action: null,
+          form_add: null,
+          form_edit: null,
+          form_data: null,
           main_action_onsubmit:null,
+          disabled: false
         }
       },
       type: Object
@@ -68,6 +71,7 @@ export default {
   },
   data() {
     return {
+      objectid: null,
       buttonWidth: "30px",
       form:{},
       model: {},
@@ -79,17 +83,30 @@ export default {
     this.$Progress.start()
     this.axios.get(this.config.form_url, {})
       .then(function (response) {
-        t.$Progress.finish()
         t.form = response.data.data
         eventBus.$emit('form-received', t.form);
+        if(t.objectid){
+          t.axios.get(t.config.form_data, {})
+            .then(function (response) {
+              t.model = response.data.data
+              eventBus.$emit('data-received', t.model);
+              t.$Progress.finish()
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          t.$Progress.finish()
+        }
       })
       .catch(err => {
         console.log(err);
       });
   },
   created() {
-    // console.log(this)
     this.disabled = this.$route.params.disabled
+    this.objectid = this.$route.params.id?this.$route.params.id:null
+    
   },
   methods: {
     submitForm() {
@@ -101,7 +118,7 @@ export default {
       const t = this
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
-      this.axios.post(this.config.form_action,formdata)
+      this.axios.post(this.config.form_add,formdata)
         .then(function (response) {
           t.$Progress.finish()
           console.log(response)
