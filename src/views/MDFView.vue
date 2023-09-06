@@ -1,6 +1,6 @@
 <template>
 
-  <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :form_name="'mdf_view'" >
+  <parent-form  lazy-validation :config="formConfig" ref="formRef" v-model="model" >
     <template v-slot:header-left-post-back>
     </template>
     <template v-slot:form-sections >
@@ -32,21 +32,21 @@
                     </date-picker></td></tr></tbody>
                 </table>
                 <form-field
-                  :field="section.fields['products']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['products']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
                 <form-field
-                  :field="section.fields['description']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['description']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
               </v-col>
               <v-col class="col-12 col-md-4">
                 <form-field
-                  :field="section.fields['outreach']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['outreach']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
                 <form-field
-                  :field="section.fields['targetLeadsNb']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['targetLeadsNb']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
                 <form-field
-                  :field="section.fields['additionalInfo']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['additionalInfo']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
               </v-col>
             </v-row>
@@ -58,10 +58,10 @@
                   <thead><tr><th>{{ section.fields['resourceAllocation']['fields']['resouce_allocation'].label }}</th>
                     <th>{{section.fields['resourceAllocation']['fields']['amount'].label }}</th></tr></thead>
                   <tbody ><tr><td style="width: 450px">
-                    <form-field :field="section.fields['resourceAllocation']['fields']['resouce_allocation']" :form="form" :form_name="form_name" outlined>
+                    <form-field :field="section.fields['resourceAllocation']['fields']['resouce_allocation']" :form="form" :form_name="formConfig.form_name" outlined>
                     </form-field></td><td style="padding: 5px;">
                     <form-field
-                      :field="section.fields['resourceAllocation']['fields']['amount']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['resourceAllocation']['fields']['amount']" :form="form" :form_name="formConfig.form_name" outlined>
                     </form-field>
                   </td></tr></tbody>
                 </table>
@@ -69,13 +69,13 @@
               </v-col>
               <v-col class="col-12 col-md-5">
                 <form-field
-                  :field="section.fields['totalAmount']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['totalAmount']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
                 <form-field
-                  :field="section.fields['percentageActivity']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['percentageActivity']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
                 <form-field
-                  :field="section.fields['additionalComments']" :form="form" :form_name="form_name" outlined>
+                  :field="section.fields['additionalComments']" :form="form" :form_name="formConfig.form_name" outlined>
                 </form-field>
               </v-col>
             </v-row>
@@ -110,6 +110,13 @@ export default {
   data() {
     return {
       response : [],
+      model: {},
+      formConfig: {
+        form_name : 'mdf_view',
+        form_url: this.axios.defaults.endpoints.deal_form.url,
+        form_action: this.axios.defaults.endpoints.deal_add.url,
+        main_action_onsubmit:this.submitForm,
+      }
     };
   },
   created() {
