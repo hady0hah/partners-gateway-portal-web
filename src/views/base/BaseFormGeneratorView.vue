@@ -5,7 +5,7 @@
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
           <btn-back-component :width="buttonWidth"></btn-back-component>
-          <v-btn class="mr-4" color="primary" small elevation="0" @click="config.main_action_onsubmit ? config.main_action_onsubmit: submitForm">Save</v-btn>
+          <v-btn class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm() }">Save</v-btn>
           <slot name="header-left-post-back"></slot>
         </slot>
       </v-col>
@@ -104,21 +104,30 @@ export default {
       });
   },
   created() {
-    this.disabled = this.$route.params.disabled
+    this.config.disabled = this.$route.params.disabled
     this.objectid = this.$route.params.id?this.$route.params.id:null
-    
+
   },
   methods: {
     submitForm() {
+      console.log('submitted')
       const form = this.$refs.baseform
 
       // if (!form.validate())
       //   return
+      console.log(this.id)
 
       const t = this
+      let formUrl = null
+      if(t.objectid){
+         formUrl = this.config.form_edit
+      }else{
+         formUrl = this.config.form_add
+      }
+      console.log(formUrl)
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
-      this.axios.post(this.config.form_add,formdata)
+      this.axios.post(formUrl,formdata)
         .then(function (response) {
           t.$Progress.finish()
           console.log(response)

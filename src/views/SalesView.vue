@@ -25,7 +25,7 @@
           {{ getRegion(item['region.id']).name }}
         </template>
         <template v-slot:item.actions="{ item }">
-          <router-link :to="'/deal/' + item.id"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
+          <router-link :to="{ name: 'deal_view', params: { id: item.id, disabled: !item.isEditable } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
         </template>
       </base-table>
     </template>

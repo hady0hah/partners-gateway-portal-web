@@ -1,40 +1,33 @@
 <template>
-  <div class="container">
-    <parent-form  lazy-validation :config="formConfig" >
-      <template v-slot:form-sections >
-        <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
+    <parent-form  lazy-validation :config="formConfig" ref="formRef">
+      <template v-slot:section-fields="{ section }" >
 
-          <div class="container">
-            <div v-if="section.label" class="mb-4" style="padding: 10px;font-weight: bold;color: #205023" >
-              <p>{{ section.label }}</p>
-            </div>
-            <div v-if="section.description" class="mb-4">
-              <h3>{{ section.description }}</h3>
-            </div>
+<!--            <form-field :field="field" :form_name="form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field,$event)"></form-field>-->
+
+          <div>
             <v-row class="box">
-
               <v-row v-if="section.name === 'deal_details'" >
                 <v-col class="col-12 col-md-4">
                   <form-field
-                    :field="section.fields['accountManager']" :form="form" :form_name="form_name" outlined>
+                    :field="section.fields['accountManager']"  :form_name="formConfig.form_name" outlined>
                   </form-field>
                   <form-field
-                    :field="section.fields['name']" :form="form" :form_name="form_name" >
+                    :field="section.fields['name']"  :form_name="formConfig.form_name" >
                   </form-field>
                   <form-field
-                    :field="section.fields['region']" :form="form" :form_name="form_name" outlined>
+                    :field="section.fields['region']"  :form_name="formConfig.form_name" outlined>
                   </form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
                   <form-field
-                    :field="section.fields['dealStatus']" :form="form" :form_name="form_name" outlined>
+                    :field="section.fields['dealStatus']"  :form_name="formConfig.form_name" outlined>
                   </form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
                   <date-picker v-bind="section.fields['renewal_date']" outlined>
                   </date-picker>
                   <form-field
-                    :field="section.fields['reseller']" :form="form" :form_name="form_name" >
+                    :field="section.fields['reseller']"  :form_name="formConfig.form_name" >
                   </form-field>
                 </v-col>
               </v-row>
@@ -42,7 +35,7 @@
               <v-row v-if="section.name === 'end_customer_information'" >
                 <v-col class="col-12 col-md-4">
                   <form-field
-                    :field="section.fields['contact']" :form="form" :form_name="form_name" outlined>
+                    :field="section.fields['contact']"  :form_name="formConfig.form_name" outlined>
                   </form-field>
                 </v-col>
               </v-row>
@@ -51,42 +44,42 @@
                 <v-row>
                   <v-col class="col-12 col-md-4">
                     <form-field
-                      :field="section.fields['opportunity_desc']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['opportunity_desc']"  :form_name="formConfig.form_name" outlined>
                     </form-field>
                     <form-field
-                      :field="section.fields['budget']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['budget']"  :form_name="formConfig.form_name" outlined>
                     </form-field>
                     <form-field
-                      :field="section.fields['product']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['product']"  :form_name="formConfig.form_name" outlined>
                     </form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
                     <date-picker v-bind="section.fields['startDate']" outlined>
                     </date-picker>
                     <form-field
-                      :field="section.fields['initiated_by']" :form="form" :form_name="form_name" >
+                      :field="section.fields['initiated_by']"  :form_name="formConfig.form_name" >
                     </form-field>
                     <date-picker v-bind="section.fields['lastMeetingDate']" outlined>
                     </date-picker>
                     <v-yes-no-other v-bind="section.fields['technicalPresentationOption']">
                     </v-yes-no-other>
                     <form-field
-                      :field="section.fields['quantity']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['quantity']"  :form_name="formConfig.form_name" outlined>
                     </form-field>
                     <form-field
-                      :field="section.fields['competitors']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['competitors']"  :form_name="formConfig.form_name" outlined>
                     </form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
                     <form-field
-                      :field="section.fields['otherOption']" :form="form" :form_name="form_name" >
+                      :field="section.fields['otherOption']"  :form_name="formConfig.form_name" >
                     </form-field>
 
                     <form-field
-                      :field="section.fields['dealOS']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['dealOS']"  :form_name="formConfig.form_name" outlined>
                     </form-field>
                     <form-field
-                      :field="section.fields['notes']" :form="form" :form_name="form_name" outlined>
+                      :field="section.fields['notes']"  :form_name="formConfig.form_name" outlined>
                     </form-field>
                   </v-col>
                 </v-row>
@@ -95,10 +88,8 @@
 
             </v-row>
           </div>
-        </v-row>
       </template>
     </parent-form>
-  </div>
 </template>
 
 <script>
@@ -118,7 +109,7 @@ export default {
     ParentForm,
     // DealStatus,
   },
-  mixins: [ParentForm],
+  // mixins: [ParentForm],
   data() {
     return {
       formConfig: {
@@ -126,8 +117,8 @@ export default {
         form_url: this.axios.defaults.endpoints.deal.form,
         form_add: this.axios.defaults.endpoints.deal.add,
         form_edit: this.axios.defaults.endpoints.deal.edit,
-        form_show: this.axios.defaults.endpoints.deal.show,
-        disabled: false
+        form_data: this.axios.defaults.endpoints.deal.show,
+        disabled: false,
       }
     };
   },

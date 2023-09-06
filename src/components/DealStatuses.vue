@@ -3,7 +3,6 @@
       v-model="model"
       v-on:change="valueChange()"
       item-text="label"
-      return-object
       v-bind="$attrs"
     >
       <template v-slot:item="{ item }">
