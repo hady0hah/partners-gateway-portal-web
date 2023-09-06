@@ -115,11 +115,19 @@ export default {
 
       // if (!form.validate())
       //   return
+      console.log(this.id)
 
       const t = this
+      let formUrl = null
+      if(t.objectid){
+         formUrl = this.config.form_edit
+      }else{
+         formUrl = this.config.form_add
+      }
+      console.log(formUrl)
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
-      this.axios.post(this.config.form_add,formdata)
+      this.axios.post(formUrl,formdata)
         .then(function (response) {
           t.$Progress.finish()
           console.log(response)
