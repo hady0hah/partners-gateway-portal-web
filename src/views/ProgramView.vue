@@ -27,8 +27,8 @@ export default {
       model: {},
       formConfig: {
         form_name : 'program_view',
-        form_url: this.axios.defaults.endpoints.deal_form.url,
-        form_action: this.axios.defaults.endpoints.deal_add.url,
+        form_url: this.axios.defaults.endpoints.deal.form,
+        form_action: this.axios.defaults.endpoints.deal.add,
         main_action_onsubmit:this.submitForm,
       }
     };

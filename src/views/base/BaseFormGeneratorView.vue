@@ -5,7 +5,7 @@
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
           <btn-back-component :width="buttonWidth"></btn-back-component>
-          <v-btn class="mr-4" color="primary" small elevation="0" @click="config.main_action_onsubmit">Save</v-btn>
+          <v-btn class="mr-4" color="primary" small elevation="0" @click="config.main_action_onsubmit ? config.main_action_onsubmit: submitForm">Save</v-btn>
           <slot name="header-left-post-back"></slot>
         </slot>
       </v-col>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import FormMixin from "@/mixins/FormMixin.js"
+// import FormMixin from "@/mixins/FormMixin.js"
 import eventBus from "@/eventBus";
 
 import BtnBackComponent from "@/components/BtnBackComponent";
@@ -50,14 +50,16 @@ export default {
     BtnBackComponent,
     FormSection
   },
-  mixins: [FormMixin],
+  // mixins: [FormMixin],
   props: {
     config: {
       default: () =>{
         return {
           form_name : null,
           form_url: null,
-          form_action: null,
+          form_add: null,
+          form_edit: null,
+          form_data: null,
           main_action_onsubmit:null,
           disabled: false
         }
@@ -116,7 +118,7 @@ export default {
       const t = this
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
-      this.axios.post(this.config.form_action,formdata)
+      this.axios.post(this.config.form_add,formdata)
         .then(function (response) {
           t.$Progress.finish()
           console.log(response)

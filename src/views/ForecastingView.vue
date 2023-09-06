@@ -20,9 +20,8 @@ export default {
       formConfig: {
         form_name : 'forecasting_view',
         form_url: this.axios.defaults.endpoints.forecasting.form,
-        form_action: this.axios.defaults.endpoints.forecasting.add,
+        form_add: this.axios.defaults.endpoints.forecasting.add,
         form_data: this.axios.defaults.endpoints.forecasting.show,
-        main_action_onsubmit:this.submitForm,
         disabled: false
       }
     };
