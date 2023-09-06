@@ -1,69 +1,42 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :config="formConfig"  ref="formRef" >
-      <template v-slot:header-left-post-back>
-        <!--        <v-btn class="mr-4" color="primary" small elevation="0" @click="submitForm">Save</v-btn>-->
-      </template>
-    </parent-form>
+    <parent-form lazy-validation :config="formConfig" ref="formRef"></parent-form>
   </div>
 </template>
 
 <script>
 import ParentForm from '../views/base/BaseFormGeneratorView.vue';
-import eventBus from '@/eventBus.js';
 import ComponentMapper from "@/components/ComponentMapper";
 import VForecastingForm from "@/components/VForecastingForm";
-import VCollectionNameField from "@/components/VCollectionNameField";
 
 export default {
   components: {
-    VCollectionNameField,
     ParentForm
   },
   mixins: [ParentForm],
   data() {
     return {
-      response : [],
-
+      objectid: null,
       formConfig: {
         form_name : 'forecasting_view',
         form_url: this.axios.defaults.endpoints.forecasting.form,
-        form_action: this.axios.defaults.endpoints.deal_add.url,
-        main_action_onsubmit:this.submitForm,
+        form_add: this.axios.defaults.endpoints.forecasting.add,
+        form_data: this.axios.defaults.endpoints.forecasting.show,
+        disabled: false
       }
     };
   },
   created() {
     ComponentMapper.addMapping('forecasting_view|opportunities',{'component': VForecastingForm})
-    // ComponentMapper.addMapping('forecasting_view|name',{'component': VCollectionNameField})
+    this.objectid = this.$route.params.id?this.$route.params.id:null
+    if(this.objectid) {
+      this.formConfig.form_data = this.axios.defaults.endpoints.resolve(this.formConfig.form_data, { id: this.objectid })
+      this.formConfig.disabled = true
+    }
   },
   mounted() {
-    const t = this
-    this.$Progress.start()
-    this.axios.get(this.axios.defaults.endpoints.forecasting.form, {})
-      .then(function (response) {
-        t.$Progress.finish()
-        t.response = response.data.data
-        t.sendForm()
-      })
-      .catch(err => {
-        console.log(err);
-      });
   },
   methods: {
-    sendForm(){
-      eventBus.$emit('form-received', this.response);
-    },
-    submitForm() {
-      var endpoint = ""
-      const t = this
-      if (!t.baseForm.id)
-        endpoint = axios.defaults.endpoints.deal_add.url
-      else
-        endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
-
-      ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
-    },
   },
 };
 </script>

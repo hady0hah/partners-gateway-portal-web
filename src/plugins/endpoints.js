@@ -2,21 +2,15 @@ let endpoints = {
     'po_list': {
         'url': 'private/po/list'
     },
-    'deal_list': {
-        'url': 'private/deals/list'
-    },
     'marketing_statuses': {
         'url': 'private/formstatus/list'
     }
     ,
-    'deal_form': {
-        'url': 'private/form/deal'
-    },
-    'deal_add': {
-        'url': 'private/deal/add'
-    },
-    'deal_edit': {
-        'url': 'private/deals/edit?id='
+    'deal': {
+        'list' : 'private/deals/list',
+        'form': 'private/form/deal',
+        'add': 'private/deal/add',
+        'edit': 'private/deals/edit?id=:id'
     },
     'po': {
         'form': 'private/form/po'
@@ -25,6 +19,7 @@ let endpoints = {
         'list': 'private/fr/list',
         'form': 'private/form/business/review/forecasting',
         'add': 'private/form/business/review/forecasting',
+        'show': 'private/fr/:id/show'
     },
     'qbr': {
         'list': 'private/qb/list',
@@ -46,9 +41,16 @@ let endpoints = {
     'products_technical': {
         'url': 'private/product_materials/list'
     },
-    'mdf' : {
-      'form' : 'private/form/mdf'
-  },
+    'mdf': {
+        'form': 'private/form/mdf'
+    },
+    resolve(url, params) {
+        let _url = url
+        for (let [k, v] of Object.entries(params)) {
+            _url = _url.replace(':' + k, v)
+        }
+        return _url
+    },
 }
 
 export default endpoints

@@ -1,6 +1,6 @@
 <template>
-  <v-row>
-    <v-col v-for="item, index in items" :key="index" class="col-12">
+  <v-row :key="tableChangeDetector">
+    <v-col v-for="item, index in $attrs.value" :key="index" class="col-12">
       <slot name="collection-item" v-bind:fields="updateFields(fields, index)" v-bind:item="item" v-bind:index="index">
         <form-section :section="{ 'fields': fields }" v-bind:value="item"
           v-on:input="onInput($event, index)"></form-section>
@@ -20,20 +20,26 @@ export default {
   props: ['fields'],
   data() {
     return {
-      items: this.$attrs.value ? this.$attrs.value : []
+      tableChangeDetector: 0
     }
   },
   mixins: [CollectionMixin],
   components: {
     FormSection: () => import('./FormSection.vue')
   },
+  created() {
+  },
   methods: {
     addItem() {
-      this.items.push({});
+      if(!this.$attrs.value)
+          this.$attrs.value=[]
+      this.$attrs.value.push({});
+      this.$emit('input', this.$attrs.value)
+      this.tableChangeDetector++
     },
     onInput($event, index) {
-      this.items[index] = $event
-      this.$emit('input', this.items)
+      this.$attrs.value[index] = $event
+      this.$emit('input', this.$attrs.value)
     }
   }
 }
