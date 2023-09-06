@@ -20,8 +20,10 @@ export default {
   methods : {
   },
   created() {
-    this.model = moment(this.$attrs.value.date).format('YYYY-MM-DD')
-    this.$emit('input', this.model)
+    if (this.$attrs.value && 'date' in this.$attrs.value) {
+      this.model = moment(this.$attrs.value.date).format('YYYY-MM-DD')
+      this.$emit('input', this.model)
+    }
   }
 }
 </script>
