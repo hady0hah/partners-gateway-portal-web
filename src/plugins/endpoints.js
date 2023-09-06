@@ -2,21 +2,15 @@ let endpoints = {
     'po_list': {
         'url': 'private/po/list'
     },
-    'deal_list': {
-        'url': 'private/deals/list'
-    },
     'marketing_statuses': {
         'url': 'private/formstatus/list'
     }
     ,
-    'deal_form': {
-        'url': 'private/form/deal'
-    },
-    'deal_add': {
-        'url': 'private/deal/add'
-    },
-    'deal_edit': {
-        'url': 'private/deals/edit?id='
+    'deal': {
+        'list' : 'private/deals/list',
+        'form': 'private/form/deal',
+        'add': 'private/deal/add',
+        'edit': 'private/deals/edit?id=:id'
     },
     'po': {
         'form': 'private/form/po'

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation :main_action_onsubmit="submitForm" ref="formRef" :form_name="'deal_view'" >
+    <parent-form  lazy-validation :config="formConfig" >
       <template v-slot:header-left-post-back>
       </template>
       <template v-slot:form-sections >
@@ -105,12 +105,12 @@
 
 <script>
 import ParentForm from '../views/base/BaseFormGeneratorView.vue';
-import eventBus from '@/eventBus.js';
+// import eventBus from '@/eventBus.js';
 import FormField from "@/components/FormField";
-import DealStatus from "@/components/DealStatuses";
+// import DealStatus from "@/components/DealStatuses";
 import DatePicker from "@/components/DatePicker";
 import VYesNoOther from "@/components/VYesNoOther";
-import ComponentMapper from "@/components/ComponentMapper";
+// import ComponentMapper from "@/components/ComponentMapper";
 
 export default {
   components: {
@@ -118,41 +118,26 @@ export default {
     DatePicker,
     FormField,
     ParentForm,
-    DealStatus,
+    // DealStatus,
   },
   mixins: [ParentForm],
   data() {
     return {
-      response : [],
+      formConfig: {
+        form_name : 'deal_view',
+        form_url: this.axios.defaults.endpoints.deal.form,
+        form_add: this.axios.defaults.endpoints.deal.add,
+        form_edit: this.axios.defaults.endpoints.deal.edit,
+        form_show: this.axios.defaults.endpoints.deal.show,
+        disabled: false
+      }
     };
   },
+  created() {
+  },
   mounted() {
-    const t = this
-    this.$Progress.start()
-    this.axios.get(axios.defaults.endpoints.deal_form.url, {})
-      .then(function (response) {
-        t.$Progress.finish()
-        t.response = response.data.data
-        t.sendForm()
-      })
-      .catch(err => {
-        console.log(err);
-      });
   },
   methods: {
-    sendForm(){
-      eventBus.$emit('form-received', this.response);
-    },
-    submitForm() {
-      var endpoint = ""
-      const t = this
-      if (!t.baseForm.id)
-        endpoint = axios.defaults.endpoints.deal_add.url
-      else
-        endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
-
-      ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
-    },
   },
 };
 </script>
