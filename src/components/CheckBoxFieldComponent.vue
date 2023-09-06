@@ -16,7 +16,6 @@ export default {
   props : ['field','form_name'],
   mixins : [FormMixin],
   created() {
-    console.log(this.$attrs['v-bind']['choices'])
   },
   data() {
     return {
