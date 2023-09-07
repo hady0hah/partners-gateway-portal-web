@@ -1,53 +1,45 @@
 <template>
 
-  <parent-form  lazy-validation :config="formConfig" ref="formRef" v-model="model" >
-    <template v-slot:header-left-post-back>
-    </template>
-    <template v-slot:form-sections >
-      <v-row class="box mt-15" v-for="section, i in form.form" :key="i">
+  <parent-form  lazy-validation :config="formConfig" ref="formRef">
+    <template v-slot:form-sections="{ form }" >
+      <v-col class="box col-12" v-for="(section, i) in form.form" :key="i">
+        <form-section  :section="section">
+          <template v-slot:section-fields="{ section }"  >
 
-        <div class="container">
-          <div v-if="section.label" class="mb-4" style="padding: 10px;font-weight: bold;color: #205023" >
-            <p>{{ section.label }}</p>
-          </div>
-          <div v-if="section.description" class="mb-4">
-            <h3>{{ section.description }}</h3>
-          </div>
-          <v-row class="box">
-
+            <v-row class="box">
             <v-row v-if="section.name === 'section_1'" >
               <v-col class="col-12 col-md-4">
-                <date-picker v-bind="section.fields['created']" outlined>
+                <date-picker v-bind="section.fields['created']"  v-bind:value="section.fields['created'].date" v-on:input="onInput(section.fields['created'],$event)" outlined>
                 </date-picker>
                 <check-box-field-component
-                  :v-bind="section.fields['activities']"  outlined>
+                  v-bind="section.fields['activities']"  v-bind:value="section.fields['activities'].date" v-on:input="onInput(section.fields['activities'],$event)" outlined>
                 </check-box-field-component>
               </v-col>
               <v-col class="col-12 col-md-4">
                 <table  >
                   <tbody ><tr><td  >
-                    <date-picker v-bind="section.fields['startDate']" outlined>
+                    <date-picker v-bind="section.fields['startDate']"  v-bind:value="section.fields['startDate'].date" v-on:input="onInput(section.fields['startDate'],$event)" outlined>
                     </date-picker></td><td >
-                    <date-picker v-bind="section.fields['endDate']" outlined>
+                    <date-picker v-bind="section.fields['endDate']"  v-bind:value="section.fields['endDate'].date" v-on:input="onInput(section.fields['endDate'],$event)" outlined>
                     </date-picker></td></tr></tbody>
                 </table>
-                <form-field
-                  :field="section.fields['products']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
-                <form-field
-                  :field="section.fields['description']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
+                <form-field :field="section.fields['products']" :form_name="formConfig.form_name"
+                            v-bind:value="getFieldValue(section.fields['products'])" v-on:input="onInput(section.fields['products'],$event)" outlined
+                ></form-field>
+                <form-field :field="section.fields['description']" :form_name="formConfig.form_name"
+                            v-bind:value="getFieldValue(section.fields['description'])" v-on:input="onInput(section.fields['description'],$event)"
+                ></form-field>
               </v-col>
               <v-col class="col-12 col-md-4">
-                <form-field
-                  :field="section.fields['outreach']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
-                <form-field
-                  :field="section.fields['targetLeadsNb']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
-                <form-field
-                  :field="section.fields['additionalInfo']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
+                <form-field :field="section.fields['outreach']" :form_name="formConfig.form_name"
+                            v-bind:value="getFieldValue(section.fields['outreach'])" v-on:input="onInput(section.fields['outreach'],$event)" outlined
+                ></form-field>
+                <form-field :field="section.fields['targetLeadsNb']" :form_name="formConfig.form_name"
+                            v-bind:value="getFieldValue(section.fields['targetLeadsNb'])" v-on:input="onInput(section.fields['targetLeadsNb'],$event)" outlined
+                ></form-field>
+                <form-field :field="section.fields['additionalInfo']" :form_name="formConfig.form_name"
+                                          v-bind:value="getFieldValue(section.fields['additionalInfo'])" v-on:input="onInput(section.fields['additionalInfo'],$event)" outlined
+              ></form-field>
               </v-col>
             </v-row>
 
@@ -55,34 +47,40 @@
               <v-col class="col-12 col-md-5">
 
                 <table >
-                  <thead><tr><th>{{ section.fields['resourceAllocation']['fields']['resouce_allocation'].label }}</th>
-                    <th>{{section.fields['resourceAllocation']['fields']['amount'].label }}</th></tr></thead>
+                  <thead><tr>
+                    <th>{{ section.fields['resourceAllocation']['fields']['resouce_allocation'].label }}</th>
+                    <th>{{section.fields['resourceAllocation']['fields']['amount'].label }}</th>
+                  </tr></thead>
                   <tbody ><tr><td style="width: 450px">
-                    <form-field :field="section.fields['resourceAllocation']['fields']['resouce_allocation']" :form="form" :form_name="formConfig.form_name" outlined>
-                    </form-field></td><td style="padding: 5px;">
-                    <form-field
-                      :field="section.fields['resourceAllocation']['fields']['amount']" :form="form" :form_name="formConfig.form_name" outlined>
-                    </form-field>
+                    <form-field :field="section.fields['resourceAllocation']['fields']['resouce_allocation']" :form_name="formConfig.form_name"
+                                v-bind:value="getFieldValue(section.fields['resourceAllocation']['fields']['resouce_allocation'])" v-on:input="onInput(section.fields['resourceAllocation']['fields']['resouce_allocation'],$event)" outlined
+                    ></form-field>
+
+                  </td><td style="padding: 5px;">
+                    <form-field :field="section.fields['resourceAllocation']['fields']['amount']" :form_name="formConfig.form_name"
+                                v-bind:value="getFieldValue(section.fields['resourceAllocation']['fields']['amount'])" v-on:input="onInput(section.fields['resourceAllocation']['fields']['amount'],$event)" outlined
+                    ></form-field>
                   </td></tr></tbody>
                 </table>
 
               </v-col>
               <v-col class="col-12 col-md-5">
-                <form-field
-                  :field="section.fields['totalAmount']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
-                <form-field
-                  :field="section.fields['percentageActivity']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
-                <form-field
-                  :field="section.fields['additionalComments']" :form="form" :form_name="formConfig.form_name" outlined>
-                </form-field>
+                <form-field :field="section.fields['totalAmount']" :form_name="formConfig.form_name"
+                            v-bind:value="getFieldValue(section.fields['totalAmount'])" v-on:input="onInput(section.fields['totalAmount'],$event)" outlined
+                ></form-field>
+                <form-field :field="section.fields['percentageActivity']" :form_name="formConfig.form_name"
+                            v-bind:value="getFieldValue(section.fields['percentageActivity'])" v-on:input="onInput(section.fields['percentageActivity'],$event)" outlined
+                ></form-field>
+                <form-field :field="section.fields['additionalComments']" :form_name="formConfig.form_name"
+                            v-bind:value="getFieldValue(section.fields['additionalComments'])" v-on:input="onInput(section.fields['additionalComments'],$event)" outlined
+                ></form-field>
               </v-col>
             </v-row>
 
           </v-row>
-        </div>
-      </v-row>
+          </template>
+        </form-section>
+      </v-col>
     </template>
   </parent-form>
 </template>
@@ -96,6 +94,7 @@ import DealStatus from "@/components/DealStatuses";
 import DatePicker from "@/components/DatePicker";
 import VYesNoOther from "@/components/VYesNoOther";
 import CheckBoxFieldComponent from "@/components/CheckBoxFieldComponent";
+import FormSection from "@/components/FormSection";
 
 export default {
   components: {
@@ -105,6 +104,7 @@ export default {
     DatePicker,
     FormField,
     DealStatus,
+    FormSection,
   },
   mixins: [ParentForm],
   data() {
@@ -137,6 +137,19 @@ export default {
       });
   },
   methods: {
+    getFieldValue(field) {
+      if(!this.$attrs.value)
+        this.$attrs.value = {}
+      if(!(field.name in this.$attrs.value))
+        this.$attrs.value[field.name] = null
+      return this.$attrs.value[field.name]
+    },
+    onInput($event, index, fieldName) {
+      if(!(index in this.$attrs.value))
+        this.$attrs.value[index] = {}
+      this.$attrs.value[index][fieldName] = $event
+      this.$emit('input', this.$attrs.value)
+    },
     sendForm(){
       eventBus.$emit('form-received', this.response);
     },
@@ -153,3 +166,11 @@ export default {
   },
 };
 </script>
+<style>
+.products-table th,
+.products-table td {
+  border-bottom: 1px solid #E0E0E0;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+</style>
