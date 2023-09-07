@@ -20,13 +20,14 @@ let endpoints = {
     'forecasting': {
         'list': 'private/fr/list',
         'form': 'private/form/business/review/forecasting',
-        'add': 'private/form/business/review/forecasting',
+        'add': 'private/fr/add',
         'show': 'private/fr/:id/show'
     },
     'qbr': {
         'list': 'private/qb/list',
         'form': 'private/form/business/review/quarterly',
-        'add': 'private/form/business/review/quarterly',
+        'add': 'private/qb/add',
+        'show': 'private/qb/:id/show'
     },
     'how_to': {
         'url': 'private/how-to-guides'

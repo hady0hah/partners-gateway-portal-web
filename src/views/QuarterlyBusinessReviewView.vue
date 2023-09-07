@@ -20,8 +20,9 @@ export default {
       formConfig: {
         form_name : 'QBR_view',
         form_url: this.axios.defaults.endpoints.qbr.form,
-        form_action: this.axios.defaults.endpoints.qbr.add,
-        main_action_onsubmit:this.submitForm,
+        form_add: this.axios.defaults.endpoints.qbr.add,
+        form_data: this.axios.defaults.endpoints.qbr.show,
+        disabled: false
       }
     };
   },
