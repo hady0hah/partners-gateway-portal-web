@@ -10,8 +10,8 @@ let endpoints = {
         'list' : 'private/deals/list',
         'form': 'private/form/deal',
         'add': 'private/deal/add',
-        'edit': 'private/deals/edit?id=',
-        'show': 'private/deals/show?id='
+        'edit': 'private/deals/edit?id=:id',
+        'show': 'private/deals/show?id=:id'
     },
     'po': {
         'form': 'private/form/po'
@@ -43,7 +43,10 @@ let endpoints = {
         'url': 'private/product_materials/list'
     },
     'mdf': {
-        'form': 'private/form/mdf'
+        'form': 'private/form/mdf',
+        'add' : 'private/mdf/save',
+        'edit' : 'private/mdf/:id/edit',
+        'show' : 'private/mdf/:id/show',
     },
     resolve(url, params) {
         let _url = url

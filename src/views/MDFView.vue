@@ -114,7 +114,10 @@ export default {
       formConfig: {
         form_name : 'mdf_view',
         form_url: this.axios.defaults.endpoints.mdf.form,
-        main_action_onsubmit:this.submitForm,
+        form_add: this.axios.defaults.endpoints.mdf.add,
+        form_edit: this.axios.defaults.endpoints.mdf.edit,
+        form_data: this.axios.defaults.endpoints.mdf.show,
+        disabled: false,
       }
     };
   },
