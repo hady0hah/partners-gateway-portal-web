@@ -25,7 +25,7 @@
         <div v-html="form.description"></div>
       </v-col>
 
-      <slot name="form-sections">
+      <slot name="form-sections" v-bind:form="form">
       <v-col class="box col-12" v-for="section, i in form.form" :key="i">
         <form-section :section="section" :form_name="config.form_name" v-model="model"></form-section>
       </v-col>
