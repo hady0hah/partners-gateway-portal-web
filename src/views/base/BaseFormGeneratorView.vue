@@ -112,12 +112,10 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log('submitted')
       const form = this.$refs.baseform
 
       // if (!form.validate())
       //   return
-      console.log(this.id)
 
       const t = this
       let formUrl = null
@@ -126,7 +124,6 @@ export default {
       }else{
          formUrl = this.config.form_add
       }
-      console.log(formUrl)
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
       this.axios.post(formUrl,formdata)
