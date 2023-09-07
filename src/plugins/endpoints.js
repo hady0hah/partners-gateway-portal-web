@@ -1,7 +1,4 @@
 let endpoints = {
-    'po_list': {
-        'url': 'private/po/list'
-    },
     'marketing_statuses': {
         'url': 'private/formstatus/list'
     }
@@ -14,7 +11,11 @@ let endpoints = {
         'show': 'private/deals/show?id=:id'
     },
     'po': {
-        'form': 'private/form/po'
+      'list' : 'private/po/list',
+      'form': 'private/form/po',
+      'add': 'private/po/add',
+      'edit': 'private/po/:id/edit',
+      'show': 'private/po/:id/show'
     },
     'forecasting': {
         'list': 'private/fr/list',
