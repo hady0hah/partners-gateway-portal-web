@@ -4,7 +4,7 @@
       <stats-status :itemCount="params" :statuses="POStatuses"></stats-status>
     </template>
     <template v-slot:table-content>
-      <base-table :headers="headers" :url="axios.defaults.endpoints.po_list.url">
+      <base-table :headers="headers" :url="axios.defaults.endpoints.po.list">
         <template v-slot:item.id="{ item }">
           {{ item.id }}
         </template>
