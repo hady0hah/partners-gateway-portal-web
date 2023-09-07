@@ -10,8 +10,8 @@ let endpoints = {
         'list' : 'private/deals/list',
         'form': 'private/form/deal',
         'add': 'private/deal/add',
-        'edit': 'private/deals/edit?id=:id',
-        'show': 'private/deals/show?id=10'
+        'edit': 'private/deals/edit?id=',
+        'show': 'private/deals/show?id='
     },
     'po': {
         'form': 'private/form/po'

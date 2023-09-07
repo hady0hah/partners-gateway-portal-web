@@ -86,9 +86,10 @@ export default {
         t.form = response.data.data
         eventBus.$emit('form-received', t.form);
         if(t.objectid){
-          t.axios.get(t.config.form_data, {})
+          t.axios.get(t.config.form_data+t.objectid, {})
             .then(function (response) {
               t.model = response.data.data
+              console.log(response.data.data)
               eventBus.$emit('data-received', t.model);
               t.$Progress.finish()
             })
@@ -120,7 +121,7 @@ export default {
       const t = this
       let formUrl = null
       if(t.objectid){
-         formUrl = this.config.form_edit
+         formUrl = this.config.form_edit+t.objectid
       }else{
          formUrl = this.config.form_add
       }
