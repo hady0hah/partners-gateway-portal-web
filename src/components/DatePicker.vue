@@ -20,8 +20,14 @@ export default {
   methods : {
   },
   created() {
-    if (this.$attrs.value && 'date' in this.$attrs.value) {
-      this.model = moment(this.$attrs.value.date).format('YYYY-MM-DD')
+    if (this.$attrs.value) {
+      var d = ""
+      if(typeof this.$attrs.value == "string") {
+        d = this.$attrs.value
+      } else if('date' in this.$attrs.value) {
+        d = this.$attrs.value.date
+      }
+      this.model = moment(d).format('YYYY-MM-DD')
       this.$emit('input', this.model)
     }
   }

@@ -11,18 +11,18 @@
           </form-field>
           <form-field :field="fields['country']" :form_name="form_name" outlined v-bind:value="item.country" v-on:input="onInput($event, index, 'country')">
           </form-field>
-          <yes-no-other v-bind="fields['dealRegistrationOption']" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')"></yes-no-other>
+          <yes-no-other v-bind="fields['dealRegistrationOption']" :name="fields['dealRegistrationOption'].full_name" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')"></yes-no-other>
         </v-col>
         <v-col class="col-12 col-md-4">
           <form-field :field="fields['stage']" :form_name="form_name" outlined v-bind:value="item.stage" v-on:input="onInput($event, index, 'stage')"></form-field>
-          <date-picker v-bind="fields['closeDate']" outlined v-bind:value="item.closeDate" v-on:input="onInput($event, index, 'closeDate')"></date-picker>
+          <date-picker v-bind="fields['closeDate']" outlined :name="fields['closeDate'].full_name" v-bind:value="item.closeDate" v-on:input="onInput($event, index, 'closeDate')"></date-picker>
           <table>
             <tr>
               <td>
                 <p class="mb-4" style="color: #205023">{{ fields['amount'].label }}</p>
               </td>
               <td style="padding-left: 35px">
-                <v-text-field type="number" :field="fields['amount']" outlined v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')">
+                <v-text-field type="number" :field="fields['amount']" :name="fields['amount'].full_name"  outlined v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')">
                 </v-text-field>
               </td>
             </tr>
@@ -92,7 +92,12 @@ export default {
       this.$emit('input', this.$attrs.value)
     },
     onInputTable($event, index, tableindex, fieldName) {
-      console.log($event, index, tableindex, fieldName)
+      if (!(index in this.$attrs.value))
+        this.$attrs.value[index] = {}
+      if(!(tableindex in this.$attrs.value[index]['reviewProducts']))
+        this.$attrs.value[index]['reviewProducts'][tableindex] = {}
+      this.$attrs.value[index]['reviewProducts'][tableindex][fieldName] = $event
+      this.$emit('input', this.$attrs.value)
     },
     addTableItem(index) {
       if(!(index in this.$attrs.value))
