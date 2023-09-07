@@ -67,8 +67,10 @@ export default {
       formConfig: {
         form_name : 'po_view',
         form_url: this.axios.defaults.endpoints.po.form,
-        form_action: this.axios.defaults.endpoints.po.add,
-        main_action_onsubmit:this.submitForm,
+        form_add: this.axios.defaults.endpoints.po.add,
+        form_edit: this.axios.defaults.endpoints.po.edit,
+        form_data: this.axios.defaults.endpoints.po.show,
+        disabled: false,
       }
     };
   },

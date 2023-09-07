@@ -4,7 +4,7 @@
       <stats-status :itemCount="params" :statuses="POStatuses"></stats-status>
     </template>
     <template v-slot:table-content>
-      <base-table :headers="headers" :url="axios.defaults.endpoints.po_list.url">
+      <base-table :headers="headers" :url="axios.defaults.endpoints.po.list">
         <template v-slot:item.id="{ item }">
           {{ item.id }}
         </template>
@@ -18,7 +18,7 @@
           <v-img :src="getStatus(item['status.id']).imageFile" width="30"></v-img>
         </template>
         <template v-slot:item.actions="{ item }">
-          <router-link :to="{ name: 'order_view', params: { id: item.id } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
+          <router-link :to="{ name: 'order_view', params: { id: item.id, disabled: !item.isEditable } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
         </template>
       </base-table>
     </template>

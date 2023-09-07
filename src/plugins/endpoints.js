@@ -1,7 +1,4 @@
 let endpoints = {
-    'po_list': {
-        'url': 'private/po/list'
-    },
     'marketing_statuses': {
         'url': 'private/formstatus/list'
     }
@@ -10,21 +7,27 @@ let endpoints = {
         'list' : 'private/deals/list',
         'form': 'private/form/deal',
         'add': 'private/deal/add',
-        'edit': 'private/deals/edit?id=:id'
+        'edit': 'private/deals/edit?id=:id',
+        'show': 'private/deals/show?id=:id'
     },
     'po': {
-        'form': 'private/form/po'
+      'list' : 'private/po/list',
+      'form': 'private/form/po',
+      'add': 'private/po/add',
+      'edit': 'private/po/:id/edit',
+      'show': 'private/po/:id/show'
     },
     'forecasting': {
         'list': 'private/fr/list',
         'form': 'private/form/business/review/forecasting',
-        'add': 'private/form/business/review/forecasting',
+        'add': 'private/fr/add',
         'show': 'private/fr/:id/show'
     },
     'qbr': {
         'list': 'private/qb/list',
         'form': 'private/form/business/review/quarterly',
-        'add': 'private/form/business/review/quarterly',
+        'add': 'private/qb/add',
+        'show': 'private/qb/:id/show'
     },
     'how_to': {
         'url': 'private/how-to-guides'
@@ -42,7 +45,10 @@ let endpoints = {
         'url': 'private/product_materials/list'
     },
     'mdf': {
-        'form': 'private/form/mdf'
+        'form': 'private/form/mdf',
+        'add' : 'private/mdf/save',
+        'edit' : 'private/mdf/:id/edit',
+        'show' : 'private/mdf/:id/show',
     },
     resolve(url, params) {
         let _url = url
