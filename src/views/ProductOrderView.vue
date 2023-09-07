@@ -1,51 +1,52 @@
 <template>
-  <div class="container">
-    <parent-form  lazy-validation :config="formConfig" ref="formRef" v-model="model" >
-      <template v-slot:header-left-post-back>
-      </template>
-      <template v-slot:form-sections>
-        <v-row class="box mt-15" v-for="(section, i) in form.form" :key="i">
-          <div v-if="section.label" class="mb-4" style="padding: 10px;font-weight: bold;color: #205023" >
-            <p >{{ section.label }}</p>
-          </div>
-          <div v-if="section.description" class="mb-4">
-            <h3>{{ section.description }}</h3>
-          </div>
-
-          <v-col class="col-12 col-md-5">
-            <div v-for="(field, k) in section.fields" :key="k" >
-              <div v-if="field['fields']">
-                <table style="margin-top: 50px;width: 450px" class="products-table"><thead><tr><th>{{field['fields']['product']['label'] }}</th><th>{{field['fields']['quantity']['label'] }}</th></tr></thead>
-                  <tbody ><tr><td style="width: 450px">
-                    <form-field :field="field['fields']['product']" :form="form" :form_name="formConfig.form_name" outlined>
-                    </form-field></td><td style="padding: 5px;">
-                    <form-field
-                      :field="field['fields']['quantity']" :form="form" :form_name="formConfig.form_name" outlined>
-                    </form-field></td></tr></tbody>
-                </table>
+  <parent-form  lazy-validation :config="formConfig" ref="formRef">
+    <template v-slot:form-sections="{ form }" >
+      <v-col class="box col-12" v-for="section, i in form.form" :key="i">
+        <form-section  :section="section">
+          <template v-slot:section-fields="{ section }"  >
+            <v-col class="col-12 col-md-5">
+              <div v-for="(field, k) in section.fields" :key="k" >
+                <div v-if="field['fields']">
+                  <table style="width: 450px" class="products-table"><thead><tr><th>{{field['fields']['product']['label'] }}</th><th>{{field['fields']['quantity']['label'] }}</th></tr></thead>
+                    <tbody ><tr><td style="width: 450px">
+                      <form-field :field="field['fields']['product']" :form_name="formConfig.form_name"
+                                  v-bind:value="getFieldValue(field['fields']['product'])" v-on:input="onInput(field['fields']['product'],$event)" outlined
+                      ></form-field>
+                    </td><td style="padding: 5px;">
+                      <form-field :field="field['fields']['quantity']" :form_name="formConfig.form_name"
+                                  v-bind:value="getFieldValue(field['fields']['quantity'])" v-on:input="onInput(field['fields']['quantity'],$event)" outlined
+                      ></form-field>
+                    </td></tr></tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          </v-col>
+            </v-col>
 
-          <v-col class="col-12 col-md-5">
-            <div v-if="section.fields['end_customer']" class="mb-4" style=";font-weight: bold;color: #205023" >
-              <p>{{ section.fields['end_customer'].label }}</p>
-            </div>
-            <form-field
-              style="padding: 45px"
-              :field="section.fields['end_customer']" :form="form" :form_name="formConfig.form_name" outlined>
-            </form-field>
-          </v-col>
+            <v-col class="col-12 col-md-5">
+              <div v-if="section.fields['end_customer']" class="mb-4" style=";font-weight: bold;color: #205023;margin-top: -60px" >
+                <p>{{ section.fields['end_customer'].label }}</p>
+              </div>
+              <form-field
+                style="margin-top: 65px"
+                :field="section.fields['end_customer']" :form_name="formConfig.form_name"
+                v-bind:value="getFieldValue(section.fields['end_customer'])" v-on:input="onInput(section.fields['end_customer'],$event)" outlined
+              ></form-field>
+            </v-col>
 
-          <v-col class="col-12 col-md-12">
-            <form-field
-              :field="section.fields['paymentTerms']" :form="form" :form_name="formConfig.form_name" outlined>
-            </form-field>
-          </v-col>
-        </v-row>
-      </template>
-    </parent-form>
-  </div>
+          </template>
+        </form-section>
+        <form-section  :section="section">
+          <template v-slot:section-fields="{ section }" >
+            <v-col class="col-12 col-md-12">
+                          <form-field :field="section.fields['paymentTerms']" :form_name="formConfig.form_name"
+                                      v-bind:value="getFieldValue(section.fields['paymentTerms'])" v-on:input="onInput(section.fields['paymentTerms'],$event)" outlined
+                          ></form-field>
+            </v-col>
+          </template>
+        </form-section>
+      </v-col>
+    </template>
+  </parent-form>
 </template>
 
 <script>
@@ -88,6 +89,19 @@ export default {
       });
   },
   methods: {
+    getFieldValue(field) {
+      if(!this.$attrs.value)
+        this.$attrs.value = {}
+      if(!(field.name in this.$attrs.value))
+        this.$attrs.value[field.name] = null
+      return this.$attrs.value[field.name]
+    },
+    onInput($event, index, fieldName) {
+      if(!(index in this.$attrs.value))
+        this.$attrs.value[index] = {}
+      this.$attrs.value[index][fieldName] = $event
+      this.$emit('input', this.$attrs.value)
+    },
     sendForm(){
       eventBus.$emit('form-received', this.response);
     },
