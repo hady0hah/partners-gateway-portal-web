@@ -27,40 +27,32 @@
         <template v-slot:item.status="{ item }">
           <v-img :src="getMdfStatus(item['status.id']).imageFile" width="30"></v-img>
         </template>
-<!--        <template v-slot:item.actions="{ item }">-->
-<!--          <router-link :to="'/mdf/'+item.id" v-if="item.isEditable">-->
-<!--            <v-icon-->
-<!--              small-->
-<!--              class="mr-2"-->
-<!--            >-->
-<!--              mdi-pencil-->
-<!--            </v-icon>-->
-<!--          </router-link>-->
-<!--          <v-icon-->
-<!--            small-->
-<!--            class="mr-2"-->
-<!--            @click="deleteEvent(item)"-->
-<!--            v-if="item.isEditable"-->
-<!--          >-->
-<!--            mdi-delete-->
-<!--          </v-icon>-->
-<!--        </template>-->
         <template v-slot:item.actions="{ item }">
-          <router-link :to="{ name: 'mdf_view', params: { id: item.id, disabled: item.isEditable } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
+          <router-link :to="{ name: 'mdf_view', params: { id: item.id, disabled: !item.isEditable } }"><v-btn x-small elevation="0">View/Edit</v-btn></router-link>
         </template>
-<!--        <template v-slot:top>-->
-<!--          <v-dialog v-model="dialogEventDelete" max-width="500px">-->
-<!--            <v-card>-->
-<!--              <v-card-title>Are you sure you want to delete this event?</v-card-title>-->
-<!--              <v-card-actions>-->
-<!--                <v-spacer></v-spacer>-->
-<!--                <v-btn color="primary" text @click="closeEventDelete">Cancel</v-btn>-->
-<!--                <v-btn color="primary" text @click="deleteEventItemConfirm">OK</v-btn>-->
-<!--              </v-card-actions>-->
-<!--            </v-card>-->
-<!--          </v-dialog>-->
-<!--          </v-toolbar>-->
-<!--        </template>-->
+        <template v-slot:item.delete="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="deleteEvent(item)"
+            v-if="item.isEditable"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <template v-slot:top>
+          <v-dialog v-model="dialogEventDelete" max-width="500px">
+            <v-card>
+              <v-card-title>Are you sure you want to delete this event?</v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="closeEventDelete">Cancel</v-btn>
+                <v-btn color="primary" text @click="deleteEventItemConfirm">OK</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          </v-toolbar>
+        </template>
       </v-data-table>
     </template>
 
@@ -90,6 +82,7 @@
         { text: 'MDF Submission Date', value: 'created.date', sortable: true, align: 'center' },
         { text: 'Status', value: 'status', sortable: false, align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
+        { text: '', value: 'delete', sortable: false, align: 'center' },
       ],
       title:'Sales & Marketing',
       subtitle:"Marketing Development Fund (MDF)",
