@@ -95,6 +95,7 @@ import DatePicker from "@/components/DatePicker";
 import VYesNoOther from "@/components/VYesNoOther";
 import CheckBoxFieldComponent from "@/components/CheckBoxFieldComponent";
 import FormSection from "@/components/FormSection";
+import FormMixin from "@/mixins/FormMixin"
 
 export default {
   components: {
@@ -106,7 +107,7 @@ export default {
     DealStatus,
     FormSection,
   },
-  mixins: [ParentForm],
+  mixins: [FormMixin],
   data() {
     return {
       response : [],
@@ -138,17 +139,15 @@ export default {
   },
   methods: {
     getFieldValue(field) {
-      if(!this.$attrs.value)
-        this.$attrs.value = {}
-      if(!(field.name in this.$attrs.value))
-        this.$attrs.value[field.name] = null
-      return this.$attrs.value[field.name]
+      if (!this.model)
+        this.model = {}
+      if (!(field.name in this.model))
+        this.model[field.name] = null
+      return this.model[field.name]
     },
-    onInput($event, index, fieldName) {
-      if(!(index in this.$attrs.value))
-        this.$attrs.value[index] = {}
-      this.$attrs.value[index][fieldName] = $event
-      this.$emit('input', this.$attrs.value)
+    onInput(field, $event) {
+      this.model[field.name] = $event
+      this.$emit('input', this.model)
     },
     sendForm(){
       eventBus.$emit('form-received', this.response);
