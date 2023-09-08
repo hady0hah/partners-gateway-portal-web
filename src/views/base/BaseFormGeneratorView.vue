@@ -114,8 +114,8 @@ export default {
     submitForm() {
       const form = this.$refs.baseform
 
-      // if (!form.validate())
-      //   return
+      if (!form.validate())
+        return
 
       const t = this
       let formUrl = null
@@ -129,11 +129,12 @@ export default {
       this.axios.post(formUrl,formdata)
         .then(function (response) {
           t.$Progress.finish()
-          console.log(response)
           eventBus.$emit('form-submitted', t.form);
+          t.$router.go(-1);
           // t.$root.$emit('refreshClientProfile') ??
         })
         .catch(err => {
+          alert("Please review your inputs and try again !")
           console.log(err);
         });
 
