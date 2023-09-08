@@ -32,9 +32,6 @@
       </slot>
     </v-row>
 
-    <code>
-      {{ model }}
-    </code>
   </v-form>
 </template>
 
@@ -90,7 +87,6 @@ export default {
           t.axios.get(formData, {})
             .then(function (response) {
               t.model = response.data.data
-              console.log(response.data.data)
               eventBus.$emit('data-received', t.model);
               t.$Progress.finish()
             })

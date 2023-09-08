@@ -124,12 +124,12 @@ const routes = [
     meta: { requiresAuth: true },
   }
   ,
-  {
-    path: '/program_overview',
-    name: 'program_overview',
-    component: () => import('../views/ProgramView.vue'),
-    meta: { requiresAuth: true },
-  },
+  // {
+  //   path: '/program_overview',
+  //   name: 'program_overview',
+  //   component: () => import('../views/ProgramView.vue'),
+  //   meta: { requiresAuth: true },
+  // },
   {
     path: '/howto',
     name: 'howto',

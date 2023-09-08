@@ -55,7 +55,6 @@ export default {
       .then(function (response) {
         t.$Progress.finish()
         t.response = response.data.data
-        console.log(response.data.data)
       })
       .catch(err => {
         console.log(err);

@@ -78,7 +78,6 @@ export default {
 
 
   created() {
-    console.log(this.client)
     this.loadClientProfile()
     const t = this
     this.$Progress.start()

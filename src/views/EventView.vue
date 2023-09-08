@@ -466,7 +466,6 @@
           t.$Progress.finish()
 
           if (response.data.success == true) {
-          	console.log(response)
           	t.event.id = response.data.data.id
           	t.event.isEditable = response.data.data.isEditable
           	t.saved = true
