@@ -11,8 +11,8 @@
               <v-col class="col-12 col-md-4">
                 <date-picker v-bind="section.fields['created']"  v-bind:value="section.fields['created'].date" v-on:input="onInput(section.fields['created'],$event)" outlined>
                 </date-picker>
-                <check-box-field-component
-                  v-bind="section.fields['activities']"  v-bind:value="section.fields['activities'].date" v-on:input="onInput(section.fields['activities'],$event)" outlined>
+                <check-box-field-component  v-bind:value="section.fields['activities'].value" v-on:input="onInput(section.fields['activities'],$event)"
+                                            :v-bind="section.fields['activities']" >
                 </check-box-field-component>
               </v-col>
               <v-col class="col-12 col-md-4">
