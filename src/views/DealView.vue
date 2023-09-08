@@ -2,7 +2,7 @@
   <parent-form lazy-validation :config="formConfig" ref="formRef">
     <template v-slot:form-sections="{ form }">
       <v-col class="box col-12" v-for="section, i in form.form" :key="i">
-        <form-section :section="section" >
+        <form-section :section="section">
           <template v-slot:section-fields="{ section }">
             <!--            <form-field :field="field" :form_name="form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field,$event)"></form-field>-->
 
@@ -56,7 +56,7 @@
                       v-on:input="onInput(section.fields['product'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-                    <date-picker v-bind="section.fields['startDate']" v-bind:value="section.fields['startDate'].date"
+                    <date-picker v-bind="section.fields['startDate']" v-bind:value="section.fields['startDate']"
                       v-on:input="onInput(section.fields['startDate'], $event)" outlined>
                     </date-picker>
                     <form-field :field="section.fields['initiated_by']" :form_name="formConfig.form_name"
@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import FormMixin from "@/mixins/FormMixin"
 import ParentForm from '../views/base/BaseFormGeneratorView.vue';
 // import eventBus from '@/eventBus.js';
 import FormField from "@/components/FormField";
@@ -120,7 +121,7 @@ export default {
     // DealStatus,
     FormSection,
   },
-  // mixins: [ParentForm],
+  mixins: [FormMixin],
   data() {
     return {
       formConfig: {
@@ -139,15 +140,15 @@ export default {
   },
   methods: {
     getFieldValue(field) {
-      if (!this.$attrs.value)
-        this.$attrs.value = {}
-      if (!(field.name in this.$attrs.value))
-        this.$attrs.value[field.name] = null
-      return this.$attrs.value[field.name]
+      if (!this.model)
+        this.model = {}
+      if (!(field.name in this.model))
+        this.model[field.name] = null
+      return this.model[field.name]
     },
     onInput(field, $event) {
-      this.$attrs.value[field.name] = $event
-      this.$emit('input', this.$attrs.value)
+      this.model[field.name] = $event
+      this.$emit('input', this.model)
     },
   },
 };
