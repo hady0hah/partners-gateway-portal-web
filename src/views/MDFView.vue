@@ -12,17 +12,16 @@
                 <date-picker v-bind="section.fields['created']"  v-bind:value="section.fields['created'].date" v-on:input="onInput(section.fields['created'],$event)" outlined>
                 </date-picker>
                 <check-box-field-component  v-bind:value="section.fields['activities'].value" v-on:input="onInput(section.fields['activities'],$event)"
-                                            :v-bind="section.fields['activities']" >
+                                            :name="section.fields['activities'].full_name"   :v-bind="section.fields['activities']" >
                 </check-box-field-component>
               </v-col>
               <v-col class="col-12 col-md-4">
-                <table  >
-                  <tbody ><tr><td  >
-                    <date-picker v-bind="section.fields['startDate']"  v-bind:value="section.fields['startDate'].date" v-on:input="onInput(section.fields['startDate'],$event)" outlined>
-                    </date-picker></td><td >
-                    <date-picker v-bind="section.fields['endDate']"  v-bind:value="section.fields['endDate'].date" v-on:input="onInput(section.fields['endDate'],$event)" outlined>
-                    </date-picker></td></tr></tbody>
-                </table>
+                    <date-picker
+                      v-bind="section.fields['startDate']" outlined :name="section.fields['startDate'].full_name"
+                      v-bind:value="getFieldValue(section.fields['startDate'])" v-on:input="onInput(section.fields['startDate'], $event)"></date-picker>
+                    <date-picker
+                      v-bind="section.fields['endDate']" outlined :name="section.fields['endDate'].full_name"
+                      v-bind:value="getFieldValue(section.fields['endDate'])" v-on:input="onInput(section.fields['endDate'], $event)"></date-picker>
                 <form-field :field="section.fields['products']" :form_name="formConfig.form_name"
                             v-bind:value="getFieldValue(section.fields['products'])" v-on:input="onInput(section.fields['products'],$event)" outlined
                 ></form-field>
