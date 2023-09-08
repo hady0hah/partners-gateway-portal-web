@@ -25,7 +25,7 @@
                     v-on:input="onInput(section.fields['dealStatus'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
-                  <date-picker v-bind="section.fields['renewal_date']" v-bind:value="section.fields['renewal_date'].date"
+                  <date-picker v-bind="section.fields['renewal_date']" v-bind:value="getFieldValue(section.fields['renewal_date'])"
                     v-on:input="onInput(section.fields['renewal_date'], $event)" outlined>
                   </date-picker>
                   <form-field :field="section.fields['reseller']" :form_name="formConfig.form_name"
@@ -56,14 +56,14 @@
                       v-on:input="onInput(section.fields['product'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-                    <date-picker v-bind="section.fields['startDate']" v-bind:value="section.fields['startDate']"
+                    <date-picker v-bind="section.fields['startDate']" v-bind:value="getFieldValue(section.fields['startDate'])"
                       v-on:input="onInput(section.fields['startDate'], $event)" outlined>
                     </date-picker>
                     <form-field :field="section.fields['initiated_by']" :form_name="formConfig.form_name"
                       v-bind:value="getFieldValue(section.fields['initiated_by'])"
                       v-on:input="onInput(section.fields['initiated_by'], $event)"></form-field>
                     <date-picker v-bind="section.fields['lastMeetingDate']"
-                      v-bind:value="section.fields['lastMeetingDate'].date"
+                      v-bind:value="getFieldValue(section.fields['lastMeetingDate'])"
                       v-on:input="onInput(section.fields['lastMeetingDate'], $event)" outlined>
                     </date-picker>
                     <v-yes-no-other v-bind="section.fields['technicalPresentationOption']"
@@ -124,6 +124,7 @@ export default {
   mixins: [FormMixin],
   data() {
     return {
+      model: {},
       formConfig: {
         form_name: 'deal_view',
         form_url: this.axios.defaults.endpoints.deal.form,
@@ -140,8 +141,6 @@ export default {
   },
   methods: {
     getFieldValue(field) {
-      if (!this.model)
-        this.model = {}
       if (!(field.name in this.model))
         this.model[field.name] = null
       return this.model[field.name]
