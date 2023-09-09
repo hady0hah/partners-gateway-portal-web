@@ -105,6 +105,7 @@ import FormField from "@/components/FormField";
 import DatePicker from "@/components/DatePicker";
 import CheckBoxFieldComponent from "@/components/CheckBoxFieldComponent";
 import FormSection from "@/components/FormSection";
+import FormMixin from "@/mixins/FormMixin"
 
 export default {
   components: {
@@ -114,7 +115,7 @@ export default {
     FormField,
     FormSection,
   },
-  mixins: [ParentForm],
+  mixins: [FormMixin],
   data() {
     return {
       response: [],
