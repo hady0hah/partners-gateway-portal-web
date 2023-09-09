@@ -25,7 +25,7 @@
                     v-on:input="onInput(section.fields['dealStatus'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
-                  <date-picker v-bind="section.fields['renewal_date']" v-bind:value="getFieldValue(section.fields['renewal_date'])"
+                  <date-picker :field="section.fields['renewal_date']" v-bind:value="getFieldValue(section.fields['renewal_date'])"
                     v-on:input="onInput(section.fields['renewal_date'], $event)" outlined>
                   </date-picker>
                   <form-field :field="section.fields['reseller']" :form_name="formConfig.form_name"
@@ -56,17 +56,17 @@
                       v-on:input="onInput(section.fields['product'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-                    <date-picker v-bind="section.fields['startDate']" v-bind:value="getFieldValue(section.fields['startDate'])"
+                    <date-picker :field="section.fields['startDate']" v-bind:value="getFieldValue(section.fields['startDate'])"
                       v-on:input="onInput(section.fields['startDate'], $event)" outlined>
                     </date-picker>
                     <form-field :field="section.fields['initiated_by']" :form_name="formConfig.form_name"
                       v-bind:value="getFieldValue(section.fields['initiated_by'])"
                       v-on:input="onInput(section.fields['initiated_by'], $event)"></form-field>
-                    <date-picker v-bind="section.fields['lastMeetingDate']"
+                    <date-picker :field="section.fields['lastMeetingDate']"
                       v-bind:value="getFieldValue(section.fields['lastMeetingDate'])"
                       v-on:input="onInput(section.fields['lastMeetingDate'], $event)" outlined>
                     </date-picker>
-                    <v-yes-no-other v-bind="section.fields['technicalPresentationOption']"
+                    <v-yes-no-other :field="section.fields['technicalPresentationOption']"
                       v-bind:value="getFieldValue(section.fields['technicalPresentationOption'])"
                       v-on:input="onInput(section.fields['technicalPresentationOption'], $event)">
                     </v-yes-no-other>
