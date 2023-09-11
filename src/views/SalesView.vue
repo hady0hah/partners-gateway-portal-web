@@ -96,6 +96,24 @@ export default {
   },
   created() {
     eventBus.$on('data-received', this.handleDataReceived);
+    const t = this
+    this.$Progress.start()
+    this.axios.get('private/status/list', {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.StateSetStatuses(response.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.axios.get('private/region/list', {})
+      .then(function (response) {
+        t.$Progress.finish()
+        t.StateSetRegions(response.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   destroyed() {
     eventBus.$off('data-received', this.handleDataReceived);
