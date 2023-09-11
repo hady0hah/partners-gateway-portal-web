@@ -1,26 +1,48 @@
 <template>
-  <v-radio-group label="" v-model="model"  v-bind="$attrs" v-on:input="$emit('input', $event)">
-    <p style="color: #205023;font-weight: bold">{{ $attrs['v-bind'].label }}</p>
-    <div  v-for="(choice, key) in $attrs['v-bind']['choices']" :key="key" style="display: flex; flex-direction: row;">
-      <input type="checkbox" :id="choice.value" :value="choice.value" v-model="model" />
-      <label  style="padding: 2px;color: #205023;" :for="choice.value">{{ choice.label }}</label>
+  <v-radio-group label="" v-bind="$attrs">
+    <p style="color: #205023;font-weight: bold">{{ field.activities.label }}</p>
+    <div v-for="(choice, key) in  field.activities.choices" :key="key" style="display: flex; flex-direction: row;">
+      <input :id="'act_'+choice.value" type="checkbox" v-bind:value="choice.value" v-on:change="onActivitiesChange" :checked="activities.indexOf(choice.value) > -1 ? true : false" :name="field.activities.full_name+'[]'" />
+      <label style="padding: 4px;color: #205023;" :for="'act_'+choice.value">{{ choice.label }}</label>
     </div>
     <div>
-      <v-text-field v-model="model['other']" label="Other" outlined></v-text-field>
+      <v-text-field :label="field.otherOption.label" outlined v-bind:value="other" v-on:input="onOtherChange" :name="field.otherOption.full_name"></v-text-field>
     </div>
   </v-radio-group>
 </template>
 <script>
-import FormMixin from "@/mixins/FormMixin";
+
 export default {
-  props : ['field','form_name'],
-  mixins : [FormMixin],
-  created() {
-  },
+  props: ['field', 'form_name'],
   data() {
     return {
-      model: [],
+      activities: [],
+      other: ""
     }
   },
+  created() {
+    this.activities = this.$attrs.value.activities?this.$attrs.value.activities:[]
+    this.other = this.$attrs.value.otherOption
+  },
+  methods: {
+    onActivitiesChange($event) {
+      if($event.target.checked) {
+        this.activities.push($event.target.value)
+      } else {
+        let index = this.activities.indexOf($event.target.value)
+        if (index > -1) { // only splice array when item is found
+          this.activities.splice(index, 1); // 2nd parameter means remove one item only
+        }
+      }
+      this.emitValue()
+    },
+    onOtherChange($event) {
+      this.other = $event
+      this.emitValue()
+    },
+    emitValue() {
+      this.$emit('input', {activities: this.activities, otherOption: this.other})
+    }
+  }
 }
 </script>
