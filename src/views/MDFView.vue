@@ -19,7 +19,7 @@
                   </check-box-field-component>
                 </v-col>
                 <v-col class="col-12 col-md-4">
-                  <date-picker :field="section.fields['created']"
+                  <date-picker :field="section.fields['startDate']"
                     v-bind:value="getFieldValue(section.fields['startDate'])"
                     v-on:input="onInput(section.fields['startDate'], $event)" outlined>
                   </date-picker>

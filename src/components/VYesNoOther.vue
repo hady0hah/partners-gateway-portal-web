@@ -2,12 +2,12 @@
   <v-radio-group style="margin-top:-4px" v-bind="$attrs" v-model="radioState" v-on:change="onInput">
       <!-- <p style="color: #205023;display: none;">{{$attrs.label}}</p> -->
       <v-row>
-        <v-col><v-radio label="Yes" :value="true"></v-radio></v-col>
-        <v-col><v-radio label="No" :value="false"></v-radio></v-col>
+        <v-col><v-radio label="Yes" :value="'yes'"></v-radio></v-col>
+        <v-col><v-radio label="No" :value="'no'"></v-radio></v-col>
         <v-col><v-radio label="Other" :value="null"></v-radio></v-col>
         <v-col></v-col>
         <v-col class="col-12">
-          <v-text-field :disabled="radioState === true || radioState === false" label="Other" outlined v-model="otherState" v-on:input="onInput"></v-text-field>
+          <v-text-field :disabled="radioState === 'yes' || radioState === 'no'" label="Other" outlined v-model="otherState" v-on:input="onInput"></v-text-field>
         </v-col>
       </v-row>
   </v-radio-group>
@@ -32,7 +32,7 @@ export default {
       this.$emit('input', $event)
     },
     getState() {
-      if(this.$attrs.value == true || this.$attrs.value == false) {
+      if(this.$attrs.value == 'yes' || this.$attrs.value == 'no') {
         this.radioState = this.$attrs.value
         this.otherState = null
       } else {
