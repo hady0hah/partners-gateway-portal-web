@@ -11,7 +11,7 @@
           </form-field>
           <form-field :field="fields['country']" :form_name="form_name" outlined v-bind:value="item.country" v-on:input="onInput($event, index, 'country')">
           </form-field>
-          <yes-no-other :field="fields['dealRegistrationOption']" :name="fields['dealRegistrationOption'].full_name" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')"></yes-no-other>
+          <yes-no-other v-bind="fields['dealRegistrationOption']" :field="fields['dealRegistrationOption']" :name="fields['dealRegistrationOption'].full_name" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')"></yes-no-other>
         </v-col>
         <v-col class="col-12 col-md-4">
           <form-field :field="fields['stage']" :form_name="form_name" outlined v-bind:value="item.stage" v-on:input="onInput($event, index, 'stage')"></form-field>

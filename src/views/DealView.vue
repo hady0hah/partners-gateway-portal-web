@@ -65,7 +65,7 @@
                                  v-bind:value="getFieldValue(section.fields['lastMeetingDate'])"
                                  v-on:input="onInput(section.fields['lastMeetingDate'], $event)" outlined>
                     </date-picker>
-                    <v-yes-no-other :field="section.fields['technicalPresentationOption']"
+                    <v-yes-no-other v-bind="section.fields['technicalPresentationOption']" :field="section.fields['technicalPresentationOption']"
                                     v-bind:value="getFieldValue(section.fields['technicalPresentationOption'])"
                                     v-on:input="onInput(section.fields['technicalPresentationOption'], $event)">
                     </v-yes-no-other>

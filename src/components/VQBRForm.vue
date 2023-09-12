@@ -37,7 +37,7 @@
         </v-col>
         <v-col class="col-12 col-md-4">
 
-          <yes-no-other :field="fields['dealRegistrationOption']" :name="fields['dealRegistrationOption'].full_name" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')">
+          <yes-no-other v-bind="fields['dealRegistrationOption']" :field="fields['dealRegistrationOption']" :name="fields['dealRegistrationOption'].full_name" v-bind:value="item.dealRegistrationOption" v-on:input="onInput($event, index, 'dealRegistrationOption')">
 
           </yes-no-other>
 

@@ -1,6 +1,6 @@
 <template>
   <v-radio-group style="margin-top:-4px" v-bind="$attrs" v-model="radioState" v-on:change="onInput">
-      <!-- <p style="color: #205023;display: none;">{{$attrs.label}}</p> -->
+       <p style="color: #205023;display: none;">{{$attrs.label}}</p>
       <v-row>
         <v-col><v-radio label="Yes" :value="'yes'"></v-radio></v-col>
         <v-col><v-radio label="No" :value="'no'"></v-radio></v-col>
