@@ -68,16 +68,17 @@ export default {
   },
   methods: {
     downloadFile (doc) {
-      this.axios.get(doc.file, { responseType: 'blob' })
+      this.axios.get(doc, { responseType: 'blob' })
         .then(response => {
           const blob = new Blob([response.data], { type: 'application/pdf' })
           const link = document.createElement('a')
           link.href = URL.createObjectURL(blob)
-          link.download = "download"
+          let fileName = response.headers["content-disposition"].split("filename=")[1];
+          link.download = fileName;
           link.click()
           URL.revokeObjectURL(link.href)
         }).catch(console.error)
-    }
+    },
   }
 };
 </script>

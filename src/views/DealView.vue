@@ -27,7 +27,7 @@
                   <date-picker :field="section.fields['renewal_date']" v-bind:value="getFieldValue(section.fields['renewal_date'])"
                                v-on:input="onInput(section.fields['renewal_date'], $event)" outlined>
                   </date-picker>
-                  <form-field :field="section.fields['reseller']" :form_name="formConfig.form_name"
+                  <form-field v-if="section.fields['reseller']" :field="section.fields['reseller']" :form_name="formConfig.form_name"
                               v-bind:value="getFieldValue(section.fields['reseller'])"
                               v-on:input="onInput(section.fields['reseller'], $event)"></form-field>
                 </v-col>
@@ -477,6 +477,7 @@ export default {
   data() {
     return {
       model: {},
+      role : null,
       formConfig: {
         form_name: 'deal_view',
         form_url: this.axios.defaults.endpoints.deal.form,
@@ -591,6 +592,7 @@ export default {
   },
   created() {
     const t = this
+    this.loadClientProfile()
     if (this.id) {
       this.payments = []
       this.$Progress.start()
@@ -626,6 +628,20 @@ export default {
     }
   },
   methods: {
+    loadClientProfile () {
+      const t = this
+      this.$Progress.start()
+      this.axios.get('private/client/show', {})
+        .then(function (response) {
+          t.client = response.data.data
+          t.role = response.data.data.firstName
+          console.log(response.data.data)
+
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     getFieldValue(field) {
       if (!(field.name in this.model))
         this.model[field.name] = null

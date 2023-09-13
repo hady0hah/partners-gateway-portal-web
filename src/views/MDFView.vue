@@ -8,7 +8,7 @@
             <v-row class="box">
               <v-row v-if="section.name === 'section_1'">
                 <v-col class="col-12 col-md-4">
-                  <date-picker :field="section.fields['created']" v-bind:value="getFieldValue(section.fields['created'])"
+                  <date-picker v-bind="section.fields['created']" :field="section.fields['created']" v-bind:value="getFieldValue(section.fields['created'])"
                     v-on:input="onInput(section.fields['created'], $event)"
                     outlined>
                   </date-picker>
