@@ -38,6 +38,7 @@
                   <form-field :field="section.fields['contact']" :form_name="formConfig.form_name"
                               v-bind:value="getFieldValue(section.fields['contact'])"
                               v-on:input="onInput(section.fields['contact'], $event)" outlined></form-field>
+                  <add-new-customer-form-component></add-new-customer-form-component>
                 </v-col>
               </v-row>
 
@@ -461,6 +462,7 @@ import DatePicker from "@/components/DatePicker";
 import VYesNoOther from "@/components/VYesNoOther";
 import FormSection from "@/components/FormSection";
 // import ComponentMapper from "@/components/ComponentMapper";
+import AddNewCustomerFormComponent from "@/components/AddNewCustomerFormComponent";
 
 export default {
   props:['id'],
@@ -471,6 +473,7 @@ export default {
     ParentForm,
     // DealStatus,
     FormSection,
+    AddNewCustomerFormComponent,
   },
   mixins: [FormMixin],
 
@@ -635,7 +638,6 @@ export default {
         .then(function (response) {
           t.client = response.data.data
           t.role = response.data.data.firstName
-          console.log(response.data.data)
 
         })
         .catch(err => {

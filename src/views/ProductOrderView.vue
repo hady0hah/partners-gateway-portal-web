@@ -31,6 +31,7 @@
                 :field="section.fields['end_customer']" :form_name="formConfig.form_name"
                 v-bind:value="getFieldValue(section.fields['end_customer'])" v-on:input="onInput(section.fields['end_customer'],$event)" outlined
               ></form-field>
+              <add-new-customer-form-component></add-new-customer-form-component>
             </v-col>
 
           </template>
@@ -55,6 +56,7 @@ import eventBus from '@/eventBus.js';
 import FormField from "@/components/FormField";
 import FormSection from "@/components/FormSection";
 import FormMixin from "@/mixins/FormMixin"
+import AddNewCustomerFormComponent from "@/components/AddNewCustomerFormComponent";
 
 export default {
   props : ['fields'],
@@ -62,6 +64,7 @@ export default {
     FormField,
     ParentForm,
     FormSection,
+    AddNewCustomerFormComponent,
   },
   mixins: [FormMixin],
   data() {
