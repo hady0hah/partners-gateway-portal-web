@@ -19,7 +19,7 @@
 
         <div class="box pa-8">
           <v-row class="mt-16">
-            <p class="welcome-paragraph"> {{response.description}}</p>
+            <p class="welcome-paragraph" > {{response.description}}</p>
           </v-row>
         </div>
 
@@ -27,7 +27,8 @@
 
       <div class="box pa-8">
         <v-row >
-          <img class="welcome-image" :src="WelcomeImagePath" alt="ThideSoft">
+<!--          <img class="welcome-image" :src="WelcomeImagePath" alt="ThideSoft"> -->
+          <img class="welcome-image"  :src="response.welcome_image" alt="ThideSoft">
         </v-row>
       </div>
 
