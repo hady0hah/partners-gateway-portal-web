@@ -24,8 +24,8 @@
                               v-on:input="onInput(section.fields['dealStatus'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
-                  <date-picker :field="section.fields['renewal_date']" v-bind:value="getFieldValue(section.fields['renewal_date'])"
-                               v-on:input="onInput(section.fields['renewal_date'], $event)" outlined>
+                  <date-picker :field="section.fields['renewalDate']" v-bind:value="getFieldValue(section.fields['renewalDate'])"
+                               v-on:input="onInput(section.fields['renewalDate'], $event)" outlined>
                   </date-picker>
                   <form-field v-if="section.fields['reseller']" :field="section.fields['reseller']" :form_name="formConfig.form_name"
                               v-bind:value="getFieldValue(section.fields['reseller'])"
@@ -477,7 +477,6 @@ export default {
   data() {
     return {
       model: {},
-      role : null,
       formConfig: {
         form_name: 'deal_view',
         form_url: this.axios.defaults.endpoints.deal.form,
@@ -592,7 +591,6 @@ export default {
   },
   created() {
     const t = this
-    this.loadClientProfile()
     if (this.id) {
       this.payments = []
       this.$Progress.start()
@@ -601,12 +599,6 @@ export default {
           t.deal = response.data.data
           if (!t.deal.dealMilestones)
             t.deal.dealMilestones = []
-          t.$Progress.increase(10)
-          t.axios.get('private/contact/show?id=2', {})
-            .then(function (response) {
-              t.$Progress.finish()
-              t.contact = response.data.data
-            })
             .catch(err => {
               console.log(err);
             });
@@ -628,20 +620,6 @@ export default {
     }
   },
   methods: {
-    loadClientProfile () {
-      const t = this
-      this.$Progress.start()
-      this.axios.get('private/client/show', {})
-        .then(function (response) {
-          t.client = response.data.data
-          t.role = response.data.data.firstName
-          console.log(response.data.data)
-
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     getFieldValue(field) {
       if (!(field.name in this.model))
         this.model[field.name] = null
