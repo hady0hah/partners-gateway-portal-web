@@ -19,7 +19,7 @@
 
         <div class="box pa-8">
           <v-row class="mt-16">
-            <p class="welcome-paragraph" > {{response.description}}</p>
+            <p class="welcome-paragraph"  v-html="response.description"></p>
           </v-row>
         </div>
 
