@@ -28,7 +28,6 @@ export default {
     FormSection: () => import('./FormSection.vue')
   },
   created() {
-    console.log(this.disabled)
   },
   methods: {
     addItem() {
