@@ -38,7 +38,7 @@
                   <form-field :field="section.fields['contact']" :form_name="formConfig.form_name"
                               v-bind:value="getFieldValue(section.fields['contact'])"
                               v-on:input="onInput(section.fields['contact'], $event)" outlined></form-field>
-                  <add-new-customer-form-component ></add-new-customer-form-component>
+                  <add-new-customer-form-component v-on:submit="updateCustomerDropdown(section.fields['contact'])"></add-new-customer-form-component>
                 </v-col>
               </v-row>
 
@@ -595,8 +595,6 @@ export default {
   },
   created() {
     const t = this
-    console.log(this.form)
-    console.log(this.contact)
     t.$root.$emit('contact-submitted')
     this.$on('contact-submitted', eventData => {
       console.log('Event received:', eventData);
@@ -631,8 +629,10 @@ export default {
   },
   methods: {
     updateCustomerDropdown(field) {
+      console.log('here')
       var contact = this.$root.$emit('contact-submitted')
       field['choices'].push({ contact });
+      console.log(contact)
       console.log(field)
     },
     getFieldValue(field) {
