@@ -58,7 +58,9 @@ export default {
           form_edit: null,
           form_data: null,
           main_action_onsubmit:null,
-          disabled: false
+          contact_form_fields:null,
+          disabled: false,
+          isDialog: false,
         }
       },
       type: Object
@@ -75,31 +77,38 @@ export default {
     };
   },
   mounted() {
-    if(!this.config.form_url) return
     const t = this
-    this.$Progress.start()
-    this.axios.get(this.config.form_url, {})
-      .then(function (response) {
-        t.form = response.data.data
-        eventBus.$emit('form-received', t.form);
-        if(t.objectid){
-          const formData = t.axios.defaults.endpoints.resolve(t.config.form_data, { id: t.objectid })
-          t.axios.get(formData, {})
-            .then(function (response) {
-              t.model = response.data.data
-              eventBus.$emit('data-received', t.model);
-              t.$Progress.finish()
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
+    if(this.config.isDialog){
+      this.$Progress.start()
+          t.form = this.config.contact_form_fields
+          eventBus.$emit('form-received', t.form);
           t.$Progress.finish()
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    }else{
+        if (!this.config.form_url) return
+        this.$Progress.start()
+        this.axios.get(this.config.form_url, {})
+          .then(function (response) {
+            t.form = response.data.data
+            eventBus.$emit('form-received', t.form);
+            if (t.objectid) {
+              const formData = t.axios.defaults.endpoints.resolve(t.config.form_data, {id: t.objectid})
+              t.axios.get(formData, {})
+                .then(function (response) {
+                  t.model = response.data.data
+                  eventBus.$emit('data-received', t.model);
+                  t.$Progress.finish()
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            } else {
+              t.$Progress.finish()
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
   },
   created() {
     this.config.disabled = this.$route.params.disabled
