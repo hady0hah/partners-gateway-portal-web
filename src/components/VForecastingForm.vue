@@ -1,5 +1,5 @@
 <template>
-  <form-collection :fields="fields" :key="tableChangeDetector" v-model="$attrs.value" :disabled="disabled">
+  <form-collection :fields="fields" v-model="$attrs.value" :disabled="disabled">
     <template v-slot:collection-item="{ fields, item, index }">
       <v-row>
         <v-col class="col-12 col-md-4">
@@ -30,31 +30,7 @@
           <form-field :field="fields['remarks']" :form_name="form_name" outlined v-bind:value="item.remarks" v-on:input="onInput($event, index, 'remarks')"></form-field>
         </v-col>
         <v-col class="col-12 col-md-4">
-          <table style="margin-top: 15px" class="products-table">
-            <thead>
-              <tr>
-                <th>{{ fields['reviewProducts']['fields']['product'].label }}</th>
-                <th>{{ fields['reviewProducts']['fields']['quantity'].label }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(tableitem, tableindex) in item.reviewProducts" :key="tableindex">
-                <td>
-                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['product'],index),tableindex)" :form_name="form_name"
-                    v-bind:value="tableitem.product" v-on:input="onInputTable($event, index, tableindex, 'product')"></form-field>
-                </td>
-                <td style="padding: 5px">
-                  <form-field :field="updateField(updateField(fields['reviewProducts']['fields']['quantity'],index),tableindex)" :form_name="form_name"
-                    v-bind:value="tableitem.quantity" v-on:input="onInputTable($event, index, tableindex, 'quantity')"></form-field>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot v-if="!disabled">
-              <tr>
-                <td colspan="2"><button type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addTableItem(index)">ADD MORE</button></td>
-              </tr>
-            </tfoot>
-          </table>
+          <product-list-form :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name" v-bind:value="item.reviewProducts" v-on:input="onInput($event, index, 'reviewProducts')"></product-list-form>
         </v-col>
         <span class="horizontal-line"></span>
       </v-row>
@@ -67,7 +43,8 @@ import CollectionMixin from "@/mixins/CollectionMixin"
 import FormCollection from "./FormCollection.vue";
 import FormField from "@/components/FormField";
 import DatePicker from "@/components/DatePicker";
-import YesNoOther from "@/components/VYesNoOther"
+import YesNoOther from "@/components/VYesNoOther";
+import ProductListForm from "./ProductListForm.vue";
 
 export default {
   props: ['fields', 'disabled'],
@@ -75,13 +52,13 @@ export default {
     FormField,
     DatePicker,
     YesNoOther,
-    FormCollection
+    FormCollection,
+    ProductListForm
   },
   mixins: [CollectionMixin],
   data() {
     return {
       form_name: 'forecasting_view',
-      tableChangeDetector:0
     }
   },
   methods: {
@@ -90,23 +67,6 @@ export default {
         this.$attrs.value[index] = {}
       this.$attrs.value[index][fieldName] = $event
       this.$emit('input', this.$attrs.value)
-    },
-    onInputTable($event, index, tableindex, fieldName) {
-      if (!(index in this.$attrs.value))
-        this.$attrs.value[index] = {}
-      if(!(tableindex in this.$attrs.value[index]['reviewProducts']))
-        this.$attrs.value[index]['reviewProducts'][tableindex] = {}
-      this.$attrs.value[index]['reviewProducts'][tableindex][fieldName] = $event
-      this.$emit('input', this.$attrs.value)
-    },
-    addTableItem(index) {
-      if(!(index in this.$attrs.value))
-        this.$attrs.value[index] = {}
-      if(!('reviewProducts' in this.$attrs.value[index]))
-        this.$attrs.value[index]['reviewProducts'] = []
-      this.$attrs.value[index]['reviewProducts'].push({});
-      this.$emit('input', this.$attrs.value)
-      this.tableChangeDetector++
     },
   },
   created() {
