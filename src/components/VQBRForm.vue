@@ -32,8 +32,12 @@
                 </td>
               </tr>
             </tbody>
+            <tfoot v-if="!disabled">
+              <tr>
+                <td colspan="2"><button type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addTableItem(index)">ADD MORE</button></td>
+              </tr>
+            </tfoot>
           </table>
-          <td colspan="2"><button type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addTableItem(index)">ADD MORE</button></td>
         </v-col>
         <v-col class="col-12 col-md-4">
 
