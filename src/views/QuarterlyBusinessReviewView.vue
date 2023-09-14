@@ -26,6 +26,11 @@ export default {
   },
   created() {
     ComponentMapper.addMapping('QBR_view|opportunities',{'component': VQBRForm})
+    this.objectid = this.$route.params.id?this.$route.params.id:null
+    if(this.objectid) {
+      this.formConfig.form_data = this.axios.defaults.endpoints.resolve(this.formConfig.form_data, { id: this.objectid })
+      this.formConfig.disabled = true
+    }
   },
   mounted() {
   },
