@@ -1,5 +1,5 @@
 <template>
-  <form-collection :fields="fields" :key="tableChangeDetector" v-model="$attrs.value">
+  <form-collection :fields="fields" :key="tableChangeDetector" v-model="$attrs.value" :disabled="disabled">
     <template v-slot:collection-item="{ fields, item, index }">
       <v-row>
         <v-col class="col-12 col-md-4">
@@ -49,7 +49,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot>
+            <tfoot v-if="!disabled">
               <tr>
                 <td colspan="2"><button type="button" style="text-align: center; background-color: #E0E0E0;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: black;padding: 5px 10px 5px 10px;" @click="addTableItem(index)">ADD MORE</button></td>
               </tr>
@@ -70,7 +70,7 @@ import DatePicker from "@/components/DatePicker";
 import YesNoOther from "@/components/VYesNoOther"
 
 export default {
-  props: ['fields'],
+  props: ['fields', 'disabled'],
   components: {
     FormField,
     DatePicker,

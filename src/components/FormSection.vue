@@ -10,7 +10,7 @@
     </v-col>
     <slot name="section-fields" v-bind:section="section">
     <v-col v-for="field, k in section.fields" :key="k" :class="getRowClass(field)">
-      <form-field :field="field" :form_name="form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field,$event)"></form-field>
+      <form-field :field="field" :form_name="form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field,$event)" :disabled="disabled"></form-field>
     </v-col>
     </slot>
   </v-row>
@@ -20,7 +20,7 @@ import FormField from './FormField.vue';
 import SectionMixin from "@/mixins/SectionMixin";
 
 export default {
-  props : ['section','form_name','row_class'],
+  props : ['section','form_name','row_class', 'disabled'],
   components : {
     FormField
   },
