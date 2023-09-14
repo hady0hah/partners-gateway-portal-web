@@ -5,7 +5,7 @@
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
           <btn-back-component :width="buttonWidth"></btn-back-component>
-          <v-btn class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm() }">Save</v-btn>
+          <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm() }">Save</v-btn>
           <slot name="header-left-post-back"></slot>
         </slot>
       </v-col>
@@ -27,7 +27,7 @@
 
       <slot name="form-sections" v-bind:form="form">
       <v-col class="box col-12" v-for="section, i in form.form" :key="i">
-        <form-section :section="section" :form_name="config.form_name" v-model="model"></form-section>
+        <form-section :section="section" :form_name="config.form_name" v-model="model" :disabled="config.disabled"></form-section>
       </v-col>
       </slot>
     </v-row>
@@ -58,7 +58,7 @@ export default {
           form_edit: null,
           form_data: null,
           main_action_onsubmit:null,
-          disabled: false
+          disabled: null
         }
       },
       type: Object
@@ -102,7 +102,8 @@ export default {
       });
   },
   created() {
-    this.config.disabled = this.$route.params.disabled
+    if(this.config.disabled === null)
+      this.config.disabled = this.$route.params.disabled
     this.objectid = this.$route.params.id?this.$route.params.id:null
 
   },
