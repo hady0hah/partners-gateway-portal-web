@@ -18,10 +18,10 @@
     </v-row>
 
     <v-row class="mb-4" style="color: #205023">
-      <v-col class="col-12">
+      <v-col v-if="form.title" class="col-12">
         <h3>{{ form.title }}</h3>
       </v-col>
-      <v-col class="mb-4 col-12" style="color: #205023;font-size: smaller;">
+      <v-col v-if="form.description" class="mb-4 col-12" style="color: #205023;font-size: smaller;">
         <div v-html="form.description"></div>
       </v-col>
 
