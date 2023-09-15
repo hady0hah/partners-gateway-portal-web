@@ -15,7 +15,8 @@ let endpoints = {
       'form': 'private/form/po',
       'add': 'private/po/add',
       'edit': 'private/po/:id/edit',
-      'show': 'private/po/:id/show'
+      'show': 'private/po/:id/show',
+      'submit' : 'private/po/:id/submit',
     },
     'forecasting': {
         'list': 'private/fr/list',
@@ -49,6 +50,7 @@ let endpoints = {
         'add' : 'private/mdf/save',
         'edit' : 'private/mdf/:id/edit',
         'show' : 'private/mdf/:id/show',
+        'submit' : 'private/mdf/:id/submit',
     },
     resolve(url, params) {
         let _url = url
