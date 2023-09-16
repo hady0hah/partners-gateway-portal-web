@@ -63,6 +63,7 @@ export default {
     },
     removeTableItem(index) {
       this.$attrs.value = this.$attrs.value.splice(index,1)
+      this.tableChangeDetector++
     }
   }
 }
