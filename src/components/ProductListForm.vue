@@ -19,7 +19,7 @@
             :form_name="form_name" v-bind:value="tableitem.quantity"
             v-on:input="onInputTable($event, tableindex, 'quantity')"></form-field>
         </td>
-        <td><button type="button"
+        <td><button v-if="!disabled" type="button"
             style="text-align: center; background-color: #c30404;font-family: Helvetica;border: none;border-radius: 100%;font-size: 12px;font-weight: bold;color: white;padding: 0 2px;width:18px;height:18px"
             @click="removeTableItem(tableindex)">X</button></td>
       </tr>
@@ -62,7 +62,9 @@ export default {
       this.tableChangeDetector++
     },
     removeTableItem(index) {
-      this.$attrs.value = this.$attrs.value.splice(index,1)
+      this.$attrs.value.splice(index,1)
+      this.$emit('input', this.$attrs.value)
+      this.tableChangeDetector++
     }
   }
 }
