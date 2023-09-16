@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <parent-form  lazy-validation ref="formRef" :config="formConfig"></parent-form>
+    <parent-form  lazy-validation ref="formRef" :config="formConfig">
+      <template v-slot:header-left-post-back>
+        <span></span>
+      </template>
+    </parent-form>
   </div>
 </template>
 

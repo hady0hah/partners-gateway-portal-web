@@ -126,11 +126,14 @@ export default {
         form_add: this.axios.defaults.endpoints.mdf.add,
         form_edit: this.axios.defaults.endpoints.mdf.edit,
         form_data: this.axios.defaults.endpoints.mdf.show,
-        disabled: false,
+        form_submit: this.axios.defaults.endpoints.mdf.submit,
+        disabled: null,
       }
     };
   },
   created() {
+    if(this.formConfig.disabled === null)
+      this.formConfig.disabled = this.$route.params.disabled
   },
   mounted() {
   },

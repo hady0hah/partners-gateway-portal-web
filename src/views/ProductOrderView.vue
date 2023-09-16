@@ -65,7 +65,8 @@ export default {
         form_add: this.axios.defaults.endpoints.po.add,
         form_edit: this.axios.defaults.endpoints.po.edit,
         form_data: this.axios.defaults.endpoints.po.show,
-        disabled: null,
+        form_submit: this.axios.defaults.endpoints.po.submit,
+        disabled: false,
       }
     };
   },

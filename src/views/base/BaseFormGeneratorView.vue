@@ -5,8 +5,10 @@
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
           <btn-back-component :width="buttonWidth"></btn-back-component>
-          <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm() }">Save</v-btn>
-          <slot name="header-left-post-back"></slot>
+          <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm(false) }">Save</v-btn>
+          <slot name="header-left-post-back">
+            <v-btn v-if="!config.disabled" class="mr-4" color="primary" @click="submitForm(true)" small elevation="0" >Submit</v-btn>
+          </slot>
         </slot>
       </v-col>
       <v-col class="text-center">
@@ -57,6 +59,7 @@ export default {
           form_add: null,
           form_edit: null,
           form_data: null,
+          form_submit: null,
           main_action_onsubmit:null,
           disabled: null
         }
@@ -108,7 +111,7 @@ export default {
 
   },
   methods: {
-    submitForm() {
+    submitForm(isSubmit) {
       const form = this.$refs.baseform
 
       if (!form.validate())
@@ -121,6 +124,10 @@ export default {
       }else{
          formUrl = this.config.form_add
       }
+      if(isSubmit){
+        formUrl = this.axios.defaults.endpoints.resolve(this.config.form_submit, { id: t.objectid })
+      }
+
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
       this.axios.post(formUrl,formdata)
