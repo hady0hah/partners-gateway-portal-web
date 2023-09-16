@@ -190,6 +190,7 @@
         this.axios.get('private/mdf/list?filter[_page]='+this.page+'&filter[_per_page]='+this.itemsPerPage+'&filter[_sort_by]='+this.sortBy+'&filter[_sort_order]='+this.sortDesc, {})
         .then(function (response) {
           t.$Progress.finish()
+          t.params = response.data.data.params
           t.count = response.data.count
           t.events = response.data.data.items
         })
