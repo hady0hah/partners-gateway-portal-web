@@ -77,9 +77,9 @@
                                 v-on:input="onInput(section.fields['competitors'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-                    <form-field :field="section.fields['otherOption']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['otherOption'])"
-                                v-on:input="onInput(section.fields['otherOption'], $event)" outlined></form-field>
+<!--                    <form-field :field="section.fields['otherOption']" :form_name="formConfig.form_name"-->
+<!--                                v-bind:value="getFieldValue(section.fields['otherOption'])"-->
+<!--                                v-on:input="onInput(section.fields['otherOption'], $event)" outlined></form-field>-->
                     <form-field :field="section.fields['dealOS']" :form_name="formConfig.form_name"
                                 v-bind:value="getFieldValue(section.fields['dealOS'])"
                                 v-on:input="onInput(section.fields['dealOS'], $event)" outlined></form-field>
@@ -106,6 +106,7 @@
           >
             <template v-slot:item.actions="{ item }">
               <v-icon
+                v-if="!formConfig.disabled"
                 small
                 class="mr-2"
                 @click="editItem(item)"
@@ -113,6 +114,7 @@
                 mdi-pencil
               </v-icon>
               <v-icon
+                v-if="!formConfig.disabled"
                 small
                 class="mr-2"
                 @click="deleteItem(item)"
@@ -259,6 +261,7 @@
           >
             <template v-slot:item.actions="{ item }">
               <v-icon
+                v-if="!formConfig.disabled"
                 small
                 class="mr-2"
                 @click="editPaymentItem(item)"
@@ -266,6 +269,7 @@
                 mdi-pencil
               </v-icon>
               <v-icon
+                v-if="!formConfig.disabled"
                 small
                 class="mr-2"
                 @click="deletePaymentItem(item)"
@@ -483,7 +487,7 @@ export default {
         form_add: this.axios.defaults.endpoints.deal.add,
         form_edit: this.axios.defaults.endpoints.deal.edit,
         form_data: this.axios.defaults.endpoints.deal.show,
-        disabled: false,
+        disabled: null,
       },
       deal: {
         renewalDate: {
@@ -591,6 +595,8 @@ export default {
   },
   created() {
     const t = this
+    if(this.formConfig.disabled === null)
+      this.formConfig.disabled = this.$route.params.disabled
     if (this.id) {
       this.payments = []
       this.$Progress.start()
