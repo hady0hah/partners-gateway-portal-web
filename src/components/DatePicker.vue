@@ -1,5 +1,5 @@
 <template>
-  <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+  <v-menu  v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
     <template v-slot:activator="{ on }">
       <v-text-field append-icon="mdi-calendar" v-model="$attrs.value" readonly v-bind="$attrs" :label="field.label"
         :name="field.full_name" v-on="on"></v-text-field>
@@ -16,6 +16,7 @@ export default {
   data() {
     return {
       model: null,
+      menu2: false,
     }
   },
   methods: {
