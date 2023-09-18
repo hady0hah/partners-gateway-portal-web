@@ -48,35 +48,7 @@
 
               <v-row v-if="section.name === 'section2'">
                 <v-col class="col-12 col-md-5">
-
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>{{ section.fields['resourceAllocation']['fields']['resouce_allocation'].label }}</th>
-                        <th>{{ section.fields['resourceAllocation']['fields']['amount'].label }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td style="width: 450px">
-                          <form-field :field="section.fields['resourceAllocation']['fields']['resouce_allocation']"
-                            :form_name="formConfig.form_name"
-                            v-bind:value="getFieldValue(section.fields['resourceAllocation']['fields']['resouce_allocation'])"
-                            v-on:input="onInput(section.fields['resourceAllocation']['fields']['resouce_allocation'], $event)"
-                            outlined></form-field>
-
-                        </td>
-                        <td style="padding: 5px;">
-                          <form-field :field="section.fields['resourceAllocation']['fields']['amount']"
-                            :form_name="formConfig.form_name"
-                            v-bind:value="getFieldValue(section.fields['resourceAllocation']['fields']['amount'])"
-                            v-on:input="onInput(section.fields['resourceAllocation']['fields']['amount'], $event)"
-                            outlined></form-field>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-
+                  <product-list-form :first_field_name="'resouce_allocation'" :second_field_name="'amount'" :fields="section.fields['resourceAllocation']['fields']" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section)" v-on:input="onInput(section, $event)"></product-list-form>
                 </v-col>
                 <v-col class="col-12 col-md-5">
                   <form-field :field="section.fields['totalAmount']" :form_name="formConfig.form_name"
@@ -106,6 +78,7 @@ import DatePicker from "@/components/DatePicker";
 import CheckBoxFieldComponent from "@/components/CheckBoxFieldComponent";
 import FormSection from "@/components/FormSection";
 import FormMixin from "@/mixins/FormMixin"
+import ProductListForm from '@/components/ProductListForm.vue';
 
 export default {
   components: {
@@ -114,6 +87,7 @@ export default {
     DatePicker,
     FormField,
     FormSection,
+    ProductListForm,
   },
   mixins: [FormMixin],
   data() {
