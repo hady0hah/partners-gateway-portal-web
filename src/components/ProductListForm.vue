@@ -3,7 +3,7 @@
     <thead>
     <tr>
       <th>{{ fields[first_field_name].label }}</th>
-      <th>{{ fields[second_field_name].label }}</th>
+      <th v-if="second_field_name">{{ fields[second_field_name].label }}</th>
       <th></th>
     </tr>
     </thead>
@@ -14,7 +14,7 @@
                     :form_name="form_name" v-bind:value="parseValue(tableitem,first_field_name)"
                     v-on:input="onInputTable($event, tableindex, first_field_name)"></form-field>
       </td>
-      <td style="padding: 5px">
+      <td v-if="second_field_name" style="padding: 5px" >
         <form-field :field="updateField(fields[second_field_name], tableindex)"
                     :form_name="form_name" v-bind:value="parseValue(tableitem,second_field_name)"
                     v-on:input="onInputTable($event, tableindex, second_field_name)"></form-field>

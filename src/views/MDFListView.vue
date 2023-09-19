@@ -18,8 +18,8 @@
         <template v-slot:item.id="{ item }">
          {{ item.id }}
         </template>
-        <template v-slot:item.amount="{ item }">
-          {{ (item.amount ? item.amount : '0') | currency }}
+        <template v-slot:item.totalAmount="{ item }">
+          {{ (item.totalAmount ? item.totalAmount : '0') | currency }}
         </template>
         <template v-slot:item.created.date="{ item }">
           {{ friendlyDate(item.created.date) }}
@@ -78,7 +78,7 @@
     data: () => ({
       headers: [
         { text: 'MDF Number', value: 'id', sortable: true, align: 'center' },
-        { text: 'MDF Amount (USD)', value: 'amount', sortable: true, align: 'center' },
+        { text: 'MDF Amount (USD)', value: 'totalAmount', sortable: true, align: 'center' },
         { text: 'MDF Submission Date', value: 'created.date', sortable: true, align: 'center' },
         { text: 'Status', value: 'status', sortable: false, align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },

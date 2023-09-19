@@ -8,10 +8,10 @@
             <v-row class="box">
               <v-row v-if="section.name === 'section_1'">
                 <v-col class="col-12 col-md-4">
-                  <date-picker v-bind="section.fields['created']" :field="section.fields['created']" v-bind:value="getFieldValue(section.fields['created'])"
-                    v-on:input="onInput(section.fields['created'], $event)"
-                    outlined>
-                  </date-picker>
+<!--                  <date-picker v-bind="section.fields['created']" :field="section.fields['created']" v-bind:value="getFieldValue(section.fields['created'])"-->
+<!--                    v-on:input="onInput(section.fields['created'], $event)"-->
+<!--                    outlined>-->
+<!--                  </date-picker>-->
                   <check-box-field-component
                     :field="{ activities: section.fields['activities'], otherOption: section.fields['otherOption'] }"
                     v-bind:value="{ activities: getFieldValue(section.fields['activities']), otherOption: getFieldValue(section.fields['otherOption']) }"
@@ -26,9 +26,8 @@
                   <date-picker :field="section.fields['endDate']" v-bind:value="getFieldValue(section.fields['endDate'])"
                     v-on:input="onInput(section.fields['endDate'], $event)" outlined>
                   </date-picker>
-                  <form-field :field="section.fields['products']" :form_name="formConfig.form_name"
-                    v-bind:value="getFieldValue(section.fields['products'])"
-                    v-on:input="onInput(section.fields['products'], $event)" outlined></form-field>
+                  <product-list-form :first_field_name="'products'"  :fields="section.fields" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['products'])"  v-on:input="onInput(section, $event)"></product-list-form>
+
                   <form-field :field="section.fields['description']" :form_name="formConfig.form_name"
                     v-bind:value="getFieldValue(section.fields['description'])"
                     v-on:input="onInput(section.fields['description'], $event)"></form-field>
@@ -48,7 +47,7 @@
 
               <v-row v-if="section.name === 'section2'">
                 <v-col class="col-12 col-md-5">
-                  <product-list-form :first_field_name="'resouce_allocation'" :second_field_name="'amount'" :fields="section.fields['resourceAllocation']['fields']" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section)" v-on:input="onInput(section, $event)"></product-list-form>
+                  <product-list-form :first_field_name="'resouce_allocation'" :second_field_name="'amount'" :fields="section.fields['resourceAllocation']['fields']" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['resourceAllocation'])" v-on:input="onInput(section, $event)"></product-list-form>
                 </v-col>
                 <v-col class="col-12 col-md-5">
                   <form-field :field="section.fields['totalAmount']" :form_name="formConfig.form_name"
@@ -79,6 +78,7 @@ import CheckBoxFieldComponent from "@/components/CheckBoxFieldComponent";
 import FormSection from "@/components/FormSection";
 import FormMixin from "@/mixins/FormMixin"
 import ProductListForm from '@/components/ProductListForm.vue';
+import CollectionMixin from "@/mixins/CollectionMixin";
 
 export default {
   components: {
@@ -89,7 +89,7 @@ export default {
     FormSection,
     ProductListForm,
   },
-  mixins: [FormMixin],
+  mixins: [FormMixin,CollectionMixin],
   data() {
     return {
       response: [],
