@@ -52,6 +52,9 @@ let endpoints = {
         'show' : 'private/mdf/:id/show',
         'submit' : 'private/mdf/:id/submit',
     },
+    'contact' : {
+        'add': 'private/contact/add',
+    },
     resolve(url, params) {
         let _url = url
         for (let [k, v] of Object.entries(params)) {

@@ -41,6 +41,7 @@
                   <form-field :field="section.fields['contact']" :form_name="formConfig.form_name"
                               v-bind:value="getFieldValue(section.fields['contact'])"
                               v-on:input="onInput(section.fields['contact'], $event)" outlined></form-field>
+                  <add-new-customer-form-component v-on:submit="updateCustomerDropdown(section.fields['contact'])"></add-new-customer-form-component>
                 </v-col>
               </v-row>
 
@@ -468,6 +469,8 @@ import DatePicker from "@/components/DatePicker";
 import VYesNoOther from "@/components/VYesNoOther";
 import FormSection from "@/components/FormSection";
 // import ComponentMapper from "@/components/ComponentMapper";
+import AddNewCustomerFormComponent from "@/components/AddNewCustomerFormComponent";
+import CustomerAddMixin from "@/mixins/CustomerAddMixin";
 
 export default {
   props:['id'],
@@ -478,8 +481,9 @@ export default {
     ParentForm,
     // DealStatus,
     FormSection,
+    AddNewCustomerFormComponent,
   },
-  mixins: [FormMixin],
+  mixins: [FormMixin,CustomerAddMixin],
 
   data() {
     return {
@@ -492,12 +496,12 @@ export default {
         form_data: this.axios.defaults.endpoints.deal.show,
         disabled: null,
       },
+      customerAddField:'contact',
       deal: {
         renewalDate: {
           date: ''
         }
       },
-      contact: {},
       payments: null,
       financialSummary: null,
       milestone: {},
@@ -629,6 +633,10 @@ export default {
     }
   },
   methods: {
+    updateCustomerDropdown(field) {
+      var contact = this.$root.$emit('contact-submitted')
+      field['choices'].push({ contact });
+    },
     getFieldValue(field) {
       if (!(field.name in this.model))
         this.model[field.name] = null

@@ -20,6 +20,7 @@
               <form-field style="margin-top: 65px" :field="section.fields['endCustomer']"
                 :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['endCustomer'])"
                 v-on:input="onInput(section.fields['endCustomer'], $event)" outlined></form-field>
+              <add-new-customer-form-component></add-new-customer-form-component>
             </v-col>
 
           </template>
@@ -45,6 +46,7 @@ import FormField from "@/components/FormField";
 import FormSection from "@/components/FormSection";
 import FormMixin from "@/mixins/FormMixin"
 import ProductListForm from '@/components/ProductListForm.vue';
+import AddNewCustomerFormComponent from "@/components/AddNewCustomerFormComponent";
 
 export default {
   props: ['fields'],
@@ -52,6 +54,7 @@ export default {
     FormField,
     ParentForm,
     FormSection,
+    AddNewCustomerFormComponent,
     ProductListForm,
   },
   mixins: [FormMixin],
