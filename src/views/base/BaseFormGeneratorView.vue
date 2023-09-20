@@ -105,12 +105,18 @@ export default {
       });
   },
   created() {
-    if(this.config.disabled === null)
-      this.config.disabled = this.$route.params.disabled
+    eventBus.$on('data-received', this.setDisabled);
+    // if(this.config.disabled === null)
+    //   this.config.disabled = this.$route.params.disabled?this.$route.params.disabled:null
     this.objectid = this.$route.params.id?this.$route.params.id:null
-
+  },
+  destroyed() {
+    eventBus.$off('data-received', this.setDisabled);
   },
   methods: {
+    setDisabled(data){
+      this.config.disabled = !data.isEditable
+    },
     submitForm(isSubmit) {
       const form = this.$refs.baseform
 
