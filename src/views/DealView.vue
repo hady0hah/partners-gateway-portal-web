@@ -99,359 +99,359 @@
           </template>
         </form-section>
       </v-col>
-      <v-row class="box">
-      <v-row class="mt-10" v-if="deal.id">
-        <v-col class="box col-12 col-md-9">
-          <v-data-table
-            :headers="milestonesHeaders"
-            :items="deal.dealMilestones"
-            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"
-          >
-            <template v-slot:item.actions="{ item }">
-              <v-icon
-                v-if="!formConfig.disabled"
-                small
-                class="mr-2"
-                @click="editItem(item)"
-              >
-                mdi-pencil
-              </v-icon>
-              <v-icon
-                v-if="!formConfig.disabled"
-                small
-                class="mr-2"
-                @click="deleteItem(item)"
-              >
-                mdi-delete
-              </v-icon>
-            </template>
-            <template v-slot:item.date.date="{ item }">
-              {{ friendlyDate(item.date.date) }}
-            </template>
-            <template v-slot:item.amount="{ item }">
-              {{ item.amount | currency }}
-            </template>
-            <template v-slot:top>
-              <v-toolbar flat>
-                <v-toolbar-title>Milestones</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-dialog v-model="dialog" max-width="500px">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      color="primary"
-                      dark
-                      class="mb-2"
-                      v-bind="attrs"
-                      v-on="on"
-                      small
-                      elevation="0"
-                    >
-                      Add Milestone
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title>
-                      <span class="text-h5">{{ formTitle }}</span>
-                    </v-card-title>
+<!--      <v-row class="box">-->
+<!--      <v-row class="mt-10" v-if="deal.id">-->
+<!--        <v-col class="box col-12 col-md-9">-->
+<!--          <v-data-table-->
+<!--            :headers="milestonesHeaders"-->
+<!--            :items="deal.dealMilestones"-->
+<!--            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"-->
+<!--          >-->
+<!--            <template v-slot:item.actions="{ item }">-->
+<!--              <v-icon-->
+<!--                v-if="!formConfig.disabled"-->
+<!--                small-->
+<!--                class="mr-2"-->
+<!--                @click="editItem(item)"-->
+<!--              >-->
+<!--                mdi-pencil-->
+<!--              </v-icon>-->
+<!--              <v-icon-->
+<!--                v-if="!formConfig.disabled"-->
+<!--                small-->
+<!--                class="mr-2"-->
+<!--                @click="deleteItem(item)"-->
+<!--              >-->
+<!--                mdi-delete-->
+<!--              </v-icon>-->
+<!--            </template>-->
+<!--            <template v-slot:item.date.date="{ item }">-->
+<!--              {{ friendlyDate(item.date.date) }}-->
+<!--            </template>-->
+<!--            <template v-slot:item.amount="{ item }">-->
+<!--              {{ item.amount | currency }}-->
+<!--            </template>-->
+<!--            <template v-slot:top>-->
+<!--              <v-toolbar flat>-->
+<!--                <v-toolbar-title>Milestones</v-toolbar-title>-->
+<!--                <v-spacer></v-spacer>-->
+<!--                <v-dialog v-model="dialog" max-width="500px">-->
+<!--                  <template v-slot:activator="{ on, attrs }">-->
+<!--                    <v-btn-->
+<!--                      color="primary"-->
+<!--                      dark-->
+<!--                      class="mb-2"-->
+<!--                      v-bind="attrs"-->
+<!--                      v-on="on"-->
+<!--                      small-->
+<!--                      elevation="0"-->
+<!--                    >-->
+<!--                      Add Milestone-->
+<!--                    </v-btn>-->
+<!--                  </template>-->
+<!--                  <v-card>-->
+<!--                    <v-card-title>-->
+<!--                      <span class="text-h5">{{ formTitle }}</span>-->
+<!--                    </v-card-title>-->
 
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                          <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                          >
-                            <v-text-field
-                              v-model="editedItem.project"
-                              label="Project"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                          >
-                            <v-text-field
-                              v-model="editedItem.amount"
-                              label="Amount"
-                              prefix="$"
-                              type="number"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                          >
-                            <v-menu
-                              :close-on-content-click="false"
-                              :nudge-right="40"
-                              transition="scale-transition"
-                              offset-y
-                              min-width="auto"
-                            >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
-                                  v-model="editedItem.date.date"
-                                  label="Date"
-                                  prepend-icon="mdi-calendar"
-                                  readonly
-                                  v-bind="attrs"
-                                  v-on="on"
-                                  :rules="[v => !!v || 'Field is required']"
-                                ></v-text-field>
-                              </template>
-                              <v-date-picker
-                                v-model="editedItem.date.date"
-                                @input="menu2 = false"
-                              ></v-date-picker>
-                            </v-menu>
-                          </v-col>
-                        </v-row>
-                        <v-row v-if="editedItem.error">
-                          <v-alert
-                            border="top"
-                            color="red lighten-2"
-                            dark
-                          >
-                            {{ editedItem.error }}
-                          </v-alert>
-                        </v-row>
-                      </v-container>
-                    </v-card-text>
+<!--                    <v-card-text>-->
+<!--                      <v-container>-->
+<!--                        <v-row>-->
+<!--                          <v-col-->
+<!--                            cols="12"-->
+<!--                            sm="6"-->
+<!--                            md="4"-->
+<!--                          >-->
+<!--                            <v-text-field-->
+<!--                              v-model="editedItem.project"-->
+<!--                              label="Project"-->
+<!--                            ></v-text-field>-->
+<!--                          </v-col>-->
+<!--                          <v-col-->
+<!--                            cols="12"-->
+<!--                            sm="6"-->
+<!--                            md="4"-->
+<!--                          >-->
+<!--                            <v-text-field-->
+<!--                              v-model="editedItem.amount"-->
+<!--                              label="Amount"-->
+<!--                              prefix="$"-->
+<!--                              type="number"-->
+<!--                            ></v-text-field>-->
+<!--                          </v-col>-->
+<!--                          <v-col-->
+<!--                            cols="12"-->
+<!--                            sm="6"-->
+<!--                            md="4"-->
+<!--                          >-->
+<!--                            <v-menu-->
+<!--                              :close-on-content-click="false"-->
+<!--                              :nudge-right="40"-->
+<!--                              transition="scale-transition"-->
+<!--                              offset-y-->
+<!--                              min-width="auto"-->
+<!--                            >-->
+<!--                              <template v-slot:activator="{ on, attrs }">-->
+<!--                                <v-text-field-->
+<!--                                  v-model="editedItem.date.date"-->
+<!--                                  label="Date"-->
+<!--                                  prepend-icon="mdi-calendar"-->
+<!--                                  readonly-->
+<!--                                  v-bind="attrs"-->
+<!--                                  v-on="on"-->
+<!--                                  :rules="[v => !!v || 'Field is required']"-->
+<!--                                ></v-text-field>-->
+<!--                              </template>-->
+<!--                              <v-date-picker-->
+<!--                                v-model="editedItem.date.date"-->
+<!--                                @input="menu2 = false"-->
+<!--                              ></v-date-picker>-->
+<!--                            </v-menu>-->
+<!--                          </v-col>-->
+<!--                        </v-row>-->
+<!--                        <v-row v-if="editedItem.error">-->
+<!--                          <v-alert-->
+<!--                            border="top"-->
+<!--                            color="red lighten-2"-->
+<!--                            dark-->
+<!--                          >-->
+<!--                            {{ editedItem.error }}-->
+<!--                          </v-alert>-->
+<!--                        </v-row>-->
+<!--                      </v-container>-->
+<!--                    </v-card-text>-->
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="close"
-                      >
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="save"
-                      >
-                        Save
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-                <v-dialog v-model="dialogDelete" max-width="500px">
-                  <v-card>
-                    <v-card-title>Are you sure you want to delete this milestone?</v-card-title>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>
-                      <v-btn color="primary" text @click="deleteItemConfirm">OK</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-toolbar>
-            </template>
-          </v-data-table>
-        </v-col>
-      </v-row>
-      <v-row class="mt-10" v-if="payments">
-        <v-col class="box col-12 col-md-6">
-          <v-data-table
-            :headers="paymentsHeaders"
-            :items="payments"
-            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"
-          >
-            <template v-slot:item.actions="{ item }">
-              <v-icon
-                v-if="!formConfig.disabled"
-                small
-                class="mr-2"
-                @click="editPaymentItem(item)"
-              >
-                mdi-pencil
-              </v-icon>
-              <v-icon
-                v-if="!formConfig.disabled"
-                small
-                class="mr-2"
-                @click="deletePaymentItem(item)"
-              >
-                mdi-delete
-              </v-icon>
-            </template>
-            <template v-slot:item.paymentDate.date="{ item }">
-              {{ friendlyDate(item.paymentDate.date) }}
-            </template>
-            <template v-slot:item.payment="{ item }">
-              {{ item.payment | currency }}
-            </template>
-            <template v-slot:item.status="{ item }">
-              <v-chip v-if="item.status == 'Paid'" class="ml-2" :color="'green'" label dark small>
-                {{ item.status }}
-              </v-chip>
-              <v-chip v-if="item.status == 'Due'" class="ml-2" :color="'red'" label dark small>
-                {{ item.status }}
-              </v-chip>
-              <v-chip v-if="item.status == 'Sched'" class="ml-2" :color="'blue'" label dark small>
-                {{ item.status }}
-              </v-chip>
-            </template>
-            <template v-slot:top>
-              <v-toolbar flat>
-                <v-toolbar-title>Payments</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-dialog v-model="dialogPayment" max-width="500px">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      color="primary"
-                      dark
-                      class="mb-2"
-                      v-bind="attrs"
-                      v-on="on"
-                      small
-                      elevation="0"
-                    >
-                      Add Payment
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title>
-                      <span class="text-h5">{{ paymentFormTitle }}</span>
-                    </v-card-title>
+<!--                    <v-card-actions>-->
+<!--                      <v-spacer></v-spacer>-->
+<!--                      <v-btn-->
+<!--                        color="blue darken-1"-->
+<!--                        text-->
+<!--                        @click="close"-->
+<!--                      >-->
+<!--                        Cancel-->
+<!--                      </v-btn>-->
+<!--                      <v-btn-->
+<!--                        color="blue darken-1"-->
+<!--                        text-->
+<!--                        @click="save"-->
+<!--                      >-->
+<!--                        Save-->
+<!--                      </v-btn>-->
+<!--                    </v-card-actions>-->
+<!--                  </v-card>-->
+<!--                </v-dialog>-->
+<!--                <v-dialog v-model="dialogDelete" max-width="500px">-->
+<!--                  <v-card>-->
+<!--                    <v-card-title>Are you sure you want to delete this milestone?</v-card-title>-->
+<!--                    <v-card-actions>-->
+<!--                      <v-spacer></v-spacer>-->
+<!--                      <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>-->
+<!--                      <v-btn color="primary" text @click="deleteItemConfirm">OK</v-btn>-->
+<!--                    </v-card-actions>-->
+<!--                  </v-card>-->
+<!--                </v-dialog>-->
+<!--              </v-toolbar>-->
+<!--            </template>-->
+<!--          </v-data-table>-->
+<!--        </v-col>-->
+<!--      </v-row>-->
+<!--      <v-row class="mt-10" v-if="payments">-->
+<!--        <v-col class="box col-12 col-md-6">-->
+<!--          <v-data-table-->
+<!--            :headers="paymentsHeaders"-->
+<!--            :items="payments"-->
+<!--            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"-->
+<!--          >-->
+<!--            <template v-slot:item.actions="{ item }">-->
+<!--              <v-icon-->
+<!--                v-if="!formConfig.disabled"-->
+<!--                small-->
+<!--                class="mr-2"-->
+<!--                @click="editPaymentItem(item)"-->
+<!--              >-->
+<!--                mdi-pencil-->
+<!--              </v-icon>-->
+<!--              <v-icon-->
+<!--                v-if="!formConfig.disabled"-->
+<!--                small-->
+<!--                class="mr-2"-->
+<!--                @click="deletePaymentItem(item)"-->
+<!--              >-->
+<!--                mdi-delete-->
+<!--              </v-icon>-->
+<!--            </template>-->
+<!--            <template v-slot:item.paymentDate.date="{ item }">-->
+<!--              {{ friendlyDate(item.paymentDate.date) }}-->
+<!--            </template>-->
+<!--            <template v-slot:item.payment="{ item }">-->
+<!--              {{ item.payment | currency }}-->
+<!--            </template>-->
+<!--            <template v-slot:item.status="{ item }">-->
+<!--              <v-chip v-if="item.status == 'Paid'" class="ml-2" :color="'green'" label dark small>-->
+<!--                {{ item.status }}-->
+<!--              </v-chip>-->
+<!--              <v-chip v-if="item.status == 'Due'" class="ml-2" :color="'red'" label dark small>-->
+<!--                {{ item.status }}-->
+<!--              </v-chip>-->
+<!--              <v-chip v-if="item.status == 'Sched'" class="ml-2" :color="'blue'" label dark small>-->
+<!--                {{ item.status }}-->
+<!--              </v-chip>-->
+<!--            </template>-->
+<!--            <template v-slot:top>-->
+<!--              <v-toolbar flat>-->
+<!--                <v-toolbar-title>Payments</v-toolbar-title>-->
+<!--                <v-spacer></v-spacer>-->
+<!--                <v-dialog v-model="dialogPayment" max-width="500px">-->
+<!--                  <template v-slot:activator="{ on, attrs }">-->
+<!--                    <v-btn-->
+<!--                      color="primary"-->
+<!--                      dark-->
+<!--                      class="mb-2"-->
+<!--                      v-bind="attrs"-->
+<!--                      v-on="on"-->
+<!--                      small-->
+<!--                      elevation="0"-->
+<!--                    >-->
+<!--                      Add Payment-->
+<!--                    </v-btn>-->
+<!--                  </template>-->
+<!--                  <v-card>-->
+<!--                    <v-card-title>-->
+<!--                      <span class="text-h5">{{ paymentFormTitle }}</span>-->
+<!--                    </v-card-title>-->
 
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                          <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                          >
-                            <v-text-field
-                              v-model="editedPaymentItem.payment"
-                              label="Payment"
-                              prefix="$"
-                              type="number"
-                              :rules="[v => !!v || 'Field is required']"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                          >
-                            <v-select
-                              :items="paymentStatuses"
-                              label="Status"
-                              v-model="editedPaymentItem.status"
-                              :rules="[v => !!v || 'Field is required']"
-                            ></v-select>
-                          </v-col>
-                          <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                          >
-                            <v-menu
-                              :close-on-content-click="false"
-                              :nudge-right="40"
-                              transition="scale-transition"
-                              offset-y
-                              min-width="auto"
-                            >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
-                                  v-model="editedPaymentItem.paymentDate.date"
-                                  label="Date"
-                                  prepend-icon="mdi-calendar"
-                                  readonly
-                                  v-bind="attrs"
-                                  v-on="on"
-                                  :rules="[v => !!v || 'Field is required']"
-                                ></v-text-field>
-                              </template>
-                              <v-date-picker
-                                v-model="editedPaymentItem.paymentDate.date"
-                                @input="menu2 = false"
-                              ></v-date-picker>
-                            </v-menu>
-                          </v-col>
-                        </v-row>
-                        <v-row v-if="editedPaymentItem.error">
-                          <v-alert color="red lighten-2" dark>
-                            {{ editedPaymentItem.error }}
-                          </v-alert>
-                        </v-row>
-                      </v-container>
-                    </v-card-text>
+<!--                    <v-card-text>-->
+<!--                      <v-container>-->
+<!--                        <v-row>-->
+<!--                          <v-col-->
+<!--                            cols="12"-->
+<!--                            sm="6"-->
+<!--                            md="4"-->
+<!--                          >-->
+<!--                            <v-text-field-->
+<!--                              v-model="editedPaymentItem.payment"-->
+<!--                              label="Payment"-->
+<!--                              prefix="$"-->
+<!--                              type="number"-->
+<!--                              :rules="[v => !!v || 'Field is required']"-->
+<!--                            ></v-text-field>-->
+<!--                          </v-col>-->
+<!--                          <v-col-->
+<!--                            cols="12"-->
+<!--                            sm="6"-->
+<!--                            md="4"-->
+<!--                          >-->
+<!--                            <v-select-->
+<!--                              :items="paymentStatuses"-->
+<!--                              label="Status"-->
+<!--                              v-model="editedPaymentItem.status"-->
+<!--                              :rules="[v => !!v || 'Field is required']"-->
+<!--                            ></v-select>-->
+<!--                          </v-col>-->
+<!--                          <v-col-->
+<!--                            cols="12"-->
+<!--                            sm="6"-->
+<!--                            md="4"-->
+<!--                          >-->
+<!--                            <v-menu-->
+<!--                              :close-on-content-click="false"-->
+<!--                              :nudge-right="40"-->
+<!--                              transition="scale-transition"-->
+<!--                              offset-y-->
+<!--                              min-width="auto"-->
+<!--                            >-->
+<!--                              <template v-slot:activator="{ on, attrs }">-->
+<!--                                <v-text-field-->
+<!--                                  v-model="editedPaymentItem.paymentDate.date"-->
+<!--                                  label="Date"-->
+<!--                                  prepend-icon="mdi-calendar"-->
+<!--                                  readonly-->
+<!--                                  v-bind="attrs"-->
+<!--                                  v-on="on"-->
+<!--                                  :rules="[v => !!v || 'Field is required']"-->
+<!--                                ></v-text-field>-->
+<!--                              </template>-->
+<!--                              <v-date-picker-->
+<!--                                v-model="editedPaymentItem.paymentDate.date"-->
+<!--                                @input="menu2 = false"-->
+<!--                              ></v-date-picker>-->
+<!--                            </v-menu>-->
+<!--                          </v-col>-->
+<!--                        </v-row>-->
+<!--                        <v-row v-if="editedPaymentItem.error">-->
+<!--                          <v-alert color="red lighten-2" dark>-->
+<!--                            {{ editedPaymentItem.error }}-->
+<!--                          </v-alert>-->
+<!--                        </v-row>-->
+<!--                      </v-container>-->
+<!--                    </v-card-text>-->
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="closePayment"
-                      >
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="savePayment"
-                      >
-                        Save
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-                <v-dialog v-model="dialogPaymentDelete" max-width="500px">
-                  <v-card>
-                    <v-card-title>Are you sure you want to delete this payment?</v-card-title>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="closePaymentDelete">Cancel</v-btn>
-                      <v-btn color="primary" text @click="deletePaymentItemConfirm">OK</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-toolbar>
-            </template>
-          </v-data-table>
-        </v-col>
-        <v-col class="box col-12 col-md-4">
-          <v-card elevation="2" shaped class="financial-summary pa-5 pb-10" v-if="financialSummary">
-            <h4 class="text-center">Financial Summary</h4>
-            <hr class="mt-4 mb-6 ml-15 mr-15">
-            <v-row>
-              <v-col cols="7" class="text-left">Total Paid</v-col>
-              <v-col cols="5" class="text-right">{{ financialSummary.total_paid ? financialSummary.total_paid : '0' | currency }}</v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="7" class="text-left">Total Due</v-col>
-              <v-col cols="5" class="text-right">{{ financialSummary.total_due ? financialSummary.total_due : '0' | currency }}</v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="7" class="text-left">Total Credit</v-col>
-              <v-col cols="5" class="text-right">{{ financialSummary.total_credit ? financialSummary.total_credit : '0' | currency }}</v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="7" class="text-left">Next Expectance</v-col>
-              <v-col cols="5" class="text-right">{{ financialSummary.next_expectance_amount ? financialSummary.next_expectance_amount : '0' | currency }}</v-col>
-            </v-row>
-            <v-row v-if="financialSummary.next_expectance_date">
-              <v-col cols="6" class="text-left">By</v-col>
-              <v-col cols="6" class="text-right">{{ friendlyDate(financialSummary.next_expectance_date.date) }}</v-col>
-            </v-row>
-            <hr class="mt-6 mb-4 ml-15 mr-15">
-            <v-row>
-              <v-col cols="7" class="text-left">Total Amount</v-col>
-              <v-col cols="5" class="text-right">{{ financialSummary.total_amount ? financialSummary.total_amount : '0' | currency }}</v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-      </v-row>
+<!--                    <v-card-actions>-->
+<!--                      <v-spacer></v-spacer>-->
+<!--                      <v-btn-->
+<!--                        color="blue darken-1"-->
+<!--                        text-->
+<!--                        @click="closePayment"-->
+<!--                      >-->
+<!--                        Cancel-->
+<!--                      </v-btn>-->
+<!--                      <v-btn-->
+<!--                        color="blue darken-1"-->
+<!--                        text-->
+<!--                        @click="savePayment"-->
+<!--                      >-->
+<!--                        Save-->
+<!--                      </v-btn>-->
+<!--                    </v-card-actions>-->
+<!--                  </v-card>-->
+<!--                </v-dialog>-->
+<!--                <v-dialog v-model="dialogPaymentDelete" max-width="500px">-->
+<!--                  <v-card>-->
+<!--                    <v-card-title>Are you sure you want to delete this payment?</v-card-title>-->
+<!--                    <v-card-actions>-->
+<!--                      <v-spacer></v-spacer>-->
+<!--                      <v-btn color="primary" text @click="closePaymentDelete">Cancel</v-btn>-->
+<!--                      <v-btn color="primary" text @click="deletePaymentItemConfirm">OK</v-btn>-->
+<!--                    </v-card-actions>-->
+<!--                  </v-card>-->
+<!--                </v-dialog>-->
+<!--              </v-toolbar>-->
+<!--            </template>-->
+<!--          </v-data-table>-->
+<!--        </v-col>-->
+<!--        <v-col class="box col-12 col-md-4">-->
+<!--          <v-card elevation="2" shaped class="financial-summary pa-5 pb-10" v-if="financialSummary">-->
+<!--            <h4 class="text-center">Financial Summary</h4>-->
+<!--            <hr class="mt-4 mb-6 ml-15 mr-15">-->
+<!--            <v-row>-->
+<!--              <v-col cols="7" class="text-left">Total Paid</v-col>-->
+<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_paid ? financialSummary.total_paid : '0' | currency }}</v-col>-->
+<!--            </v-row>-->
+<!--            <v-row>-->
+<!--              <v-col cols="7" class="text-left">Total Due</v-col>-->
+<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_due ? financialSummary.total_due : '0' | currency }}</v-col>-->
+<!--            </v-row>-->
+<!--            <v-row>-->
+<!--              <v-col cols="7" class="text-left">Total Credit</v-col>-->
+<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_credit ? financialSummary.total_credit : '0' | currency }}</v-col>-->
+<!--            </v-row>-->
+<!--            <v-row>-->
+<!--              <v-col cols="7" class="text-left">Next Expectance</v-col>-->
+<!--              <v-col cols="5" class="text-right">{{ financialSummary.next_expectance_amount ? financialSummary.next_expectance_amount : '0' | currency }}</v-col>-->
+<!--            </v-row>-->
+<!--            <v-row v-if="financialSummary.next_expectance_date">-->
+<!--              <v-col cols="6" class="text-left">By</v-col>-->
+<!--              <v-col cols="6" class="text-right">{{ friendlyDate(financialSummary.next_expectance_date.date) }}</v-col>-->
+<!--            </v-row>-->
+<!--            <hr class="mt-6 mb-4 ml-15 mr-15">-->
+<!--            <v-row>-->
+<!--              <v-col cols="7" class="text-left">Total Amount</v-col>-->
+<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_amount ? financialSummary.total_amount : '0' | currency }}</v-col>-->
+<!--            </v-row>-->
+<!--          </v-card>-->
+<!--        </v-col>-->
+<!--      </v-row>-->
+<!--      </v-row>-->
     </template>
   </parent-form>
 </template>
@@ -600,33 +600,33 @@ export default {
     const t = this
     if(this.formConfig.disabled === null)
       this.formConfig.disabled = this.$route.params.disabled
-    if (this.id) {
-      this.payments = []
-      this.$Progress.start()
-      this.axios.get('private/deals/show?id='+this.id, {})
-        .then(function (response) {
-          t.deal = response.data.data
-          if (!t.deal.dealMilestones)
-            t.deal.dealMilestones = []
-            .catch(err => {
-              console.log(err);
-            });
-
-          t.$Progress.increase(10)
-          t.axios.get('private/deal/payments?id='+t.id, {})
-            .then(function (response) {
-              t.$Progress.finish()
-              t.payments = response.data.data.payments
-              t.getFinancialSummary()
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    // if (this.id) {
+    //   this.payments = []
+    //   this.$Progress.start()
+    //   this.axios.get('private/deals/show?id='+this.id, {})
+    //     .then(function (response) {
+    //       t.deal = response.data.data
+    //       if (!t.deal.dealMilestones)
+    //         t.deal.dealMilestones = []
+    //         .catch(err => {
+    //           console.log(err);
+    //         });
+    //
+    //       t.$Progress.increase(10)
+    //       t.axios.get('private/deal/payments?id='+t.id, {})
+    //         .then(function (response) {
+    //           t.$Progress.finish()
+    //           t.payments = response.data.data.payments
+    //           t.getFinancialSummary()
+    //         })
+    //         .catch(err => {
+    //           console.log(err);
+    //         });
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // }
   },
   methods: {
     getFieldValue(field) {
