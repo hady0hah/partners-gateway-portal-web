@@ -80,6 +80,44 @@ export default {
             "row_class": "col-md-12",
             "type": "Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType"
           },
+          "country": {
+            "value": "",
+            "attr": {
+              "maxlength": 255,
+              "class": ""
+            },
+            "name": "country",
+            "full_name": "form[country]",
+            "disabled": false,
+            "label": "Country",
+            "valid": true,
+            "data": null,
+            "required": true,
+            "size": null,
+            "submitted": false,
+            "sonata_help": null,
+            "row_class": "col-md-12",
+            "type": "Symfony\\Component\\Form\\Extension\\Core\\Type\\EntityType"
+          },
+          "city": {
+            "value": "",
+            "attr": {
+              "maxlength": 255,
+              "class": ""
+            },
+            "name": "city",
+            "full_name": "form[city]",
+            "disabled": false,
+            "label": "City",
+            "valid": true,
+            "data": null,
+            "required": true,
+            "size": null,
+            "submitted": false,
+            "sonata_help": null,
+            "row_class": "col-md-12",
+            "type": "Symfony\\Component\\Form\\Extension\\Core\\Type\\EntityType"
+          },
           "website": {
             "value": "",
             "attr": {

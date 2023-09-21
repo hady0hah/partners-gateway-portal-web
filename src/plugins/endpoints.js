@@ -55,6 +55,10 @@ let endpoints = {
     'contact' : {
         'add': 'private/contact/add',
     },
+    'country' : {
+      'list': 'private/country/list',
+      'show': 'private/country/show?id=:id',
+    },
     resolve(url, params) {
         let _url = url
         for (let [k, v] of Object.entries(params)) {

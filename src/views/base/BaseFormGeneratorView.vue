@@ -4,7 +4,7 @@
       <v-col class="text-left">
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
-          <btn-back-component :width="buttonWidth"></btn-back-component>
+          <slot name="header-back"><btn-back-component :width="buttonWidth"></btn-back-component></slot>
           <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm(false) }">Save</v-btn>
           <slot name="header-left-post-back">
             <v-btn v-if="config.display_submit_button && !config.disabled" class="mr-4" color="primary" @click="submitForm(true)" small elevation="0" >Submit</v-btn>
@@ -83,12 +83,6 @@ export default {
   },
   mounted() {
     const t = this
-    if(this.config.isDialog){
-      this.$Progress.start()
-          t.form = this.config.contact_form_fields
-          eventBus.$emit('form-received', t.form);
-          t.$Progress.finish()
-    }else{
         if (this.config.form_fields) {
           this.form = this.config.form_fields
           return
@@ -117,7 +111,6 @@ export default {
           .catch(err => {
             console.log(err);
           });
-      }
   },
   created() {
     if(this.config.disabled === null)
@@ -149,7 +142,9 @@ export default {
         .then(function (response) {
           t.$Progress.finish()
           eventBus.$emit('form-submitted', response.data.data);
-          t.$router.go(-1);
+          if (!t.config.isDialog) {
+            t.$router.go(-1);
+          }
           // t.$root.$emit('refreshClientProfile') ??
         })
         .catch(err => {
