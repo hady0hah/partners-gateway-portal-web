@@ -64,7 +64,6 @@ export default {
           main_action_onsubmit:null,
           display_submit_button: false,
           disabled: null,
-          contact_form_fields:null,
           isDialog: false,
         }
       },
