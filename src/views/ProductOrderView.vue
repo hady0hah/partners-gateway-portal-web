@@ -17,9 +17,12 @@
                 style=";font-weight: bold;color: #205023;margin-top: -60px">
                 <p>{{ section.fields['endCustomer'].label }}</p>
               </div>
-              <form-field style="margin-top: 65px" :field="section.fields['endCustomer']"
-                :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['endCustomer'])"
-                v-on:input="onInput(section.fields['endCustomer'], $event)" outlined></form-field>
+<!--              <form-field style="margin-top: 65px" :field="section.fields['endCustomer']"-->
+<!--                :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['endCustomer'])"-->
+<!--                v-on:input="onInput(section.fields['endCustomer'], $event)" outlined></form-field>-->
+              <add-new-customer-component :field="section.fields['endCustomer']"
+              :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['endCustomer'])"
+              v-on:input="onInput(section.fields['endCustomer'], $event)" :disabled="formConfig.disabled" outlined ></add-new-customer-component>
             </v-col>
 
           </template>
@@ -45,6 +48,7 @@ import FormField from "@/components/FormField";
 import FormSection from "@/components/FormSection";
 import FormMixin from "@/mixins/FormMixin"
 import ProductListForm from '@/components/ProductListForm.vue';
+import AddNewCustomerComponent from "@/components/AddNewCustomerComponent.vue";
 
 export default {
   props: ['fields'],
@@ -52,6 +56,7 @@ export default {
     FormField,
     ParentForm,
     FormSection,
+    AddNewCustomerComponent,
     ProductListForm,
   },
   mixins: [FormMixin],

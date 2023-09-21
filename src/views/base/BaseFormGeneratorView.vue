@@ -4,10 +4,10 @@
       <v-col class="text-left">
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
-          <btn-back-component :width="buttonWidth"></btn-back-component>
+          <slot name="header-back"><btn-back-component :width="buttonWidth"></btn-back-component></slot>
           <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm(false) }">Save</v-btn>
           <slot name="header-left-post-back">
-            <v-btn v-if="!config.disabled" class="mr-4" color="primary" @click="submitForm(true)" small elevation="0" >Submit</v-btn>
+            <v-btn v-if="config.display_submit_button && !config.disabled" class="mr-4" color="primary" @click="submitForm(true)" small elevation="0" >Submit</v-btn>
           </slot>
         </slot>
       </v-col>
@@ -55,13 +55,16 @@ export default {
       default: () =>{
         return {
           form_name : null,
+          form_fields: null,
           form_url: null,
           form_add: null,
           form_edit: null,
           form_data: null,
           form_submit: null,
           main_action_onsubmit:null,
-          disabled: null
+          display_submit_button: false,
+          disabled: null,
+          isDialog: false,
         }
       },
       type: Object
@@ -78,32 +81,36 @@ export default {
     };
   },
   mounted() {
-    if(!this.config.form_url) return
     const t = this
-    this.$Progress.start()
-    this.axios.get(this.config.form_url, {})
-      .then(function (response) {
-        t.form = response.data.data
-        eventBus.$emit('form-received', t.form);
-        if(t.objectid){
-          const formData = t.axios.defaults.endpoints.resolve(t.config.form_data, { id: t.objectid })
-          t.axios.get(formData, {})
-            .then(function (response) {
-              t.model = response.data.data
-              t.config.disabled = !response.data.data.isEditable
-              eventBus.$emit('data-received', t.model);
-              t.$Progress.finish()
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          t.$Progress.finish()
+        if (this.config.form_fields) {
+          this.form = this.config.form_fields
+          return
         }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+        if (!this.config.form_url) return
+        this.$Progress.start()
+        this.axios.get(this.config.form_url, {})
+          .then(function (response) {
+            t.form = response.data.data
+            eventBus.$emit('form-received', t.form);
+            if (t.objectid) {
+              const formData = t.axios.defaults.endpoints.resolve(t.config.form_data, {id: t.objectid})
+              t.axios.get(formData, {})
+                .then(function (response) {
+                  t.model = response.data.data
+                  t.config.disabled = !response.data.data.isEditable
+                  eventBus.$emit('data-received', t.model);
+                  t.$Progress.finish()
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            } else {
+              t.$Progress.finish()
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
   },
   created() {
     // if(this.config.disabled === null)
@@ -133,8 +140,10 @@ export default {
       this.axios.post(formUrl,formdata)
         .then(function (response) {
           t.$Progress.finish()
-          eventBus.$emit('form-submitted', t.form);
-          t.$router.go(-1);
+          eventBus.$emit('form-submitted', response.data.data);
+          if (!t.config.isDialog) {
+            t.$router.go(-1);
+          }
           // t.$root.$emit('refreshClientProfile') ??
         })
         .catch(err => {
