@@ -1,7 +1,7 @@
 <template>
   <parent-form lazy-validation :config="formConfig" ref="formRef">
     <template v-slot:header-left-post-back>
-    <span></span>
+      <span></span>
     </template>
     <template v-slot:form-sections="{ form }">
       <v-col class="box col-12" v-for="section, i in form.form" :key="i">
@@ -12,35 +12,37 @@
               <v-row v-if="section.name === 'deal_details'">
                 <v-col class="col-12 col-md-4">
                   <form-field :field="section.fields['accountManager']" :form_name="formConfig.form_name"
-                              v-bind:value="getFieldValue(section.fields['accountManager'])"
-                              v-on:input="onInput(section.fields['accountManager'], $event)" outlined></form-field>
+                    v-bind:value="getFieldValue(section.fields['accountManager'])"
+                    v-on:input="onInput(section.fields['accountManager'], $event)" outlined></form-field>
                   <form-field :field="section.fields['name']" :form_name="formConfig.form_name"
-                              v-bind:value="getFieldValue(section.fields['name'])"
-                              v-on:input="onInput(section.fields['name'], $event)"></form-field>
+                    v-bind:value="getFieldValue(section.fields['name'])"
+                    v-on:input="onInput(section.fields['name'], $event)"></form-field>
                   <form-field :field="section.fields['region']" :form_name="formConfig.form_name"
-                              v-bind:value="getFieldValue(section.fields['region'])"
-                              v-on:input="onInput(section.fields['region'], $event)" outlined></form-field>
+                    v-bind:value="getFieldValue(section.fields['region'])"
+                    v-on:input="onInput(section.fields['region'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
                   <form-field :field="section.fields['dealStatus']" :form_name="formConfig.form_name"
-                              v-bind:value="getFieldValue(section.fields['dealStatus'])"
-                              v-on:input="onInput(section.fields['dealStatus'], $event)" outlined></form-field>
+                    v-bind:value="getFieldValue(section.fields['dealStatus'])"
+                    v-on:input="onInput(section.fields['dealStatus'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
-                  <date-picker :field="section.fields['renewalDate']" v-bind:value="getFieldValue(section.fields['renewalDate'])"
-                               v-on:input="onInput(section.fields['renewalDate'], $event)" outlined>
+                  <date-picker :field="section.fields['renewalDate']"
+                    v-bind:value="getFieldValue(section.fields['renewalDate'])"
+                    v-on:input="onInput(section.fields['renewalDate'], $event)" outlined>
                   </date-picker>
-                  <form-field v-if="section.fields['reseller']" :field="section.fields['reseller']" :form_name="formConfig.form_name"
-                              v-bind:value="getFieldValue(section.fields['reseller'])"
-                              v-on:input="onInput(section.fields['reseller'], $event)"></form-field>
+                  <form-field v-if="section.fields['reseller']" :field="section.fields['reseller']"
+                    :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['reseller'])"
+                    v-on:input="onInput(section.fields['reseller'], $event)"></form-field>
                 </v-col>
               </v-row>
 
               <v-row v-if="section.name === 'end_customer_information'">
                 <v-col class="col-12 col-md-4">
-                  <add-new-customer-component :field="section.fields['contact']"
-                                              :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['contact'])"
-                                              v-on:input="onInput(section.fields['contact'], $event)" :disabled="formConfig.disabled" outlined ></add-new-customer-component>
+                  <add-new-customer-component :field="section.fields['contact']" :form_name="formConfig.form_name"
+                    v-bind:value="getFieldValue(section.fields['contact'])"
+                    v-on:input="onInput(section.fields['contact'], $event)" :disabled="formConfig.disabled"
+                    outlined></add-new-customer-component>
                 </v-col>
               </v-row>
 
@@ -48,47 +50,49 @@
                 <v-row>
                   <v-col class="col-12 col-md-4">
                     <form-field :field="section.fields['opportunity_desc']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['opportunity_desc'])"
-                                v-on:input="onInput(section.fields['opportunity_desc'], $event)" outlined></form-field>
+                      v-bind:value="getFieldValue(section.fields['opportunity_desc'])"
+                      v-on:input="onInput(section.fields['opportunity_desc'], $event)" outlined></form-field>
                     <form-field :field="section.fields['budget']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['budget'])"
-                                v-on:input="onInput(section.fields['budget'], $event)" outlined></form-field>
+                      v-bind:value="getFieldValue(section.fields['budget'])"
+                      v-on:input="onInput(section.fields['budget'], $event)" outlined></form-field>
                     <form-field :field="section.fields['product']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['product'])"
-                                v-on:input="onInput(section.fields['product'], $event)" outlined></form-field>
+                      v-bind:value="getFieldValue(section.fields['product'])"
+                      v-on:input="onInput(section.fields['product'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-                    <date-picker :field="section.fields['startDate']" v-bind:value="getFieldValue(section.fields['startDate'])"
-                                 v-on:input="onInput(section.fields['startDate'], $event)" outlined>
+                    <date-picker :field="section.fields['startDate']"
+                      v-bind:value="getFieldValue(section.fields['startDate'])"
+                      v-on:input="onInput(section.fields['startDate'], $event)" outlined>
                     </date-picker>
                     <form-field :field="section.fields['initiated_by']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['initiated_by'])"
-                                v-on:input="onInput(section.fields['initiated_by'], $event)"></form-field>
+                      v-bind:value="getFieldValue(section.fields['initiated_by'])"
+                      v-on:input="onInput(section.fields['initiated_by'], $event)"></form-field>
                     <date-picker :field="section.fields['lastMeetingDate']"
-                                 v-bind:value="getFieldValue(section.fields['lastMeetingDate'])"
-                                 v-on:input="onInput(section.fields['lastMeetingDate'], $event)" outlined>
+                      v-bind:value="getFieldValue(section.fields['lastMeetingDate'])"
+                      v-on:input="onInput(section.fields['lastMeetingDate'], $event)" outlined>
                     </date-picker>
-                    <v-yes-no-other v-bind="section.fields['technicalPresentationOption']" :field="section.fields['technicalPresentationOption']"
-                                    v-bind:value="getFieldValue(section.fields['technicalPresentationOption'])"
-                                    v-on:input="onInput(section.fields['technicalPresentationOption'], $event)">
-                    </v-yes-no-other>
+                    <v-yes-no-other
+                      :field="{ radio: section.fields['technicalPresentationOption'], other: section.fields['otherOption'] }"
+                      v-bind="section.fields['technicalPresentationOption']"
+                      v-bind:value="{ radio: getFieldValue(section.fields['technicalPresentationOption']), other: getFieldValue(section.fields['otherOption']) }"
+                      v-on:input="onInputObject($event)"></v-yes-no-other>
                     <form-field :field="section.fields['quantity']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['quantity'])"
-                                v-on:input="onInput(section.fields['quantity'], $event)" outlined></form-field>
+                      v-bind:value="getFieldValue(section.fields['quantity'])"
+                      v-on:input="onInput(section.fields['quantity'], $event)" outlined></form-field>
                     <form-field :field="section.fields['competitors']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['competitors'])"
-                                v-on:input="onInput(section.fields['competitors'], $event)" outlined></form-field>
+                      v-bind:value="getFieldValue(section.fields['competitors'])"
+                      v-on:input="onInput(section.fields['competitors'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-<!--                    <form-field :field="section.fields['otherOption']" :form_name="formConfig.form_name"-->
-<!--                                v-bind:value="getFieldValue(section.fields['otherOption'])"-->
-<!--                                v-on:input="onInput(section.fields['otherOption'], $event)" outlined></form-field>-->
+                    <!--                    <form-field :field="section.fields['otherOption']" :form_name="formConfig.form_name"-->
+                    <!--                                v-bind:value="getFieldValue(section.fields['otherOption'])"-->
+                    <!--                                v-on:input="onInput(section.fields['otherOption'], $event)" outlined></form-field>-->
                     <form-field :field="section.fields['dealOS']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['dealOS'])"
-                                v-on:input="onInput(section.fields['dealOS'], $event)" outlined></form-field>
+                      v-bind:value="getFieldValue(section.fields['dealOS'])"
+                      v-on:input="onInput(section.fields['dealOS'], $event)" outlined></form-field>
                     <form-field :field="section.fields['notes']" :form_name="formConfig.form_name"
-                                v-bind:value="getFieldValue(section.fields['notes'])"
-                                v-on:input="onInput(section.fields['notes'], $event)" outlined></form-field>
+                      v-bind:value="getFieldValue(section.fields['notes'])"
+                      v-on:input="onInput(section.fields['notes'], $event)" outlined></form-field>
                   </v-col>
                 </v-row>
                 <span class="horizontal-line"></span>
@@ -99,359 +103,359 @@
           </template>
         </form-section>
       </v-col>
-<!--      <v-row class="box">-->
-<!--      <v-row class="mt-10" v-if="deal.id">-->
-<!--        <v-col class="box col-12 col-md-9">-->
-<!--          <v-data-table-->
-<!--            :headers="milestonesHeaders"-->
-<!--            :items="deal.dealMilestones"-->
-<!--            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"-->
-<!--          >-->
-<!--            <template v-slot:item.actions="{ item }">-->
-<!--              <v-icon-->
-<!--                v-if="!formConfig.disabled"-->
-<!--                small-->
-<!--                class="mr-2"-->
-<!--                @click="editItem(item)"-->
-<!--              >-->
-<!--                mdi-pencil-->
-<!--              </v-icon>-->
-<!--              <v-icon-->
-<!--                v-if="!formConfig.disabled"-->
-<!--                small-->
-<!--                class="mr-2"-->
-<!--                @click="deleteItem(item)"-->
-<!--              >-->
-<!--                mdi-delete-->
-<!--              </v-icon>-->
-<!--            </template>-->
-<!--            <template v-slot:item.date.date="{ item }">-->
-<!--              {{ friendlyDate(item.date.date) }}-->
-<!--            </template>-->
-<!--            <template v-slot:item.amount="{ item }">-->
-<!--              {{ item.amount | currency }}-->
-<!--            </template>-->
-<!--            <template v-slot:top>-->
-<!--              <v-toolbar flat>-->
-<!--                <v-toolbar-title>Milestones</v-toolbar-title>-->
-<!--                <v-spacer></v-spacer>-->
-<!--                <v-dialog v-model="dialog" max-width="500px">-->
-<!--                  <template v-slot:activator="{ on, attrs }">-->
-<!--                    <v-btn-->
-<!--                      color="primary"-->
-<!--                      dark-->
-<!--                      class="mb-2"-->
-<!--                      v-bind="attrs"-->
-<!--                      v-on="on"-->
-<!--                      small-->
-<!--                      elevation="0"-->
-<!--                    >-->
-<!--                      Add Milestone-->
-<!--                    </v-btn>-->
-<!--                  </template>-->
-<!--                  <v-card>-->
-<!--                    <v-card-title>-->
-<!--                      <span class="text-h5">{{ formTitle }}</span>-->
-<!--                    </v-card-title>-->
+      <!--      <v-row class="box">-->
+      <!--      <v-row class="mt-10" v-if="deal.id">-->
+      <!--        <v-col class="box col-12 col-md-9">-->
+      <!--          <v-data-table-->
+      <!--            :headers="milestonesHeaders"-->
+      <!--            :items="deal.dealMilestones"-->
+      <!--            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"-->
+      <!--          >-->
+      <!--            <template v-slot:item.actions="{ item }">-->
+      <!--              <v-icon-->
+      <!--                v-if="!formConfig.disabled"-->
+      <!--                small-->
+      <!--                class="mr-2"-->
+      <!--                @click="editItem(item)"-->
+      <!--              >-->
+      <!--                mdi-pencil-->
+      <!--              </v-icon>-->
+      <!--              <v-icon-->
+      <!--                v-if="!formConfig.disabled"-->
+      <!--                small-->
+      <!--                class="mr-2"-->
+      <!--                @click="deleteItem(item)"-->
+      <!--              >-->
+      <!--                mdi-delete-->
+      <!--              </v-icon>-->
+      <!--            </template>-->
+      <!--            <template v-slot:item.date.date="{ item }">-->
+      <!--              {{ friendlyDate(item.date.date) }}-->
+      <!--            </template>-->
+      <!--            <template v-slot:item.amount="{ item }">-->
+      <!--              {{ item.amount | currency }}-->
+      <!--            </template>-->
+      <!--            <template v-slot:top>-->
+      <!--              <v-toolbar flat>-->
+      <!--                <v-toolbar-title>Milestones</v-toolbar-title>-->
+      <!--                <v-spacer></v-spacer>-->
+      <!--                <v-dialog v-model="dialog" max-width="500px">-->
+      <!--                  <template v-slot:activator="{ on, attrs }">-->
+      <!--                    <v-btn-->
+      <!--                      color="primary"-->
+      <!--                      dark-->
+      <!--                      class="mb-2"-->
+      <!--                      v-bind="attrs"-->
+      <!--                      v-on="on"-->
+      <!--                      small-->
+      <!--                      elevation="0"-->
+      <!--                    >-->
+      <!--                      Add Milestone-->
+      <!--                    </v-btn>-->
+      <!--                  </template>-->
+      <!--                  <v-card>-->
+      <!--                    <v-card-title>-->
+      <!--                      <span class="text-h5">{{ formTitle }}</span>-->
+      <!--                    </v-card-title>-->
 
-<!--                    <v-card-text>-->
-<!--                      <v-container>-->
-<!--                        <v-row>-->
-<!--                          <v-col-->
-<!--                            cols="12"-->
-<!--                            sm="6"-->
-<!--                            md="4"-->
-<!--                          >-->
-<!--                            <v-text-field-->
-<!--                              v-model="editedItem.project"-->
-<!--                              label="Project"-->
-<!--                            ></v-text-field>-->
-<!--                          </v-col>-->
-<!--                          <v-col-->
-<!--                            cols="12"-->
-<!--                            sm="6"-->
-<!--                            md="4"-->
-<!--                          >-->
-<!--                            <v-text-field-->
-<!--                              v-model="editedItem.amount"-->
-<!--                              label="Amount"-->
-<!--                              prefix="$"-->
-<!--                              type="number"-->
-<!--                            ></v-text-field>-->
-<!--                          </v-col>-->
-<!--                          <v-col-->
-<!--                            cols="12"-->
-<!--                            sm="6"-->
-<!--                            md="4"-->
-<!--                          >-->
-<!--                            <v-menu-->
-<!--                              :close-on-content-click="false"-->
-<!--                              :nudge-right="40"-->
-<!--                              transition="scale-transition"-->
-<!--                              offset-y-->
-<!--                              min-width="auto"-->
-<!--                            >-->
-<!--                              <template v-slot:activator="{ on, attrs }">-->
-<!--                                <v-text-field-->
-<!--                                  v-model="editedItem.date.date"-->
-<!--                                  label="Date"-->
-<!--                                  prepend-icon="mdi-calendar"-->
-<!--                                  readonly-->
-<!--                                  v-bind="attrs"-->
-<!--                                  v-on="on"-->
-<!--                                  :rules="[v => !!v || 'Field is required']"-->
-<!--                                ></v-text-field>-->
-<!--                              </template>-->
-<!--                              <v-date-picker-->
-<!--                                v-model="editedItem.date.date"-->
-<!--                                @input="menu2 = false"-->
-<!--                              ></v-date-picker>-->
-<!--                            </v-menu>-->
-<!--                          </v-col>-->
-<!--                        </v-row>-->
-<!--                        <v-row v-if="editedItem.error">-->
-<!--                          <v-alert-->
-<!--                            border="top"-->
-<!--                            color="red lighten-2"-->
-<!--                            dark-->
-<!--                          >-->
-<!--                            {{ editedItem.error }}-->
-<!--                          </v-alert>-->
-<!--                        </v-row>-->
-<!--                      </v-container>-->
-<!--                    </v-card-text>-->
+      <!--                    <v-card-text>-->
+      <!--                      <v-container>-->
+      <!--                        <v-row>-->
+      <!--                          <v-col-->
+      <!--                            cols="12"-->
+      <!--                            sm="6"-->
+      <!--                            md="4"-->
+      <!--                          >-->
+      <!--                            <v-text-field-->
+      <!--                              v-model="editedItem.project"-->
+      <!--                              label="Project"-->
+      <!--                            ></v-text-field>-->
+      <!--                          </v-col>-->
+      <!--                          <v-col-->
+      <!--                            cols="12"-->
+      <!--                            sm="6"-->
+      <!--                            md="4"-->
+      <!--                          >-->
+      <!--                            <v-text-field-->
+      <!--                              v-model="editedItem.amount"-->
+      <!--                              label="Amount"-->
+      <!--                              prefix="$"-->
+      <!--                              type="number"-->
+      <!--                            ></v-text-field>-->
+      <!--                          </v-col>-->
+      <!--                          <v-col-->
+      <!--                            cols="12"-->
+      <!--                            sm="6"-->
+      <!--                            md="4"-->
+      <!--                          >-->
+      <!--                            <v-menu-->
+      <!--                              :close-on-content-click="false"-->
+      <!--                              :nudge-right="40"-->
+      <!--                              transition="scale-transition"-->
+      <!--                              offset-y-->
+      <!--                              min-width="auto"-->
+      <!--                            >-->
+      <!--                              <template v-slot:activator="{ on, attrs }">-->
+      <!--                                <v-text-field-->
+      <!--                                  v-model="editedItem.date.date"-->
+      <!--                                  label="Date"-->
+      <!--                                  prepend-icon="mdi-calendar"-->
+      <!--                                  readonly-->
+      <!--                                  v-bind="attrs"-->
+      <!--                                  v-on="on"-->
+      <!--                                  :rules="[v => !!v || 'Field is required']"-->
+      <!--                                ></v-text-field>-->
+      <!--                              </template>-->
+      <!--                              <v-date-picker-->
+      <!--                                v-model="editedItem.date.date"-->
+      <!--                                @input="menu2 = false"-->
+      <!--                              ></v-date-picker>-->
+      <!--                            </v-menu>-->
+      <!--                          </v-col>-->
+      <!--                        </v-row>-->
+      <!--                        <v-row v-if="editedItem.error">-->
+      <!--                          <v-alert-->
+      <!--                            border="top"-->
+      <!--                            color="red lighten-2"-->
+      <!--                            dark-->
+      <!--                          >-->
+      <!--                            {{ editedItem.error }}-->
+      <!--                          </v-alert>-->
+      <!--                        </v-row>-->
+      <!--                      </v-container>-->
+      <!--                    </v-card-text>-->
 
-<!--                    <v-card-actions>-->
-<!--                      <v-spacer></v-spacer>-->
-<!--                      <v-btn-->
-<!--                        color="blue darken-1"-->
-<!--                        text-->
-<!--                        @click="close"-->
-<!--                      >-->
-<!--                        Cancel-->
-<!--                      </v-btn>-->
-<!--                      <v-btn-->
-<!--                        color="blue darken-1"-->
-<!--                        text-->
-<!--                        @click="save"-->
-<!--                      >-->
-<!--                        Save-->
-<!--                      </v-btn>-->
-<!--                    </v-card-actions>-->
-<!--                  </v-card>-->
-<!--                </v-dialog>-->
-<!--                <v-dialog v-model="dialogDelete" max-width="500px">-->
-<!--                  <v-card>-->
-<!--                    <v-card-title>Are you sure you want to delete this milestone?</v-card-title>-->
-<!--                    <v-card-actions>-->
-<!--                      <v-spacer></v-spacer>-->
-<!--                      <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>-->
-<!--                      <v-btn color="primary" text @click="deleteItemConfirm">OK</v-btn>-->
-<!--                    </v-card-actions>-->
-<!--                  </v-card>-->
-<!--                </v-dialog>-->
-<!--              </v-toolbar>-->
-<!--            </template>-->
-<!--          </v-data-table>-->
-<!--        </v-col>-->
-<!--      </v-row>-->
-<!--      <v-row class="mt-10" v-if="payments">-->
-<!--        <v-col class="box col-12 col-md-6">-->
-<!--          <v-data-table-->
-<!--            :headers="paymentsHeaders"-->
-<!--            :items="payments"-->
-<!--            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"-->
-<!--          >-->
-<!--            <template v-slot:item.actions="{ item }">-->
-<!--              <v-icon-->
-<!--                v-if="!formConfig.disabled"-->
-<!--                small-->
-<!--                class="mr-2"-->
-<!--                @click="editPaymentItem(item)"-->
-<!--              >-->
-<!--                mdi-pencil-->
-<!--              </v-icon>-->
-<!--              <v-icon-->
-<!--                v-if="!formConfig.disabled"-->
-<!--                small-->
-<!--                class="mr-2"-->
-<!--                @click="deletePaymentItem(item)"-->
-<!--              >-->
-<!--                mdi-delete-->
-<!--              </v-icon>-->
-<!--            </template>-->
-<!--            <template v-slot:item.paymentDate.date="{ item }">-->
-<!--              {{ friendlyDate(item.paymentDate.date) }}-->
-<!--            </template>-->
-<!--            <template v-slot:item.payment="{ item }">-->
-<!--              {{ item.payment | currency }}-->
-<!--            </template>-->
-<!--            <template v-slot:item.status="{ item }">-->
-<!--              <v-chip v-if="item.status == 'Paid'" class="ml-2" :color="'green'" label dark small>-->
-<!--                {{ item.status }}-->
-<!--              </v-chip>-->
-<!--              <v-chip v-if="item.status == 'Due'" class="ml-2" :color="'red'" label dark small>-->
-<!--                {{ item.status }}-->
-<!--              </v-chip>-->
-<!--              <v-chip v-if="item.status == 'Sched'" class="ml-2" :color="'blue'" label dark small>-->
-<!--                {{ item.status }}-->
-<!--              </v-chip>-->
-<!--            </template>-->
-<!--            <template v-slot:top>-->
-<!--              <v-toolbar flat>-->
-<!--                <v-toolbar-title>Payments</v-toolbar-title>-->
-<!--                <v-spacer></v-spacer>-->
-<!--                <v-dialog v-model="dialogPayment" max-width="500px">-->
-<!--                  <template v-slot:activator="{ on, attrs }">-->
-<!--                    <v-btn-->
-<!--                      color="primary"-->
-<!--                      dark-->
-<!--                      class="mb-2"-->
-<!--                      v-bind="attrs"-->
-<!--                      v-on="on"-->
-<!--                      small-->
-<!--                      elevation="0"-->
-<!--                    >-->
-<!--                      Add Payment-->
-<!--                    </v-btn>-->
-<!--                  </template>-->
-<!--                  <v-card>-->
-<!--                    <v-card-title>-->
-<!--                      <span class="text-h5">{{ paymentFormTitle }}</span>-->
-<!--                    </v-card-title>-->
+      <!--                    <v-card-actions>-->
+      <!--                      <v-spacer></v-spacer>-->
+      <!--                      <v-btn-->
+      <!--                        color="blue darken-1"-->
+      <!--                        text-->
+      <!--                        @click="close"-->
+      <!--                      >-->
+      <!--                        Cancel-->
+      <!--                      </v-btn>-->
+      <!--                      <v-btn-->
+      <!--                        color="blue darken-1"-->
+      <!--                        text-->
+      <!--                        @click="save"-->
+      <!--                      >-->
+      <!--                        Save-->
+      <!--                      </v-btn>-->
+      <!--                    </v-card-actions>-->
+      <!--                  </v-card>-->
+      <!--                </v-dialog>-->
+      <!--                <v-dialog v-model="dialogDelete" max-width="500px">-->
+      <!--                  <v-card>-->
+      <!--                    <v-card-title>Are you sure you want to delete this milestone?</v-card-title>-->
+      <!--                    <v-card-actions>-->
+      <!--                      <v-spacer></v-spacer>-->
+      <!--                      <v-btn color="primary" text @click="closeDelete">Cancel</v-btn>-->
+      <!--                      <v-btn color="primary" text @click="deleteItemConfirm">OK</v-btn>-->
+      <!--                    </v-card-actions>-->
+      <!--                  </v-card>-->
+      <!--                </v-dialog>-->
+      <!--              </v-toolbar>-->
+      <!--            </template>-->
+      <!--          </v-data-table>-->
+      <!--        </v-col>-->
+      <!--      </v-row>-->
+      <!--      <v-row class="mt-10" v-if="payments">-->
+      <!--        <v-col class="box col-12 col-md-6">-->
+      <!--          <v-data-table-->
+      <!--            :headers="paymentsHeaders"-->
+      <!--            :items="payments"-->
+      <!--            :footer-props="{'items-per-page-options':[16, 32, 64, 128, -1]}"-->
+      <!--          >-->
+      <!--            <template v-slot:item.actions="{ item }">-->
+      <!--              <v-icon-->
+      <!--                v-if="!formConfig.disabled"-->
+      <!--                small-->
+      <!--                class="mr-2"-->
+      <!--                @click="editPaymentItem(item)"-->
+      <!--              >-->
+      <!--                mdi-pencil-->
+      <!--              </v-icon>-->
+      <!--              <v-icon-->
+      <!--                v-if="!formConfig.disabled"-->
+      <!--                small-->
+      <!--                class="mr-2"-->
+      <!--                @click="deletePaymentItem(item)"-->
+      <!--              >-->
+      <!--                mdi-delete-->
+      <!--              </v-icon>-->
+      <!--            </template>-->
+      <!--            <template v-slot:item.paymentDate.date="{ item }">-->
+      <!--              {{ friendlyDate(item.paymentDate.date) }}-->
+      <!--            </template>-->
+      <!--            <template v-slot:item.payment="{ item }">-->
+      <!--              {{ item.payment | currency }}-->
+      <!--            </template>-->
+      <!--            <template v-slot:item.status="{ item }">-->
+      <!--              <v-chip v-if="item.status == 'Paid'" class="ml-2" :color="'green'" label dark small>-->
+      <!--                {{ item.status }}-->
+      <!--              </v-chip>-->
+      <!--              <v-chip v-if="item.status == 'Due'" class="ml-2" :color="'red'" label dark small>-->
+      <!--                {{ item.status }}-->
+      <!--              </v-chip>-->
+      <!--              <v-chip v-if="item.status == 'Sched'" class="ml-2" :color="'blue'" label dark small>-->
+      <!--                {{ item.status }}-->
+      <!--              </v-chip>-->
+      <!--            </template>-->
+      <!--            <template v-slot:top>-->
+      <!--              <v-toolbar flat>-->
+      <!--                <v-toolbar-title>Payments</v-toolbar-title>-->
+      <!--                <v-spacer></v-spacer>-->
+      <!--                <v-dialog v-model="dialogPayment" max-width="500px">-->
+      <!--                  <template v-slot:activator="{ on, attrs }">-->
+      <!--                    <v-btn-->
+      <!--                      color="primary"-->
+      <!--                      dark-->
+      <!--                      class="mb-2"-->
+      <!--                      v-bind="attrs"-->
+      <!--                      v-on="on"-->
+      <!--                      small-->
+      <!--                      elevation="0"-->
+      <!--                    >-->
+      <!--                      Add Payment-->
+      <!--                    </v-btn>-->
+      <!--                  </template>-->
+      <!--                  <v-card>-->
+      <!--                    <v-card-title>-->
+      <!--                      <span class="text-h5">{{ paymentFormTitle }}</span>-->
+      <!--                    </v-card-title>-->
 
-<!--                    <v-card-text>-->
-<!--                      <v-container>-->
-<!--                        <v-row>-->
-<!--                          <v-col-->
-<!--                            cols="12"-->
-<!--                            sm="6"-->
-<!--                            md="4"-->
-<!--                          >-->
-<!--                            <v-text-field-->
-<!--                              v-model="editedPaymentItem.payment"-->
-<!--                              label="Payment"-->
-<!--                              prefix="$"-->
-<!--                              type="number"-->
-<!--                              :rules="[v => !!v || 'Field is required']"-->
-<!--                            ></v-text-field>-->
-<!--                          </v-col>-->
-<!--                          <v-col-->
-<!--                            cols="12"-->
-<!--                            sm="6"-->
-<!--                            md="4"-->
-<!--                          >-->
-<!--                            <v-select-->
-<!--                              :items="paymentStatuses"-->
-<!--                              label="Status"-->
-<!--                              v-model="editedPaymentItem.status"-->
-<!--                              :rules="[v => !!v || 'Field is required']"-->
-<!--                            ></v-select>-->
-<!--                          </v-col>-->
-<!--                          <v-col-->
-<!--                            cols="12"-->
-<!--                            sm="6"-->
-<!--                            md="4"-->
-<!--                          >-->
-<!--                            <v-menu-->
-<!--                              :close-on-content-click="false"-->
-<!--                              :nudge-right="40"-->
-<!--                              transition="scale-transition"-->
-<!--                              offset-y-->
-<!--                              min-width="auto"-->
-<!--                            >-->
-<!--                              <template v-slot:activator="{ on, attrs }">-->
-<!--                                <v-text-field-->
-<!--                                  v-model="editedPaymentItem.paymentDate.date"-->
-<!--                                  label="Date"-->
-<!--                                  prepend-icon="mdi-calendar"-->
-<!--                                  readonly-->
-<!--                                  v-bind="attrs"-->
-<!--                                  v-on="on"-->
-<!--                                  :rules="[v => !!v || 'Field is required']"-->
-<!--                                ></v-text-field>-->
-<!--                              </template>-->
-<!--                              <v-date-picker-->
-<!--                                v-model="editedPaymentItem.paymentDate.date"-->
-<!--                                @input="menu2 = false"-->
-<!--                              ></v-date-picker>-->
-<!--                            </v-menu>-->
-<!--                          </v-col>-->
-<!--                        </v-row>-->
-<!--                        <v-row v-if="editedPaymentItem.error">-->
-<!--                          <v-alert color="red lighten-2" dark>-->
-<!--                            {{ editedPaymentItem.error }}-->
-<!--                          </v-alert>-->
-<!--                        </v-row>-->
-<!--                      </v-container>-->
-<!--                    </v-card-text>-->
+      <!--                    <v-card-text>-->
+      <!--                      <v-container>-->
+      <!--                        <v-row>-->
+      <!--                          <v-col-->
+      <!--                            cols="12"-->
+      <!--                            sm="6"-->
+      <!--                            md="4"-->
+      <!--                          >-->
+      <!--                            <v-text-field-->
+      <!--                              v-model="editedPaymentItem.payment"-->
+      <!--                              label="Payment"-->
+      <!--                              prefix="$"-->
+      <!--                              type="number"-->
+      <!--                              :rules="[v => !!v || 'Field is required']"-->
+      <!--                            ></v-text-field>-->
+      <!--                          </v-col>-->
+      <!--                          <v-col-->
+      <!--                            cols="12"-->
+      <!--                            sm="6"-->
+      <!--                            md="4"-->
+      <!--                          >-->
+      <!--                            <v-select-->
+      <!--                              :items="paymentStatuses"-->
+      <!--                              label="Status"-->
+      <!--                              v-model="editedPaymentItem.status"-->
+      <!--                              :rules="[v => !!v || 'Field is required']"-->
+      <!--                            ></v-select>-->
+      <!--                          </v-col>-->
+      <!--                          <v-col-->
+      <!--                            cols="12"-->
+      <!--                            sm="6"-->
+      <!--                            md="4"-->
+      <!--                          >-->
+      <!--                            <v-menu-->
+      <!--                              :close-on-content-click="false"-->
+      <!--                              :nudge-right="40"-->
+      <!--                              transition="scale-transition"-->
+      <!--                              offset-y-->
+      <!--                              min-width="auto"-->
+      <!--                            >-->
+      <!--                              <template v-slot:activator="{ on, attrs }">-->
+      <!--                                <v-text-field-->
+      <!--                                  v-model="editedPaymentItem.paymentDate.date"-->
+      <!--                                  label="Date"-->
+      <!--                                  prepend-icon="mdi-calendar"-->
+      <!--                                  readonly-->
+      <!--                                  v-bind="attrs"-->
+      <!--                                  v-on="on"-->
+      <!--                                  :rules="[v => !!v || 'Field is required']"-->
+      <!--                                ></v-text-field>-->
+      <!--                              </template>-->
+      <!--                              <v-date-picker-->
+      <!--                                v-model="editedPaymentItem.paymentDate.date"-->
+      <!--                                @input="menu2 = false"-->
+      <!--                              ></v-date-picker>-->
+      <!--                            </v-menu>-->
+      <!--                          </v-col>-->
+      <!--                        </v-row>-->
+      <!--                        <v-row v-if="editedPaymentItem.error">-->
+      <!--                          <v-alert color="red lighten-2" dark>-->
+      <!--                            {{ editedPaymentItem.error }}-->
+      <!--                          </v-alert>-->
+      <!--                        </v-row>-->
+      <!--                      </v-container>-->
+      <!--                    </v-card-text>-->
 
-<!--                    <v-card-actions>-->
-<!--                      <v-spacer></v-spacer>-->
-<!--                      <v-btn-->
-<!--                        color="blue darken-1"-->
-<!--                        text-->
-<!--                        @click="closePayment"-->
-<!--                      >-->
-<!--                        Cancel-->
-<!--                      </v-btn>-->
-<!--                      <v-btn-->
-<!--                        color="blue darken-1"-->
-<!--                        text-->
-<!--                        @click="savePayment"-->
-<!--                      >-->
-<!--                        Save-->
-<!--                      </v-btn>-->
-<!--                    </v-card-actions>-->
-<!--                  </v-card>-->
-<!--                </v-dialog>-->
-<!--                <v-dialog v-model="dialogPaymentDelete" max-width="500px">-->
-<!--                  <v-card>-->
-<!--                    <v-card-title>Are you sure you want to delete this payment?</v-card-title>-->
-<!--                    <v-card-actions>-->
-<!--                      <v-spacer></v-spacer>-->
-<!--                      <v-btn color="primary" text @click="closePaymentDelete">Cancel</v-btn>-->
-<!--                      <v-btn color="primary" text @click="deletePaymentItemConfirm">OK</v-btn>-->
-<!--                    </v-card-actions>-->
-<!--                  </v-card>-->
-<!--                </v-dialog>-->
-<!--              </v-toolbar>-->
-<!--            </template>-->
-<!--          </v-data-table>-->
-<!--        </v-col>-->
-<!--        <v-col class="box col-12 col-md-4">-->
-<!--          <v-card elevation="2" shaped class="financial-summary pa-5 pb-10" v-if="financialSummary">-->
-<!--            <h4 class="text-center">Financial Summary</h4>-->
-<!--            <hr class="mt-4 mb-6 ml-15 mr-15">-->
-<!--            <v-row>-->
-<!--              <v-col cols="7" class="text-left">Total Paid</v-col>-->
-<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_paid ? financialSummary.total_paid : '0' | currency }}</v-col>-->
-<!--            </v-row>-->
-<!--            <v-row>-->
-<!--              <v-col cols="7" class="text-left">Total Due</v-col>-->
-<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_due ? financialSummary.total_due : '0' | currency }}</v-col>-->
-<!--            </v-row>-->
-<!--            <v-row>-->
-<!--              <v-col cols="7" class="text-left">Total Credit</v-col>-->
-<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_credit ? financialSummary.total_credit : '0' | currency }}</v-col>-->
-<!--            </v-row>-->
-<!--            <v-row>-->
-<!--              <v-col cols="7" class="text-left">Next Expectance</v-col>-->
-<!--              <v-col cols="5" class="text-right">{{ financialSummary.next_expectance_amount ? financialSummary.next_expectance_amount : '0' | currency }}</v-col>-->
-<!--            </v-row>-->
-<!--            <v-row v-if="financialSummary.next_expectance_date">-->
-<!--              <v-col cols="6" class="text-left">By</v-col>-->
-<!--              <v-col cols="6" class="text-right">{{ friendlyDate(financialSummary.next_expectance_date.date) }}</v-col>-->
-<!--            </v-row>-->
-<!--            <hr class="mt-6 mb-4 ml-15 mr-15">-->
-<!--            <v-row>-->
-<!--              <v-col cols="7" class="text-left">Total Amount</v-col>-->
-<!--              <v-col cols="5" class="text-right">{{ financialSummary.total_amount ? financialSummary.total_amount : '0' | currency }}</v-col>-->
-<!--            </v-row>-->
-<!--          </v-card>-->
-<!--        </v-col>-->
-<!--      </v-row>-->
-<!--      </v-row>-->
+      <!--                    <v-card-actions>-->
+      <!--                      <v-spacer></v-spacer>-->
+      <!--                      <v-btn-->
+      <!--                        color="blue darken-1"-->
+      <!--                        text-->
+      <!--                        @click="closePayment"-->
+      <!--                      >-->
+      <!--                        Cancel-->
+      <!--                      </v-btn>-->
+      <!--                      <v-btn-->
+      <!--                        color="blue darken-1"-->
+      <!--                        text-->
+      <!--                        @click="savePayment"-->
+      <!--                      >-->
+      <!--                        Save-->
+      <!--                      </v-btn>-->
+      <!--                    </v-card-actions>-->
+      <!--                  </v-card>-->
+      <!--                </v-dialog>-->
+      <!--                <v-dialog v-model="dialogPaymentDelete" max-width="500px">-->
+      <!--                  <v-card>-->
+      <!--                    <v-card-title>Are you sure you want to delete this payment?</v-card-title>-->
+      <!--                    <v-card-actions>-->
+      <!--                      <v-spacer></v-spacer>-->
+      <!--                      <v-btn color="primary" text @click="closePaymentDelete">Cancel</v-btn>-->
+      <!--                      <v-btn color="primary" text @click="deletePaymentItemConfirm">OK</v-btn>-->
+      <!--                    </v-card-actions>-->
+      <!--                  </v-card>-->
+      <!--                </v-dialog>-->
+      <!--              </v-toolbar>-->
+      <!--            </template>-->
+      <!--          </v-data-table>-->
+      <!--        </v-col>-->
+      <!--        <v-col class="box col-12 col-md-4">-->
+      <!--          <v-card elevation="2" shaped class="financial-summary pa-5 pb-10" v-if="financialSummary">-->
+      <!--            <h4 class="text-center">Financial Summary</h4>-->
+      <!--            <hr class="mt-4 mb-6 ml-15 mr-15">-->
+      <!--            <v-row>-->
+      <!--              <v-col cols="7" class="text-left">Total Paid</v-col>-->
+      <!--              <v-col cols="5" class="text-right">{{ financialSummary.total_paid ? financialSummary.total_paid : '0' | currency }}</v-col>-->
+      <!--            </v-row>-->
+      <!--            <v-row>-->
+      <!--              <v-col cols="7" class="text-left">Total Due</v-col>-->
+      <!--              <v-col cols="5" class="text-right">{{ financialSummary.total_due ? financialSummary.total_due : '0' | currency }}</v-col>-->
+      <!--            </v-row>-->
+      <!--            <v-row>-->
+      <!--              <v-col cols="7" class="text-left">Total Credit</v-col>-->
+      <!--              <v-col cols="5" class="text-right">{{ financialSummary.total_credit ? financialSummary.total_credit : '0' | currency }}</v-col>-->
+      <!--            </v-row>-->
+      <!--            <v-row>-->
+      <!--              <v-col cols="7" class="text-left">Next Expectance</v-col>-->
+      <!--              <v-col cols="5" class="text-right">{{ financialSummary.next_expectance_amount ? financialSummary.next_expectance_amount : '0' | currency }}</v-col>-->
+      <!--            </v-row>-->
+      <!--            <v-row v-if="financialSummary.next_expectance_date">-->
+      <!--              <v-col cols="6" class="text-left">By</v-col>-->
+      <!--              <v-col cols="6" class="text-right">{{ friendlyDate(financialSummary.next_expectance_date.date) }}</v-col>-->
+      <!--            </v-row>-->
+      <!--            <hr class="mt-6 mb-4 ml-15 mr-15">-->
+      <!--            <v-row>-->
+      <!--              <v-col cols="7" class="text-left">Total Amount</v-col>-->
+      <!--              <v-col cols="5" class="text-right">{{ financialSummary.total_amount ? financialSummary.total_amount : '0' | currency }}</v-col>-->
+      <!--            </v-row>-->
+      <!--          </v-card>-->
+      <!--        </v-col>-->
+      <!--      </v-row>-->
+      <!--      </v-row>-->
     </template>
   </parent-form>
 </template>
@@ -472,7 +476,7 @@ import AddNewCustomerComponent from "@/components/AddNewCustomerComponent.vue";
 
 
 export default {
-  props:['id'],
+  props: ['id'],
   components: {
     VYesNoOther,
     DatePicker,
@@ -495,7 +499,7 @@ export default {
         form_data: this.axios.defaults.endpoints.deal.show,
         disabled: null,
       },
-      customerAddField:'contact',
+      customerAddField: 'contact',
       deal: {
         renewalDate: {
           date: ''
@@ -509,16 +513,16 @@ export default {
       dialogPayment: false,
       dialogPaymentDelete: false,
       milestonesHeaders: [
-        {text: '', value: 'actions', sortable: false, align: 'center'},
-        {text: 'Date', value: 'date.date', align: 'center'},
-        {text: 'Project', value: 'project', align: 'center'},
-        {text: 'Amount', value: 'amount', align: 'center'}
+        { text: '', value: 'actions', sortable: false, align: 'center' },
+        { text: 'Date', value: 'date.date', align: 'center' },
+        { text: 'Project', value: 'project', align: 'center' },
+        { text: 'Amount', value: 'amount', align: 'center' }
       ],
       paymentsHeaders: [
-        {text: '', value: 'actions', sortable: false, align: 'center'},
-        {text: 'Date', value: 'paymentDate.date', align: 'center'},
-        {text: 'Payment', value: 'payment', align: 'center'},
-        {text: 'Status', value: 'status', align: 'center'}
+        { text: '', value: 'actions', sortable: false, align: 'center' },
+        { text: 'Date', value: 'paymentDate.date', align: 'center' },
+        { text: 'Payment', value: 'payment', align: 'center' },
+        { text: 'Status', value: 'status', align: 'center' }
       ],
       paymentStatuses: [
         'Paid',
@@ -567,7 +571,7 @@ export default {
       },
       oldMilestoneAmount: 0
     };
-    },
+  },
   computed: {
     ...mapGetters({
       Statuses: "StateStatuses",
@@ -575,10 +579,10 @@ export default {
       ProgramLevel: "StateProgramLevel",
       Regions: "StateRegions"
     }),
-    formTitle () {
+    formTitle() {
       return this.editedIndex === -1 ? 'New Milestone' : 'Edit Milestone'
     },
-    paymentFormTitle () {
+    paymentFormTitle() {
       return this.editedPaymentIndex === -1 ? 'New Payment' : 'Edit Payment'
     },
     dealRenewalText() {
@@ -589,19 +593,19 @@ export default {
     }
   },
   watch: {
-    dialog (val) {
+    dialog(val) {
       val || this.close()
     },
-    dialogDelete (val) {
+    dialogDelete(val) {
       val || this.closeDelete()
     },
-    paymentDialog (val) {
+    paymentDialog(val) {
       val || this.closePayment()
     },
   },
   created() {
     const t = this
-    if(this.formConfig.disabled === null)
+    if (this.formConfig.disabled === null)
       this.formConfig.disabled = this.$route.params.disabled
     // if (this.id) {
     //   this.payments = []
@@ -645,10 +649,15 @@ export default {
       this.model[field.name] = $event
       this.$emit('input', this.model)
     },
+
+    onInputObject($event) {
+      this.model = { ...this.model, ...$event }
+      this.$emit('input', this.model)
+    },
     getFinancialSummary() {
       const t = this
       this.$Progress.start()
-      this.axios.get('private/payments/financial?id='+this.id, {})
+      this.axios.get('private/payments/financial?id=' + this.id, {})
         .then(function (response) {
           t.$Progress.finish()
           t.financialSummary = response.data.data
@@ -657,7 +666,7 @@ export default {
           console.log(err);
         });
     },
-    editItem (item) {
+    editItem(item) {
       item.error = ''
       this.editedIndex = this.deal.dealMilestones.indexOf(item)
       this.editedItem = Object.assign({}, item)
@@ -665,10 +674,10 @@ export default {
       this.dialog = true
     },
 
-    save () {
+    save() {
       var endpoint = ""
       if (this.editedIndex > -1)
-        endpoint = 'private/dealms/edit?id='+this.editedItem.id
+        endpoint = 'private/dealms/edit?id=' + this.editedItem.id
       else
         endpoint = 'private/dealms/add'
 
@@ -704,16 +713,16 @@ export default {
         });
     },
 
-    deleteItem (item) {
+    deleteItem(item) {
       this.editedIndex = this.deal.dealMilestones.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
-    deleteItemConfirm () {
+    deleteItemConfirm() {
       const t = this
       this.$Progress.start()
-      this.axios.delete('private/dealms/delete?id='+this.editedItem.id, {})
+      this.axios.delete('private/dealms/delete?id=' + this.editedItem.id, {})
         .then(function (response) {
           t.$Progress.finish()
           t.deal.amount = t.deal.amount - t.deal.dealMilestones[t.editedIndex].amount
@@ -727,7 +736,7 @@ export default {
         });
     },
 
-    close () {
+    close() {
       this.dialog = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -735,7 +744,7 @@ export default {
       })
     },
 
-    closeDelete () {
+    closeDelete() {
       this.dialogDelete = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -743,23 +752,23 @@ export default {
       })
     },
 
-    addPaymentItem (item) {
+    addPaymentItem(item) {
       this.dialogPayment = true
       this.editedIndex = this.deal.dealMilestones.indexOf(item)
       this.editedItem = Object.assign({}, item)
     },
 
-    editPaymentItem (item) {
+    editPaymentItem(item) {
       item.error = ''
       this.editedPaymentIndex = this.payments.indexOf(item)
       this.editedPaymentItem = Object.assign({}, item)
       this.dialogPayment = true
     },
 
-    savePayment () {
+    savePayment() {
       var endpoint = ""
       if (this.editedPaymentIndex > -1)
-        endpoint = 'private/payments/edit?id='+this.editedPaymentItem.id
+        endpoint = 'private/payments/edit?id=' + this.editedPaymentItem.id
       else
         endpoint = 'private/payments/add'
 
@@ -791,16 +800,16 @@ export default {
         });
     },
 
-    deletePaymentItem (item) {
+    deletePaymentItem(item) {
       this.editedPaymentIndex = this.payments.indexOf(item)
       this.editedPaymentItem = Object.assign({}, item)
       this.dialogPaymentDelete = true
     },
 
-    deletePaymentItemConfirm () {
+    deletePaymentItemConfirm() {
       const t = this
       this.$Progress.start()
-      this.axios.delete('private/payments/delete?id='+this.editedPaymentItem.id, {})
+      this.axios.delete('private/payments/delete?id=' + this.editedPaymentItem.id, {})
         .then(function (response) {
           t.$Progress.finish()
           t.payments.splice(t.editedPaymentIndex, 1)
@@ -812,7 +821,7 @@ export default {
         });
     },
 
-    closePayment () {
+    closePayment() {
       this.dialogPayment = false
       this.$nextTick(() => {
         this.editedPaymentItem = Object.assign({}, this.defaultPaymentItem)
@@ -820,7 +829,7 @@ export default {
       })
     },
 
-    closePaymentDelete () {
+    closePaymentDelete() {
       this.dialogPaymentDelete = false
       this.$nextTick(() => {
         this.editedPaymentItem = Object.assign({}, this.defaultPaymentItem)
@@ -840,17 +849,20 @@ export default {
   margin-top: 40px;
   margin-bottom: 40px;
 }
+
 .status-box {
   position: absolute;
   right: 10px;
   top: 10px;
   width: 200px;
 }
+
 .payment-amount {
   text-align: right;
   display: inline-block;
   width: 40px;
 }
+
 .financial-summary .row {
   height: 40px;
   font-size: 0.875rem;
