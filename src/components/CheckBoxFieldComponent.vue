@@ -2,7 +2,7 @@
   <v-radio-group label="" v-bind="$attrs">
     <p style="color: #205023;font-weight: bold">{{ field.activities.label }}</p>
     <div v-for="(choice, key) in  field.activities.choices" :key="key" style="display: flex; flex-direction: row;">
-      <input :id="'act_'+choice.value" type="checkbox" v-bind:value="choice.value" v-on:change="onActivitiesChange" :checked="activities.indexOf(choice.value) > -1 ? true : false" :name="field.activities.full_name+'[]'" />
+      <input :id="'act_'+choice.value" type="checkbox" v-bind:value="choice.value" v-on:change="onActivitiesChange" :checked="isChecked($attrs,choice.value)" :name="field.activities.full_name+'[]'" />
       <label style="padding: 4px;color: #205023;" :for="'act_'+choice.value">{{ choice.label }}</label>
     </div>
     <div>
@@ -42,7 +42,15 @@ export default {
     },
     emitValue() {
       this.$emit('input', {activities: this.activities, otherOption: this.other})
-    }
+    },
+    isChecked($attrs, choiceValue) {
+      try {
+        const activity = $attrs.value.activities.find(item => item.id == choiceValue);
+        return activity ? true : false;
+      } catch (error) {
+        return false;
+      }
+    },
   }
 }
 </script>
