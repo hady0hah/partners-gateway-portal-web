@@ -1,13 +1,15 @@
 <template>
-  <v-form ref="baseform" lazy-validation :disabled="config.disabled">
-    <v-row >
+  <v-form v-if="!loading" ref="baseform" lazy-validation :disabled="config.disabled">
+    <v-row>
       <v-col class="text-left">
         <slot name="header-left">
           <slot name="header-left-pre-back"></slot>
           <slot name="header-back"><btn-back-component :width="buttonWidth"></btn-back-component></slot>
-          <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0" @click="()=> { config.main_action_onsubmit ? config.main_action_onsubmit(): submitForm(false) }">Save</v-btn>
+          <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0"
+            @click="() => { config.main_action_onsubmit ? config.main_action_onsubmit() : submitForm(false) }">Save</v-btn>
           <slot name="header-left-post-back">
-            <v-btn v-if="config.display_submit_button && !config.disabled" class="mr-4" color="primary" @click="submitForm(true)" small elevation="0" >Submit</v-btn>
+            <v-btn v-if="config.display_submit_button && !config.disabled" class="mr-4" color="primary"
+              @click="submitForm(true)" small elevation="0">Submit</v-btn>
           </slot>
         </slot>
       </v-col>
@@ -28,9 +30,10 @@
       </v-col>
 
       <slot name="form-sections" v-bind:form="form">
-      <v-col class="box col-12" v-for="section, i in form.form" :key="i">
-        <form-section :section="section" :form_name="config.form_name" v-model="model" :disabled="config.disabled"></form-section>
-      </v-col>
+        <v-col class="box col-12" v-for="section, i in form.form" :key="i">
+          <form-section :section="section" :form_name="config.form_name" v-model="model"
+            :disabled="config.disabled"></form-section>
+        </v-col>
       </slot>
     </v-row>
 
@@ -52,16 +55,16 @@ export default {
   // mixins: [FormMixin],
   props: {
     config: {
-      default: () =>{
+      default: () => {
         return {
-          form_name : null,
+          form_name: null,
           form_fields: null,
           form_url: null,
           form_add: null,
           form_edit: null,
           form_data: null,
           form_submit: null,
-          main_action_onsubmit:null,
+          main_action_onsubmit: null,
           display_submit_button: false,
           disabled: null,
           isDialog: false,
@@ -76,46 +79,46 @@ export default {
     return {
       objectid: null,
       buttonWidth: "30px",
-      form:{},
+      form: {},
       model: {},
+      loading: false
     };
   },
-  mounted() {
-    const t = this
-        if (this.config.form_fields) {
-          this.form = this.config.form_fields
-          return
-        }
-        if (!this.config.form_url) return
-        this.$Progress.start()
-        this.axios.get(this.config.form_url, {})
-          .then(function (response) {
-            t.form = response.data.data
-            eventBus.$emit('form-received', t.form);
-            if (t.objectid) {
-              const formData = t.axios.defaults.endpoints.resolve(t.config.form_data, {id: t.objectid})
-              t.axios.get(formData, {})
-                .then(function (response) {
-                  t.model = response.data.data
-                  t.config.disabled = !response.data.data.isEditable
-                  eventBus.$emit('data-received', t.model);
-                  t.$Progress.finish()
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            } else {
-              t.$Progress.finish()
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-  },
   created() {
-    // if(this.config.disabled === null)
-    //   this.config.disabled = this.$route.params.disabled?this.$route.params.disabled:null
-    this.objectid = this.$route.params.id?this.$route.params.id:null
+    this.objectid = this.$route.params.id ? this.$route.params.id : null
+    if (!this.config.form_url) return
+    if (this.config.form_fields) {
+      this.form = this.config.form_fields
+      return
+    }
+    this.loading = true
+    this.$Progress.start()
+    const t = this
+    this.axios.get(this.config.form_url, {})
+      .then(function (response) {
+        t.form = response.data.data
+        eventBus.$emit('form-received', t.form);
+        if (t.objectid) {
+          const formData = t.axios.defaults.endpoints.resolve(t.config.form_data, { id: t.objectid })
+          t.axios.get(formData, {})
+            .then(function (response) {
+              t.model = response.data.data
+              t.config.disabled = !response.data.data.isEditable
+              t.loading = false
+              eventBus.$emit('data-received', t.model);
+              t.$Progress.finish()
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          t.loading = false
+          t.$Progress.finish()
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     submitForm(isSubmit) {
@@ -126,18 +129,18 @@ export default {
 
       const t = this
       let formUrl = null
-      if(t.objectid){
-       formUrl = this.axios.defaults.endpoints.resolve(this.config.form_edit, { id: t.objectid })
-      }else{
-         formUrl = this.config.form_add
+      if (t.objectid) {
+        formUrl = this.axios.defaults.endpoints.resolve(this.config.form_edit, { id: t.objectid })
+      } else {
+        formUrl = this.config.form_add
       }
-      if(isSubmit){
+      if (isSubmit) {
         formUrl = this.axios.defaults.endpoints.resolve(this.config.form_submit, { id: t.objectid })
       }
 
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
-      this.axios.post(formUrl,formdata)
+      this.axios.post(formUrl, formdata)
         .then(function (response) {
           t.$Progress.finish()
           eventBus.$emit('form-submitted', response.data.data);
