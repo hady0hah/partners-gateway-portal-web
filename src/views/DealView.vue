@@ -38,10 +38,9 @@
 
               <v-row v-if="section.name === 'end_customer_information'">
                 <v-col class="col-12 col-md-4">
-                  <form-field :field="section.fields['contact']" :form_name="formConfig.form_name"
-                              v-bind:value="getFieldValue(section.fields['contact'])"
-                              v-on:input="onInput(section.fields['contact'], $event)" outlined></form-field>
-                  <add-new-customer-form-component v-on:submit="updateCustomerDropdown(section.fields['contact'])"></add-new-customer-form-component>
+                  <add-new-customer-component :field="section.fields['contact']"
+                                              :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['contact'])"
+                                              v-on:input="onInput(section.fields['contact'], $event)" :disabled="formConfig.disabled" outlined ></add-new-customer-component>
                 </v-col>
               </v-row>
 
@@ -469,8 +468,8 @@ import DatePicker from "@/components/DatePicker";
 import VYesNoOther from "@/components/VYesNoOther";
 import FormSection from "@/components/FormSection";
 // import ComponentMapper from "@/components/ComponentMapper";
-import AddNewCustomerFormComponent from "@/components/AddNewCustomerFormComponent";
-import CustomerAddMixin from "@/mixins/CustomerAddMixin";
+import AddNewCustomerComponent from "@/components/AddNewCustomerComponent.vue";
+
 
 export default {
   props:['id'],
@@ -481,9 +480,9 @@ export default {
     ParentForm,
     // DealStatus,
     FormSection,
-    AddNewCustomerFormComponent,
+    AddNewCustomerComponent,
   },
-  mixins: [FormMixin,CustomerAddMixin],
+  mixins: [FormMixin],
 
   data() {
     return {
