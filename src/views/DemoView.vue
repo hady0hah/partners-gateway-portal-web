@@ -158,7 +158,7 @@
       this.$Progress.start()
       this.axios.get('private/deals/list', {})
       .then(function (response) {
-        t.deals = response.data.data.deals
+        t.deals = response.data.data.items
         t.deals.forEach((deal) => {
           t.$Progress.increase(10)
           t.axios.get('private/contact/show?id='+deal['contact.id'], {})
@@ -266,6 +266,8 @@
       },
       dealChange () {
         this.deal = this.deals.find(deal => deal.id === this.demo['deal.id'])
+        this.demo['product.id'] = this.products.find(product => product.id === this.deal['product.id'])
+        this.productChange()
       },
       productChange () {
         this.getTimeslots()
