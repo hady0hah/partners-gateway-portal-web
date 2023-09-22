@@ -242,7 +242,7 @@ import IconDemo from "@/components/icons/IconDemo.vue"
 
       this.axios.get('private/deals/list', {})
       .then(function (response) {
-        t.deals = response.data.data.deals
+        t.deals = response.data.data.items
       })
       .catch(err => {
         console.log(err);
