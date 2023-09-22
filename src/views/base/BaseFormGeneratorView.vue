@@ -86,11 +86,11 @@ export default {
   },
   created() {
     this.objectid = this.$route.params.id ? this.$route.params.id : null
-    if (!this.config.form_url) return
     if (this.config.form_fields) {
       this.form = this.config.form_fields
       return
     }
+    if (!this.config.form_url) return
     this.loading = true
     this.$Progress.start()
     const t = this
@@ -153,40 +153,6 @@ export default {
           alert("Please review your inputs and try again !")
           console.log(err);
         });
-
-
-      // if (!formRef.formRef.$refs.form.validate())
-      //   return;
-
-      // const formData = new FormData();
-
-      // const fieldMapping = {
-      //   'region': t.region.id,
-      //   'countries': t.baseForm['country.id'],
-      //   'cities': t.baseForm['city.id'],
-      //   'status': t.status.id,
-      //   'date': t.baseForm['date'],
-      // };
-
-      // form.sections.forEach(section => {
-      //   section.fields.forEach(field => {
-      //     const fieldValue = fieldMapping[field.name] || field.name;
-      //     formData.append(`form[${field.name}]`, fieldValue);
-      //   });
-      // });
-
-      // t.$Progress.increase(10)
-      // t.axios.post(endpoint, formData)
-      //   .then(function (response) {
-      //     t.$Progress.finish()
-      //     t.deal = response.data.data
-      //     t.$root.$emit('refreshClientProfile')
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-
-
     }
   }
 };

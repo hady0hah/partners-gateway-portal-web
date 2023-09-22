@@ -71,6 +71,7 @@ export default {
         form_edit: this.axios.defaults.endpoints.po.edit,
         form_data: this.axios.defaults.endpoints.po.show,
         form_submit: this.axios.defaults.endpoints.po.submit,
+        display_submit_button: true,
         disabled: false,
       }
     };
@@ -103,19 +104,6 @@ export default {
     handleDataReceived(data) {
       this.model=data
     }
-    // sendForm(){
-    //   eventBus.$emit('form-received', this.response);
-    // },
-    // submitForm() {
-    //   var endpoint = ""
-    //   const t = this
-    //   if (!t.baseForm.id)
-    //     endpoint = axios.defaults.endpoints.deal_add.url
-    //   else
-    //     endpoint = axios.defaults.endpoints.deal_edit.url+t.deal.id
-
-    //   ParentForm.methods.submitForm(this.response,endpoint,t,this.$refs);
-    // },
   },
 };
 </script>

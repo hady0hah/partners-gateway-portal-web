@@ -1,7 +1,7 @@
 <template>
   <v-select :items="Countries" item-text="name" item-value="id" label="Country"
             v-model="country"
-            v-bind="$attrs" v-on:change="countryChange()" :rules="[v => !!v || 'Field is required']" class="mb-2"></v-select>
+            v-bind="$attrs" v-on:change="countryChange()"  class="mb-2"></v-select>
 </template>
 <script>
 import eventBus from "@/eventBus.js";
