@@ -266,7 +266,8 @@
       },
       dealChange () {
         this.deal = this.deals.find(deal => deal.id === this.demo['deal.id'])
-        this.demo['product.id'] = this.products.find(product => product.id === this.deal['product.id'])
+        let product = this.products.find(product => product.id === this.deal['product.id'])
+        this.demo['product.id'] = product.id
         this.productChange()
       },
       productChange () {
