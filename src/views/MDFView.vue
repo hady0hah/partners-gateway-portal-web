@@ -26,7 +26,7 @@
                   <date-picker :field="section.fields['endDate']" v-bind:value="getFieldValue(section.fields['endDate'])"
                     v-on:input="onInput(section.fields['endDate'], $event)" outlined>
                   </date-picker>
-                  <product-list-form :first_field_name="'products'"  :fields="section.fields" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['products'])"  v-on:input="onInput(section, $event)"></product-list-form>
+                  <product-list-form :disabled="formConfig.disabled" :first_field_name="'products'"  :fields="section.fields" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['products'])"  v-on:input="onInput(section, $event)"></product-list-form>
 
                   <form-field :field="section.fields['description']" :form_name="formConfig.form_name"
                     v-bind:value="getFieldValue(section.fields['description'])"
@@ -47,7 +47,7 @@
 
               <v-row v-if="section.name === 'section2'">
                 <v-col class="col-12 col-md-5">
-                  <product-list-form :first_field_name="'resouce_allocation'" :second_field_name="'amount'" :fields="section.fields['resourceAllocation']['fields']" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['resourceAllocation'])" v-on:input="onInput(section, $event)"></product-list-form>
+                  <product-list-form :disabled="formConfig.disabled" :first_field_name="'resouce_allocation'" :second_field_name="'amount'" :fields="section.fields['resourceAllocation']['fields']" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['resourceAllocation'])" v-on:input="onInput(section, $event)"></product-list-form>
                 </v-col>
                 <v-col class="col-12 col-md-5">
                   <form-field :field="section.fields['totalAmount']" :form_name="formConfig.form_name"
