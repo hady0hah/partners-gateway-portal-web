@@ -101,6 +101,7 @@ export default {
         form_edit: this.axios.defaults.endpoints.mdf.edit,
         form_data: this.axios.defaults.endpoints.mdf.show,
         form_submit: this.axios.defaults.endpoints.mdf.submit,
+        display_submit_button: true,
         disabled: null,
       }
     };
