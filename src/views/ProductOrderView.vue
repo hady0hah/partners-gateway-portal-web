@@ -7,7 +7,7 @@
             <v-col class="col-12 col-md-5">
               <div v-for="(field, k) in section.fields" :key="k">
                 <div v-if="field['fields']">
-                  <product-list-form :first_field_name="'product'" :second_field_name="'quantity'" :fields="field.fields" :form_name="formConfig.form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field, $event)"></product-list-form>
+                  <product-list-form :disabled="formConfig.disabled" :first_field_name="'product'" :second_field_name="'quantity'" :fields="field.fields" :form_name="formConfig.form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field, $event)"></product-list-form>
                 </div>
               </div>
             </v-col>

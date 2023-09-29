@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container pl-16">
           <v-row class="mt-4">
             <v-col cols="12" style="margin-left: -60px;">
               <icon-base style="min-width: 60px;padding: 0 8px;">
