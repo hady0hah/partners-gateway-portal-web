@@ -52,6 +52,8 @@ export default {
     if(this.$attrs.required && !this.$attrs.value) {
       this.$attrs.value = [{}]
     }
+    if(!Array.isArray(this.$attrs.value))
+      this.$attrs.value = Object.values(this.$attrs.value)
   },
   methods: {
     onInputTable($event, tableindex, fieldName) {
