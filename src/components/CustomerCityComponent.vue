@@ -1,7 +1,7 @@
 <template>
   <v-select :items="Cities" item-text="name" item-value="id" label="City"
             v-on:input="$emit('input',$event)"
-            v-bind="$attrs"   class="mb-2"></v-select>
+            v-bind="$attrs"   class="mb-2" :clearable="!$attrs.required"></v-select>
 </template>
 <script>
 import eventBus from "@/eventBus.js";
