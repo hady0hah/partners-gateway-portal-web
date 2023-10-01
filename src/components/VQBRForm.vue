@@ -44,7 +44,7 @@
               </td>
               <td style="padding-left: 35px">
                 <v-text-field type="number" :field="fields['amount']" :name="fields['amount'].full_name" outlined
-                  v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')">
+                  v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')" :rules="[v => (fields['amount'].required && !!v || 'Field is required')]">
                 </v-text-field>
               </td>
             </tr>
