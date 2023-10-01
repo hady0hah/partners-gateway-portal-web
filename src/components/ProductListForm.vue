@@ -57,7 +57,6 @@ export default {
     onInputTable($event, tableindex, fieldName) {
       this.$attrs.value[tableindex][fieldName] = $event
       this.$emit('input', this.$attrs.value)
-      this.tableChangeDetector++
     },
     addTableItem() {
       if (!(this.$attrs.value))
