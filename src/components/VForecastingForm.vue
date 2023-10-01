@@ -42,7 +42,7 @@
         </v-col>
         <v-col class="col-12 col-md-4">
           <product-list-form :disabled="disabled" :first_field_name="'product'" :second_field_name="'quantity'"
-            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name"
+            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name" v-bind="fields['reviewProducts']"
             v-bind:value="item.reviewProducts" v-on:input="onInput($event, index, 'reviewProducts')"></product-list-form>
         </v-col>
         <span class="horizontal-line"></span>
@@ -74,6 +74,11 @@ export default {
       form_name: 'forecasting_view',
     }
   },
+  created() {
+    if(this.$attrs.required && !this.$attrs.value) {
+      this.$attrs.value = [{}]
+    }
+  },
   methods: {
     onInput($event, index, fieldName) {
       if (!(index in this.$attrs.value))
@@ -87,8 +92,6 @@ export default {
       this.$attrs.value[index] = { ...this.$attrs.value[index], ...$event}
       this.$emit('input', this.$attrs.value)
     },
-  },
-  created() {
   },
 }
 </script>

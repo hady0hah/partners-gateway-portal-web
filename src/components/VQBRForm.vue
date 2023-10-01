@@ -83,6 +83,11 @@ export default {
       form_name: 'QBR_view',
     }
   },
+  created() {
+    if(this.$attrs.required && !this.$attrs.value) {
+      this.$attrs.value = [{}]
+    }
+  },
   methods: {
     onInput($event, index, fieldName) {
       console.log($event)
@@ -98,8 +103,6 @@ export default {
       this.$attrs.value[index] = { ...this.$attrs.value[index], ...$event }
       this.$emit('input', this.$attrs.value)
     },
-  },
-  created() {
   },
 }
 </script>
