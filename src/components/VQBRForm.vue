@@ -18,7 +18,7 @@
         </v-col>
         <v-col class="col-12 col-md-4">
           <product-list-form :disabled="disabled" :first_field_name="'product'" :second_field_name="'quantity'"
-            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name"
+            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name" v-bind="fields['reviewProducts']"
             v-bind:value="item.reviewProducts" v-on:input="onInput($event, index, 'reviewProducts')"></product-list-form>
         </v-col>
         <v-col class="col-12 col-md-4">
