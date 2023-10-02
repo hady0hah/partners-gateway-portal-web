@@ -86,6 +86,10 @@ export default {
   },
   created() {
     this.objectid = this.$route.params.id ? this.$route.params.id : null
+    if (this.config.form_fields) {
+      this.form = this.config.form_fields
+      return
+    }
     if (!this.config.form_url) return
     this.loading = true
     this.$Progress.start()
