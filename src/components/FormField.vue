@@ -1,5 +1,6 @@
 <template>
   <component
+      :error-messages="errorMessages"
       :field="field"
       :outlined="outlined"
       item-text="label"
@@ -14,7 +15,7 @@
 import ComponentMapper from "@/components/ComponentMapper";
 
 export default {
-  props : ['field','form_name','outlined', 'disabled'],
+  props : ['field','form_name','outlined', 'disabled', 'errorMessages'],
   methods: {
     getFieldComponent() {
       return ComponentMapper.mapType(this.field, this.form_name)

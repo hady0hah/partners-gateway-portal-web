@@ -28,11 +28,11 @@
       <v-col v-if="form.description" class="mb-4 col-12" style="color: #205023;font-size: smaller;">
         <div v-html="form.description"></div>
       </v-col>
-
-      <slot name="form-sections" v-bind:form="form">
+      <form-errors :errors="form_errors.global"></form-errors>
+      <slot name="form-sections" v-bind:form="form" v-bind:error-messages="form_errors.fields">
         <v-col class="box col-12" v-for="section, i in form.form" :key="i">
           <form-section :section="section" :form_name="config.form_name" v-model="model"
-            :disabled="config.disabled"></form-section>
+            :disabled="config.disabled" :error-messages="form_errors.fields"></form-section>
         </v-col>
       </slot>
     </v-row>
@@ -46,11 +46,13 @@ import eventBus from "@/eventBus";
 
 import BtnBackComponent from "@/components/BtnBackComponent";
 import FormSection from '@/components/FormSection.vue';
+import FormErrors from "@/components/FormErrors.vue";
 
 export default {
   components: {
     BtnBackComponent,
-    FormSection
+    FormSection,
+    FormErrors
   },
   // mixins: [FormMixin],
   props: {
@@ -81,6 +83,7 @@ export default {
       buttonWidth: "30px",
       form: {},
       model: {},
+      form_errors: {},
       loading: false
     };
   },
@@ -144,6 +147,7 @@ export default {
         .then(function (response) {
           t.$Progress.finish()
           if(response.data.success == false) {
+            t.form_errors = response.data.errors
             return
           } else {
             eventBus.$emit('form-submitted', response.data.data);
