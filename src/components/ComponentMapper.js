@@ -30,7 +30,8 @@ class ComponentMapper {
       items:  choices,
       fields: field.fields,
       name: field.full_name,
-      required: field.required
+      required: field.required,
+      multiple: field.multiple
     };
   }
 
