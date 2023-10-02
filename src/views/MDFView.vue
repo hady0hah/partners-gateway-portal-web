@@ -33,11 +33,7 @@
                       v-bind="v" 
                       v-on:change="onInput(section.fields['products'], $event)" 
                       v-bind:input-value="getFieldValue(section.fields['products'])"></v-checkbox>
-                  </v-radio-group>
-                  <!--form-field :field="section.fields['products']" :form_name="formConfig.form_name"
-                    v-bind:value="getFieldValue(section.fields['products'])"
-                    v-on:input="onInput(section.fields['products'], $event)"></form-field-->
-                  
+                  </v-radio-group>                 
 
                   <form-field :field="section.fields['description']" :form_name="formConfig.form_name"
                     v-bind:value="getFieldValue(section.fields['description'])"
