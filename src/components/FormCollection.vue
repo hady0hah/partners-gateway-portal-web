@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     getErrors(tableindex,errorMessages) {
-      console.log(tableindex,errorMessages)
       return errorMessages && tableindex in errorMessages ? errorMessages[tableindex].fields : []
     },
     addItem() {
