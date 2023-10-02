@@ -1,13 +1,22 @@
 <template>
   <parent-form lazy-validation :config="formConfig" ref="formRef">
-    <template v-slot:form-sections="{ form }">
+    <template v-slot:form-sections="{ form, errorMessages }">
       <v-col class="box col-12" v-for="section, i in form.form" :key="i">
-        <form-section v-if="section.name == 'order_details'" :section="section">
-          <template v-slot:section-fields="{ section }">
+        <form-section v-if="section.name == 'order_details'" :section="section" :error-messages="errorMessages">
+          <template v-slot:section-fields="{ section, errorMessages }">
             <v-col class="col-12 col-md-5">
               <div v-for="(field, k) in section.fields" :key="k">
                 <div v-if="field['fields']">
-                  <product-list-form :disabled="formConfig.disabled" :first_field_name="'product'" :second_field_name="'quantity'" :fields="field.fields" :form_name="formConfig.form_name" v-bind:value="getFieldValue(field)" v-on:input="onInput(field, $event)" v-bind="field"></product-list-form>
+                  <product-list-form 
+                    :error-messages="getErrors(field.name,errorMessages).fields" 
+                    :disabled="formConfig.disabled" 
+                    :first_field_name="'product'" 
+                    :second_field_name="'quantity'" 
+                    :fields="field.fields" 
+                    :form_name="formConfig.form_name" 
+                    v-bind:value="getFieldValue(field)" 
+                    v-on:input="onInput(field, $event)" 
+                    v-bind="field"></product-list-form>
                 </div>
               </div>
             </v-col>
@@ -28,9 +37,10 @@
           </template>
         </form-section>
         <form-section v-if="section.name == 'payment_terms'" :section="section">
-          <template v-slot:section-fields="{ section }">
+          <template v-slot:section-fields="{ section, errorMessages }">
             <v-col class="col-12 col-md-12">
               <form-field :field="section.fields['paymentTerms']" :form_name="formConfig.form_name"
+                :error-messages="getErrors('paymentTerms',errorMessages)"
                 :disabled="formConfig.disabled" v-bind:value="getFieldValue(section.fields['paymentTerms'])"
                 v-on:input="onInput(section.fields['paymentTerms'], $event)" outlined></form-field>
             </v-col>
@@ -90,6 +100,9 @@ export default {
     //   });
   },
   methods: {
+    getErrors(fieldName, errorMessages) {
+      return errorMessages && fieldName in errorMessages ? errorMessages[fieldName] : []
+    },
     getFieldValue(field) {
       if (!this.model)
         this.model = {}
