@@ -11,7 +11,7 @@
     <slot name="section-fields" v-bind:section="section" v-bind:error-messages="errorMessages">
     <v-col v-for="field, k in section.fields" :key="k" :class="getRowClass(field)">
       <form-field :field="field" :form_name="form_name" 
-        :error-messages="field.name in errorMessages ? errorMessages[field.name] : []"
+        :error-messages="errorMessages && field.name in errorMessages ? errorMessages[field.name] : []"
         v-bind:value="getFieldValue(field)" 
         v-on:input="onInput(field,$event)" 
         :disabled="disabled"></form-field>
