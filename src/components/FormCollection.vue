@@ -1,8 +1,8 @@
 <template>
   <v-row :key="tableChangeDetector">
     <v-col v-for="item, index in $attrs.value" :key="index" class="col-12">
-      <slot name="collection-item" v-bind:fields="updateFields(fields, index)" v-bind:item="item" v-bind:index="index">
-        <form-section :section="{ 'fields': fields }" v-bind:value="item"
+      <slot name="collection-item" v-bind:fields="updateFields(fields, index)" v-bind:item="item" v-bind:index="index" v-bind:error-messages="getErrors(index, errorMessages)">
+        <form-section :section="{ 'fields': fields }" v-bind:value="item" :error-messages="getErrors(index, errorMessages)"
           v-on:input="onInput($event, index)"></form-section>
       </slot>
     </v-col>
@@ -17,7 +17,7 @@
 import CollectionMixin from "@/mixins/CollectionMixin"
 
 export default {
-  props: ['fields', 'disabled'],
+  props: ['fields', 'disabled', 'errorMessages'],
   data() {
     return {
       tableChangeDetector: 0
@@ -33,6 +33,9 @@ export default {
     }
   },
   methods: {
+    getErrors(tableindex,errorMessages) {
+      return errorMessages && tableindex in errorMessages ? errorMessages[tableindex].fields : []
+    },
     addItem() {
       if(!this.$attrs.value)
           this.$attrs.value=[]

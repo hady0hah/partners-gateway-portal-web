@@ -1,7 +1,7 @@
 <template>
   <v-menu  v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
     <template v-slot:activator="{ on }">
-      <v-text-field append-icon="mdi-calendar" v-model="$attrs.value" readonly v-bind="$attrs" :label="field.label"
+      <v-text-field append-icon="mdi-calendar" v-model="$attrs.value" readonly v-bind="$attrs" :label="field.label" :error-messages="errorMessages"
         :name="field.full_name" v-on="on" :rules="[v => (field.required && !!v || 'Field is required')]"></v-text-field>
     </template>
     <v-date-picker v-model="$attrs.value" @input="menu2 = false" v-on:input="$emit('input', $event)"></v-date-picker>
@@ -12,7 +12,7 @@ import moment from 'moment'
 
 
 export default {
-  props: ['field'],
+  props: ['field', 'errorMessages'],
   data() {
     return {
       model: null,

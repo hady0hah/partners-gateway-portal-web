@@ -1,25 +1,27 @@
 <template>
-  <form-collection :fields="fields" v-model="$attrs.value" :disabled="disabled">
-    <template v-slot:collection-item="{ fields, item, index }">
+  <form-collection :fields="fields" v-model="$attrs.value" :disabled="disabled" :error-messages="errorMessages.fields">
+    <template v-slot:collection-item="{ fields, item, index, errorMessages }">
       <v-row>
         <v-col class="col-12 col-md-4">
           <form-field :field="fields['name']" :form_name="form_name" v-bind:value="item.name"
-            v-on:input="onInput($event, index, 'name')">
+            :error-messages="getErrors('name', errorMessages)" v-on:input="onInput($event, index, 'name')">
           </form-field>
           <form-field :field="fields['customer']" :form_name="form_name" v-bind:value="item.customer"
-            v-on:input="onInput($event, index, 'customer')">
+            :error-messages="getErrors('customer', errorMessages)" v-on:input="onInput($event, index, 'customer')">
           </form-field>
           <form-field :field="fields['reseller']" :form_name="form_name" v-bind:value="item.reseller"
-            v-on:input="onInput($event, index, 'reseller')">
+            :error-messages="getErrors('reseller', errorMessages)" v-on:input="onInput($event, index, 'reseller')">
           </form-field>
           <form-field :field="fields['country']" :form_name="form_name" v-bind:value="item.country"
-            v-on:input="onInput($event, index, 'country')">
+            :error-messages="getErrors('country', errorMessages)" v-on:input="onInput($event, index, 'country')">
           </form-field>
         </v-col>
         <v-col class="col-12 col-md-4">
           <product-list-form :disabled="disabled" :first_field_name="'product'" :second_field_name="'quantity'"
-            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name" v-bind="fields['reviewProducts']"
-            v-bind:value="item.reviewProducts" v-on:input="onInput($event, index, 'reviewProducts')"></product-list-form>
+            :error-messages="getErrors('reviewProducts', errorMessages).fields"
+            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name"
+            v-bind="fields['reviewProducts']" v-bind:value="item.reviewProducts"
+            v-on:input="onInput($event, index, 'reviewProducts')"></product-list-form>
         </v-col>
         <v-col class="col-12 col-md-4">
 
@@ -29,11 +31,12 @@
             v-on:input="onInputObject($event, index)"></yes-no-other>
 
           <form-field :field="fields['stage']" :form_name="form_name" outlined v-bind:value="item.stage"
-            v-on:input="onInput($event, index, 'stage')">
+            :error-messages="getErrors('stage', errorMessages)" v-on:input="onInput($event, index, 'stage')">
           </form-field>
 
           <date-picker :field="fields['closeDate']" outlined :name="fields['closeDate'].full_name"
-            v-bind:value="item.closeDate" v-on:input="onInput($event, index, 'closeDate')">
+            :error-messages="getErrors('closeDate', errorMessages)" v-bind:value="item.closeDate"
+            v-on:input="onInput($event, index, 'closeDate')">
 
           </date-picker>
 
@@ -44,14 +47,16 @@
               </td>
               <td style="padding-left: 35px">
                 <v-text-field type="number" :field="fields['amount']" :name="fields['amount'].full_name" outlined
-                  v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')" :rules="[v => (fields['amount'].required && !!v || 'Field is required')]">
+                  :error-messages="getErrors('amount', errorMessages)" v-bind:value="item.amount"
+                  v-on:input="onInput($event, index, 'amount')"
+                  :rules="[v => (fields['amount'].required && !!v || 'Field is required')]">
                 </v-text-field>
               </td>
             </tr>
           </table>
 
           <form-field :field="fields['remarks']" :form_name="form_name" outlined v-bind:value="item.remarks"
-            v-on:input="onInput($event, index, 'remarks')">
+            :error-messages="getErrors('remarks', errorMessages)" v-on:input="onInput($event, index, 'remarks')">
           </form-field>
         </v-col>
         <span class="horizontal-line"></span>
@@ -69,7 +74,7 @@ import YesNoOther from "@/components/VYesNoOther"
 import ProductListForm from "./ProductListForm.vue";
 
 export default {
-  props: ['fields', 'disabled'],
+  props: ['fields', 'disabled', 'errorMessages'],
   components: {
     FormCollection,
     FormField,
@@ -84,13 +89,15 @@ export default {
     }
   },
   created() {
-    if(this.$attrs.required && !this.$attrs.value) {
+    if (this.$attrs.required && !this.$attrs.value) {
       this.$attrs.value = [{}]
     }
   },
   methods: {
+    getErrors(fieldName, errorMessages) {
+      return errorMessages && fieldName in errorMessages ? errorMessages[fieldName] : []
+    },
     onInput($event, index, fieldName) {
-      console.log($event)
       if (!(index in this.$attrs.value))
         this.$attrs.value[index] = {}
       this.$attrs.value[index][fieldName] = $event
@@ -121,4 +128,5 @@ export default {
   background-color: #E0E0E0;
   margin-top: 40px;
   margin-bottom: 40px;
-}</style>
+}
+</style>
