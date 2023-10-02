@@ -7,6 +7,7 @@ import VNumber from "@/components/VNumber";
 import DealStatuses from "@/components/DealStatuses";
 import FormCollection from './FormCollection';
 import VYesNoOther from "@/components/VYesNoOther";
+import VEmail from "@/components/VEmail";
 
 let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType': {
@@ -33,6 +34,9 @@ let map = {
     'Sonata\\AdminBundle\\Form\\Type\\CollectionType' : {
         'component': FormCollection
     },
+    'Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType': {
+        'component': VTextField
+  },
 }
 
 export default map

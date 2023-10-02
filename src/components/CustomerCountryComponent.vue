@@ -1,16 +1,18 @@
 <template>
-  <v-select :items="Countries" item-text="name" item-value="id" label="Country"
+  <v-select :field="field" :items="Countries"  item-text="label" item-value="value" label="Country"
             v-model="country"
+            v-bind:value="$attrs.value"
             v-bind="$attrs" v-on:change="countryChange()"  class="mb-2"></v-select>
 </template>
 <script>
 import eventBus from "@/eventBus.js";
+import ComponentMapper from "@/components/ComponentMapper";
 
 export default {
   props: ['field','disabled','form_name','outlined'],
   data() {
     return {
-      Countries:[],
+      Countries:{},
       Cities:[],
       country:null,
     }
@@ -28,19 +30,10 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.saved = false
     },
   },
   created() {
-    const t = this
-    this.axios.get(this.axios.defaults.endpoints.country.list, {})
-      .then(function (response) {
-        t.$Progress.finish()
-        t.Countries = response.data.data
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.Countries = ComponentMapper.parseChoices(this.field.choices)
   },
 
 }

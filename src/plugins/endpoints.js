@@ -54,6 +54,7 @@ let endpoints = {
     },
     'contact' : {
         'add': 'private/contact/add',
+        'form': 'private/form/contact',
     },
     'country' : {
       'list': 'private/country/list',

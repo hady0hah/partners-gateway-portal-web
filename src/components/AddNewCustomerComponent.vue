@@ -19,7 +19,6 @@
 </template>
 <script>
 import ParentForm from '@/views/base/BaseFormGeneratorView.vue';
-import CustomerFields from '@/components/AddNewCustomerFields.js'
 import EventBus from "@/eventBus.js";
 import FormField from "@/components/FormField.vue";
 import ComponentMapper from "@/components/ComponentMapper";
@@ -35,7 +34,8 @@ export default {
     return {
       dialog:false,
       formConfig:{
-        form_fields : CustomerFields,
+        form_fields : null,
+        form_url: this.axios.defaults.endpoints.contact.form,
         form_add: this.axios.defaults.endpoints.contact.add,
         form_edit: this.axios.defaults.endpoints.contact.add,
         isDialog: true,
