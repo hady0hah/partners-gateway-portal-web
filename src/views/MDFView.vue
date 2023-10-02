@@ -26,7 +26,18 @@
                   <date-picker :field="section.fields['endDate']" v-bind:value="getFieldValue(section.fields['endDate'])"
                     v-on:input="onInput(section.fields['endDate'], $event)" outlined>
                   </date-picker>
-                  <product-list-form :disabled="formConfig.disabled" :first_field_name="'products'"  :fields="section.fields" :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['products'])"  v-on:input="onInput(section, $event)" v-bind="section.fields['products']"></product-list-form>
+                  
+                  <v-radio-group :label="section.fields['products'].label">
+                    <v-checkbox v-for="v,k in section.fields['products'].choices" :key="k" 
+                      :name="section.fields['products'].full_name" 
+                      v-bind="v" 
+                      v-on:change="onInput(section.fields['products'], $event)" 
+                      v-bind:input-value="getFieldValue(section.fields['products'])"></v-checkbox>
+                  </v-radio-group>
+                  <!--form-field :field="section.fields['products']" :form_name="formConfig.form_name"
+                    v-bind:value="getFieldValue(section.fields['products'])"
+                    v-on:input="onInput(section.fields['products'], $event)"></form-field-->
+                  
 
                   <form-field :field="section.fields['description']" :form_name="formConfig.form_name"
                     v-bind:value="getFieldValue(section.fields['description'])"
