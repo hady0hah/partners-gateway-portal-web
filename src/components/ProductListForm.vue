@@ -11,11 +11,13 @@
     <tr v-for="(tableitem, tableindex) in $attrs.value" :key="tableindex">
       <td>
         <form-field :field="updateField(fields[first_field_name], tableindex)"
+                    :error-messages="getErrors(first_field_name, tableindex, errorMessages)"
                     :form_name="form_name" v-bind:value="parseValue(tableitem,first_field_name)"
                     v-on:input="onInputTable($event, tableindex, first_field_name)"></form-field>
       </td>
       <td v-if="second_field_name" style="padding: 5px" >
         <form-field :field="updateField(fields[second_field_name], tableindex)"
+                    :error-messages="getErrors(second_field_name, tableindex, errorMessages)"
                     :form_name="form_name" v-bind:value="parseValue(tableitem,second_field_name)"
                     v-on:input="onInputTable($event, tableindex, second_field_name)"></form-field>
       </td>
@@ -38,7 +40,7 @@ import CollectionMixin from '@/mixins/CollectionMixin'
 import FormField from './FormField.vue'
 
 export default {
-  props : ['fields','disabled', 'form_name','first_field_name','second_field_name'],
+  props : ['fields','disabled', 'form_name','first_field_name','second_field_name','errorMessages'],
   data() {
     return {
       tableChangeDetector: 0
@@ -56,6 +58,10 @@ export default {
       this.$attrs.value = Object.values(this.$attrs.value)
   },
   methods: {
+    getErrors(fieldName,tableindex,errorMessages) {
+      // console.log(fieldName,tableindex, errorMessages[tableindex].fields[fieldName])
+      return errorMessages && tableindex in errorMessages && fieldName in errorMessages[tableindex].fields ? errorMessages[tableindex].fields[fieldName] : []
+    },
     onInputTable($event, tableindex, fieldName) {
       this.$attrs.value[tableindex][fieldName] = $event
       this.$emit('input', this.$attrs.value)
