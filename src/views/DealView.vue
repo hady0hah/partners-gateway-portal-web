@@ -3,36 +3,40 @@
     <template v-slot:header-left-post-back>
       <span></span>
     </template>
-    <template v-slot:form-sections="{ form }">
+    <template v-slot:form-sections="{ form, errorMessages }">
       <v-col class="box col-12" v-for="section, i in form.form" :key="i">
-        <form-section :section="section">
-          <template v-slot:section-fields="{ section }">
+        <form-section :section="section" :error-messages="errorMessages">
+          <template v-slot:section-fields="{ section, errorMessages }">
 
             <v-row class="box">
               <v-row v-if="section.name === 'deal_details'">
                 <v-col class="col-12 col-md-4">
                   <form-field :field="section.fields['accountManager']" :form_name="formConfig.form_name"
+                    :error-messages="getErrors('accountManager', errorMessages)"
                     v-bind:value="getFieldValue(section.fields['accountManager'])"
                     v-on:input="onInput(section.fields['accountManager'], $event)" outlined></form-field>
                   <form-field :field="section.fields['name']" :form_name="formConfig.form_name"
-                    v-bind:value="getFieldValue(section.fields['name'])"
+                    :error-messages="getErrors('name', errorMessages)" v-bind:value="getFieldValue(section.fields['name'])"
                     v-on:input="onInput(section.fields['name'], $event)"></form-field>
                   <form-field :field="section.fields['region']" :form_name="formConfig.form_name"
+                    :error-messages="getErrors('region', errorMessages)"
                     v-bind:value="getFieldValue(section.fields['region'])"
                     v-on:input="onInput(section.fields['region'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
                   <form-field :field="section.fields['dealStatus']" :form_name="formConfig.form_name"
+                    :error-messages="getErrors('dealStatus', errorMessages)"
                     v-bind:value="getFieldValue(section.fields['dealStatus'])"
                     v-on:input="onInput(section.fields['dealStatus'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
-                  <date-picker :field="section.fields['renewalDate']"
+                  <date-picker :field="section.fields['renewalDate']" :error-messages="getErrors('renewalDate', errorMessages)"
                     v-bind:value="getFieldValue(section.fields['renewalDate'])"
                     v-on:input="onInput(section.fields['renewalDate'], $event)" outlined>
                   </date-picker>
                   <form-field v-if="section.fields['reseller']" :field="section.fields['reseller']"
-                    :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['reseller'])"
+                    :error-messages="getErrors('reseller', errorMessages)" :form_name="formConfig.form_name"
+                    v-bind:value="getFieldValue(section.fields['reseller'])"
                     v-on:input="onInput(section.fields['reseller'], $event)"></form-field>
                 </v-col>
               </v-row>
@@ -50,36 +54,43 @@
                 <v-row>
                   <v-col class="col-12 col-md-4">
                     <form-field :field="section.fields['opportunity_desc']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('opportunity_desc', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['opportunity_desc'])"
                       v-on:input="onInput(section.fields['opportunity_desc'], $event)" outlined></form-field>
                     <form-field :field="section.fields['budget']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('budget', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['budget'])"
                       v-on:input="onInput(section.fields['budget'], $event)" outlined></form-field>
                     <form-field :field="section.fields['product']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('product', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['product'])"
                       v-on:input="onInput(section.fields['product'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-                    <date-picker :field="section.fields['startDate']"
+                    <date-picker :field="section.fields['startDate']" :error-messages="getErrors('startDate', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['startDate'])"
                       v-on:input="onInput(section.fields['startDate'], $event)" outlined>
                     </date-picker>
                     <form-field :field="section.fields['initiated_by']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('initiated_by', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['initiated_by'])"
                       v-on:input="onInput(section.fields['initiated_by'], $event)"></form-field>
                     <date-picker :field="section.fields['lastMeetingDate']"
+                      :error-messages="getErrors('lastMeetingDate', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['lastMeetingDate'])"
                       v-on:input="onInput(section.fields['lastMeetingDate'], $event)" outlined>
                     </date-picker>
-                    <v-yes-no-other
+                    <v-yes-no-other :error-messages="getErrors('technicalPresentationOption', errorMessages)"
                       :field="{ radio: section.fields['technicalPresentationOption'], other: section.fields['otherOption'] }"
                       v-bind="section.fields['technicalPresentationOption']"
                       v-bind:value="{ radio: getFieldValue(section.fields['technicalPresentationOption']), other: getFieldValue(section.fields['otherOption']) }"
                       v-on:input="onInputObject($event)"></v-yes-no-other>
                     <form-field :field="section.fields['quantity']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('quantity', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['quantity'])"
                       v-on:input="onInput(section.fields['quantity'], $event)" outlined></form-field>
                     <form-field :field="section.fields['competitors']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('competitors', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['competitors'])"
                       v-on:input="onInput(section.fields['competitors'], $event)" outlined></form-field>
                   </v-col>
@@ -88,9 +99,11 @@
                     <!--                                v-bind:value="getFieldValue(section.fields['otherOption'])"-->
                     <!--                                v-on:input="onInput(section.fields['otherOption'], $event)" outlined></form-field>-->
                     <form-field :field="section.fields['dealOS']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('dealOS', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['dealOS'])"
                       v-on:input="onInput(section.fields['dealOS'], $event)" outlined></form-field>
                     <form-field :field="section.fields['notes']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('notes', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['notes'])"
                       v-on:input="onInput(section.fields['notes'], $event)" outlined></form-field>
                   </v-col>
@@ -636,6 +649,9 @@ export default {
     // }
   },
   methods: {
+    getErrors(fieldName, errorMessages) {
+      return errorMessages && fieldName in errorMessages ? errorMessages[fieldName] : []
+    },
     updateCustomerDropdown(field) {
       var contact = this.$root.$emit('contact-submitted')
       field['choices'].push({ contact });
