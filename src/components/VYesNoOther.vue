@@ -7,7 +7,7 @@
         <v-col><v-radio label="Other" :value="'other'"></v-radio></v-col>
         <v-col></v-col>
         <v-col class="col-12">
-          <v-text-field :disabled="radioState !== 'other'" :name="field.other.full_name" label="Other" outlined v-model="otherState" v-on:input="onInputOther" hide-details :rules="[v => required(v)]"></v-text-field>
+          <v-text-field :disabled="radioState !== 'other'" :name="field.other.full_name" label="Other" outlined v-model="otherState" v-on:input="onInputOther" hide-details :rules="[v => requiredOther(v)]"></v-text-field>
         </v-col>
       </v-row>
   </v-radio-group>
@@ -28,6 +28,9 @@ export default {
   methods : {
     required(v) {
       return (v != null && v != "") || 'Field is required'
+    },
+    requiredOther(v) {
+      return (this.radioState != 'other' || (v != null && v != "")) || 'Field is required'
     },
     onInputRadio($event) {
       this.$attrs.value.radio = $event
