@@ -12,7 +12,7 @@ export default {
   props: ['errors'],
   methods: {
     getErrorsString() {
-      return this.errors.join(`<br>`) ? this.errors.join(`<br>`) : "The form contains errors. Fixing them and re-submitting might work!"
+      return this.errors && this.errors.join(`<br>`) ? this.errors.join(`<br>`) : "The form contains errors. Fixing them and re-submitting might work!"
     },
     getFieldComponent() {
       return ComponentMapper.mapType(this.field, this.form_name)
