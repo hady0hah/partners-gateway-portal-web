@@ -28,6 +28,9 @@ export default {
     FormSection: () => import('./FormSection.vue')
   },
   created() {
+    if(this.$attrs.required && !this.$attrs.value) {
+      this.$attrs.value = [{}]
+    }
   },
   methods: {
     addItem() {

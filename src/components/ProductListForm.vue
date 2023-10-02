@@ -19,7 +19,7 @@
                     :form_name="form_name" v-bind:value="parseValue(tableitem,second_field_name)"
                     v-on:input="onInputTable($event, tableindex, second_field_name)"></form-field>
       </td>
-      <td><button v-if="!disabled" type="button"
+      <td><button v-if="!disabled && canDelete()" type="button"
                   style="text-align: center; background-color: #c30404;font-family: Helvetica;border: none;border-radius: 100%;font-size: 12px;font-weight: bold;color: white;padding: 0 2px;width:18px;height:18px"
                   @click="removeTableItem(tableindex)">X</button></td>
     </tr>
@@ -48,11 +48,17 @@ export default {
   components : {
     FormField
   },
+  created() {
+    if(this.$attrs.required && !this.$attrs.value) {
+      this.$attrs.value = [{}]
+    }
+    if(!Array.isArray(this.$attrs.value))
+      this.$attrs.value = Object.values(this.$attrs.value)
+  },
   methods: {
     onInputTable($event, tableindex, fieldName) {
       this.$attrs.value[tableindex][fieldName] = $event
       this.$emit('input', this.$attrs.value)
-      this.tableChangeDetector++
     },
     addTableItem() {
       if (!(this.$attrs.value))
@@ -69,6 +75,9 @@ export default {
     parseValue(tableitem,fieldName){
       const fieldNameObject = fieldName.replace("'", "").replace(".", "");
       return tableitem[fieldNameObject]
+    },
+    canDelete() {
+      return this.$attrs.value.length > 1
     }
   }
 }

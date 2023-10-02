@@ -143,9 +143,13 @@ export default {
       this.axios.post(formUrl, formdata)
         .then(function (response) {
           t.$Progress.finish()
-          eventBus.$emit('form-submitted', response.data.data);
-          if (!t.config.isDialog) {
-            t.$router.go(-1);
+          if(response.data.success == false) {
+            return
+          } else {
+            eventBus.$emit('form-submitted', response.data.data);
+            if (!t.config.isDialog) {
+              t.$router.go(-1);
+            }
           }
           // t.$root.$emit('refreshClientProfile') ??
         })

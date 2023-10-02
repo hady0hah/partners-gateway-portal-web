@@ -18,7 +18,7 @@
         </v-col>
         <v-col class="col-12 col-md-4">
           <product-list-form :disabled="disabled" :first_field_name="'product'" :second_field_name="'quantity'"
-            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name"
+            :fields="updateFields(fields['reviewProducts'].fields, index)" :form_name="form_name" v-bind="fields['reviewProducts']"
             v-bind:value="item.reviewProducts" v-on:input="onInput($event, index, 'reviewProducts')"></product-list-form>
         </v-col>
         <v-col class="col-12 col-md-4">
@@ -44,7 +44,7 @@
               </td>
               <td style="padding-left: 35px">
                 <v-text-field type="number" :field="fields['amount']" :name="fields['amount'].full_name" outlined
-                  v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')">
+                  v-bind:value="item.amount" v-on:input="onInput($event, index, 'amount')" :rules="[v => (fields['amount'].required && !!v || 'Field is required')]">
                 </v-text-field>
               </td>
             </tr>
@@ -83,6 +83,11 @@ export default {
       form_name: 'QBR_view',
     }
   },
+  created() {
+    if(this.$attrs.required && !this.$attrs.value) {
+      this.$attrs.value = [{}]
+    }
+  },
   methods: {
     onInput($event, index, fieldName) {
       console.log($event)
@@ -98,8 +103,6 @@ export default {
       this.$attrs.value[index] = { ...this.$attrs.value[index], ...$event }
       this.$emit('input', this.$attrs.value)
     },
-  },
-  created() {
   },
 }
 </script>
