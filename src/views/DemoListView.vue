@@ -68,9 +68,14 @@
 						<template v-slot:item.timeslot.day.date="{ item }">
 							<span v-if="!item.timeslot.id">-</span><span v-if="item.timeslot.id">{{ friendlyDate(item.timeslot.day.date) }}</span>
 						</template>
-						<template v-slot:item.deal="{ item }" v-if="deals">
-							{{ getDeal(item['deal.id']).name }}
-						</template>
+            <template v-slot:item.deal="{ item }" v-if="deals">
+            <span v-if="item['deal.id'] !== null">
+            {{ getDeal(item['deal.id']).name }}
+            </span>
+              <span v-else>
+                -
+              </span>
+            </template>
 						<template v-slot:item.product="{ item }" v-if="products">
 							{{ getProduct(item['product.id']).name }}
 						</template>
