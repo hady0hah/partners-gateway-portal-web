@@ -8,7 +8,7 @@
           <v-btn v-if="!config.disabled" class="mr-4" color="primary" small elevation="0"
             @click="() => { config.main_action_onsubmit ? config.main_action_onsubmit() : submitForm(false) }">Save</v-btn>
           <slot name="header-left-post-back">
-            <v-btn v-if="config.display_submit_button && !config.disabled" class="mr-4" color="primary"
+            <v-btn v-if="config.display_submit_button && !config.disabled && objectid" class="mr-4" color="primary"
               @click="submitForm(true)" small elevation="0">Submit</v-btn>
           </slot>
         </slot>
