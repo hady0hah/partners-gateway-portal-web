@@ -4,7 +4,7 @@
       alt="Thidesoft Logo"
       class="login-logo"
       contain
-      src="../assets/Group_670@2x.png"
+      src="@/assets/ThideSoft_Welcome_Screen.png"
       transition="scale-transition"
       width="240"
     />
