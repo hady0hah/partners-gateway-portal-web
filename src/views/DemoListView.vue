@@ -189,15 +189,16 @@ import IconDemo from "@/components/icons/IconDemo.vue"
     	  	endpoint += '&filter[timeslot__day][value][end][day]='+ed
     	  	endpoint += '&filter[timeslot__day][value][end][month]='+em
     	  	endpoint += '&filter[timeslot__day][value][end][year]='+ey
-    	  } else {
-    	  	const now = this.todayDate()
-    	  	sd = this.getDay(now)
-    			sm = this.getMonth(now)
-    			sy = this.getYear(now)
-    	  	endpoint += '&filter[timeslot__day][value][start][day]='+sd
-    	  	endpoint += '&filter[timeslot__day][value][start][month]='+sm
-    	  	endpoint += '&filter[timeslot__day][value][start][year]='+sy
     	  }
+        // else {
+    	  // 	const now = this.todayDate()
+    	  // 	sd = this.getDay(now)
+    		// 	sm = this.getMonth(now)
+    		// 	sy = this.getYear(now)
+    	  // 	endpoint += '&filter[timeslot__day][value][start][day]='+sd
+    	  // 	endpoint += '&filter[timeslot__day][value][start][month]='+sm
+    	  // 	endpoint += '&filter[timeslot__day][value][start][year]='+sy
+    	  // }
 
     	  this.$Progress.start()
 				this.axios.get(endpoint, {})

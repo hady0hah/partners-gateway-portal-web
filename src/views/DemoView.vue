@@ -187,18 +187,7 @@
       });
 
       if (this.demo.id) {
-        this.$Progress.start()
-        this.axios.get('private/timeslots/show?id='+this.demo['timeslot.id'], {})
-        .then(function (response) {
-          t.$Progress.finish()
-          t.timeslot = response.data.data
-          t.updateTimeslotDisplay()
-          t.getTimeslots()
-          t.dealChange()
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        this.getTimeslots()
       }
     },
     methods: {
