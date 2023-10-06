@@ -29,10 +29,10 @@
 
         </div>
       </div>
-      <div class="box pa-8">
-        <v-row>
+      <div class="box pa-9">
+        <v-row class="section-text">
           <v-col>
-            <h4 class="section-text">Pricelists & Discounts</h4>
+            <h4 >Pricelists & Discounts</h4>
           </v-col>
         </v-row>
         <v-row>
@@ -242,7 +242,7 @@ export default {
 .box{
   margin-inline: 20px
 }
-.scrollable-table{
+.scrollable-table {
   height: 400px;
   overflow: auto;
 }
