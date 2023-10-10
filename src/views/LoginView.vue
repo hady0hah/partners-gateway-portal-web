@@ -4,7 +4,7 @@
       alt="Thidesoft Logo"
       class="login-logo"
       contain
-      src="../assets/Group_670@2x.png"
+      src="@/assets/ThideSoft_Welcome_Screen.png"
       transition="scale-transition"
       width="240"
     />
@@ -27,8 +27,10 @@
                   label="Username"
                   required
                 ></v-text-field>
-    
-                <p v-if="step == 2">{{ message }}</p>
+                <p v-if="!error" v-html="message"></p>
+                <v-alert v-if="error" class="error-box" color="red lighten-2" dark>
+                  {{ error }}
+                </v-alert>
                 <v-text-field
                   v-model="token"
                   v-if="step == 2"
@@ -48,12 +50,9 @@
                   label="Password"
                   required
                 ></v-text-field>
-        
+
                 <v-btn v-if="step == 1" color="primary" class="mr-4 btn-forgot" @click="forgotPassword" x-small plain>Forgot Password?</v-btn>
-      
-                <v-alert v-if="error" class="error-box" color="red lighten-2" dark>
-                  {{ error }}
-                </v-alert>       
+
 
                 <v-btn v-if="step >= 1" color="primary" class="mr-4" @click="step--;error=null" x-small>Back</v-btn>
               </v-form>
@@ -111,11 +110,14 @@
             this.axios.post('reset_password', formData)
             .then(function (response) {
               t.$Progress.finish()
+              t.message = response.data.message
+              t.error = null
+              t.step--
               t.login(response.data.data)
             })
             .catch(err => {
               t.$Progress.finish()
-              //t.error = "Invalid token"
+              t.error = err.response.data.message
             });
           }
         }
@@ -135,7 +137,7 @@
           })
           .catch(err => {
             t.$Progress.finish()
-          });  
+          });
       }
     }
   };
@@ -150,12 +152,12 @@
     margin-right: -12px;
     margin-bottom: -30px;
   }
-  
+
   .login-logo {
     padding-top: 300px;
     margin-left: 100px;
   }
-  
+
   .green-box {
     padding: 30px;
     width: 100%;
@@ -169,18 +171,18 @@
     align-items:center;
     border-bottom: 30px solid #205023;
   }
-  
+
   .v-sheet.v-card.login-card {
     background-color: rgba(255, 255, 255, 0.4) !important;
     margin: auto !important;
     height: 300px;
     border-radius: 20px !important;
   }
-  
+
   .btn-forgot {
     float: right;
   }
-  
+
   .error-box {
     margin-top: 40px;
   }

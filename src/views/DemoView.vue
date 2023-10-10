@@ -54,6 +54,7 @@
           </v-col>
           <v-col class="col-12 col-md-6">
             <v-select
+              :disabled="this.disabledProduct"
               :items="products"
               item-text="name"
               item-value="id"
@@ -134,6 +135,7 @@
     props: ['id', '_demo'],
     data: () => ({
       demo: null,
+      disabledProduct: null,
       focus: '',
       type: 'month',
       events: [],
@@ -185,18 +187,7 @@
       });
 
       if (this.demo.id) {
-        this.$Progress.start()
-        this.axios.get('private/timeslots/show?id='+this.demo['timeslot.id'], {})
-        .then(function (response) {
-          t.$Progress.finish()
-          t.timeslot = response.data.data
-          t.updateTimeslotDisplay()
-          t.getTimeslots()
-          t.dealChange()
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        this.getTimeslots()
       }
     },
     methods: {
@@ -269,6 +260,7 @@
         let product = this.products.find(product => product.id === this.deal['product.id'])
         this.demo['product.id'] = product.id
         this.productChange()
+        this.disabledProduct = true
       },
       productChange () {
         this.getTimeslots()
@@ -291,7 +283,7 @@
           endpoint = 'private/demo/edit?id='+this.id
 
         const formData = new FormData();
-        formData.append("form[deal]", this.demo['deal.id'])
+        formData.append("form[deal]", this.demo['deal.id'] ? this.demo['deal.id'] : '');
         formData.append("form[product]", this.demo['product.id'])
         formData.append("form[timeslot]", this.timeslot.id)
         formData.append("form[pax_number]", this.demo.paxNumber)
@@ -317,7 +309,6 @@
 
         this.axios.post('private/demo/cancel?id='+this.id, {})
         .then(function (response) {
-          console.log(response)
           t.$Progress.finish()
           t.back()
         })

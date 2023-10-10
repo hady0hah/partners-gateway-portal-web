@@ -68,9 +68,14 @@
 						<template v-slot:item.timeslot.day.date="{ item }">
 							<span v-if="!item.timeslot.id">-</span><span v-if="item.timeslot.id">{{ friendlyDate(item.timeslot.day.date) }}</span>
 						</template>
-						<template v-slot:item.deal="{ item }" v-if="deals">
-							{{ getDeal(item['deal.id']).name }}
-						</template>
+            <template v-slot:item.deal="{ item }" v-if="deals">
+            <span v-if="item['deal.id'] !== null">
+            {{ getDeal(item['deal.id']).name }}
+            </span>
+              <span v-else>
+                -
+              </span>
+            </template>
 						<template v-slot:item.product="{ item }" v-if="products">
 							{{ getProduct(item['product.id']).name }}
 						</template>
@@ -184,15 +189,16 @@ import IconDemo from "@/components/icons/IconDemo.vue"
     	  	endpoint += '&filter[timeslot__day][value][end][day]='+ed
     	  	endpoint += '&filter[timeslot__day][value][end][month]='+em
     	  	endpoint += '&filter[timeslot__day][value][end][year]='+ey
-    	  } else {
-    	  	const now = this.todayDate()
-    	  	sd = this.getDay(now)
-    			sm = this.getMonth(now)
-    			sy = this.getYear(now)
-    	  	endpoint += '&filter[timeslot__day][value][start][day]='+sd
-    	  	endpoint += '&filter[timeslot__day][value][start][month]='+sm
-    	  	endpoint += '&filter[timeslot__day][value][start][year]='+sy
     	  }
+        // else {
+    	  // 	const now = this.todayDate()
+    	  // 	sd = this.getDay(now)
+    		// 	sm = this.getMonth(now)
+    		// 	sy = this.getYear(now)
+    	  // 	endpoint += '&filter[timeslot__day][value][start][day]='+sd
+    	  // 	endpoint += '&filter[timeslot__day][value][start][month]='+sm
+    	  // 	endpoint += '&filter[timeslot__day][value][start][year]='+sy
+    	  // }
 
     	  this.$Progress.start()
 				this.axios.get(endpoint, {})
