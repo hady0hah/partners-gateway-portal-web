@@ -42,7 +42,7 @@
                   <form-field :field="section.fields['description']" :form_name="formConfig.form_name"
                     :error-messages="getErrors('description',errorMessages)"
                     v-bind:value="getFieldValue(section.fields['description'])"
-                    v-on:input="onInput(section.fields['description'], $event)"></form-field>
+                    v-on:input="onInput(section.fields['description'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
                   <form-field :field="section.fields['outreach']" :form_name="formConfig.form_name"
