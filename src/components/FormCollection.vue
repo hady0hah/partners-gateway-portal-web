@@ -1,6 +1,13 @@
 <template>
   <v-row :key="tableChangeDetector">
     <v-col v-for="item, index in $attrs.value" :key="index" class="col-12">
+      <v-row>
+        <v-col class="col-12" style="text-align: right;">
+          <button type="button" v-if="!disabled && canDelete()"
+            style="text-align: center; background-color: #950404;font-family: Helvetica;border: none;border-radius: 5px;font-size: 10px;font-weight: bold;color: white;padding: 5px 10px 5px 10px;"
+            @click="removeItem(index)">DELETE</button>
+        </v-col>
+      </v-row>
       <slot name="collection-item" v-bind:fields="updateFields(fields, index)" v-bind:item="item" v-bind:index="index" v-bind:error-messages="getErrors(index, errorMessages)">
         <form-section :section="{ 'fields': fields }" v-bind:value="item" :error-messages="getErrors(index, errorMessages)"
           v-on:input="onInput($event, index)"></form-section>
@@ -43,9 +50,17 @@ export default {
       this.$emit('input', this.$attrs.value)
       this.tableChangeDetector++
     },
+    removeItem(index) {
+      this.$attrs.value.splice(index,1)
+      this.$emit('input', this.$attrs.value)
+      this.tableChangeDetector--
+    },
     onInput($event, index) {
       this.$attrs.value[index] = $event
       this.$emit('input', this.$attrs.value)
+    },
+    canDelete() {
+      return this.$attrs.value.length > 1
     }
   }
 }

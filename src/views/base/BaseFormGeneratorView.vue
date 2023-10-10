@@ -31,8 +31,8 @@
       <form-errors :errors="form_errors.global"></form-errors>
       <slot name="form-sections" v-bind:form="form" v-bind:error-messages="form_errors.fields">
         <v-col class="box col-12" v-for="section, i in form.form" :key="i">
-          <form-section :section="section" :form_name="config.form_name" v-model="model"
-            :disabled="config.disabled" :error-messages="form_errors.fields"></form-section>
+          <form-section :section="section" :form_name="config.form_name" v-model="model" :disabled="config.disabled"
+            :error-messages="form_errors.fields"></form-section>
         </v-col>
       </slot>
     </v-row>
@@ -137,22 +137,35 @@ export default {
       } else {
         formUrl = this.config.form_add
       }
-      if (isSubmit) {
-        formUrl = this.axios.defaults.endpoints.resolve(this.config.form_submit, { id: t.objectid })
-      }
 
       const formdata = new FormData(form.$el)
       this.$Progress.increase(10)
       this.axios.post(formUrl, formdata)
         .then(function (response) {
           t.$Progress.finish()
-          if(response.data.success == false) {
+          if (response.data.success == false) {
             t.form_errors = response.data.errors
             return
           } else {
-            eventBus.$emit('form-submitted', response.data.data);
-            if (!t.config.isDialog) {
-              t.$router.go(-1);
+            if (isSubmit) {
+              formUrl = t.axios.defaults.endpoints.resolve(t.config.form_submit, { id: t.objectid })
+              t.axios.post(formUrl)
+                .then(function (response) {
+                  if (response.data.success == false) {
+                    t.form_errors = response.data.errors
+                    return
+                  } else {
+                    eventBus.$emit('form-submitted', response.data.data);
+                    if (!t.config.isDialog) {
+                      t.$router.go(-1);
+                    }
+                  }
+                })
+            } else {
+              eventBus.$emit('form-submitted', response.data.data);
+              if (!t.config.isDialog) {
+                t.$router.go(-1);
+              }
             }
           }
           // t.$root.$emit('refreshClientProfile') ??
