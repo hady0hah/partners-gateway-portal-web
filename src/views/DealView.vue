@@ -16,7 +16,8 @@
                     v-bind:value="getFieldValue(section.fields['accountManager'])"
                     v-on:input="onInput(section.fields['accountManager'], $event)" outlined></form-field>
                   <form-field :field="section.fields['name']" :form_name="formConfig.form_name"
-                    :error-messages="getErrors('name', errorMessages)" v-bind:value="getFieldValue(section.fields['name'])"
+                    :error-messages="getErrors('name', errorMessages)"
+                    v-bind:value="getFieldValue(section.fields['name'])"
                     v-on:input="onInput(section.fields['name'], $event)"></form-field>
                   <form-field :field="section.fields['region']" :form_name="formConfig.form_name"
                     :error-messages="getErrors('region', errorMessages)"
@@ -30,7 +31,8 @@
                     v-on:input="onInput(section.fields['dealStatus'], $event)" outlined></form-field>
                 </v-col>
                 <v-col class="col-12 col-md-4">
-                  <date-picker :field="section.fields['renewalDate']" :error-messages="getErrors('renewalDate', errorMessages)"
+                  <date-picker :field="section.fields['renewalDate']"
+                    :error-messages="getErrors('renewalDate', errorMessages)"
                     v-bind:value="getFieldValue(section.fields['renewalDate'])"
                     v-on:input="onInput(section.fields['renewalDate'], $event)" outlined>
                   </date-picker>
@@ -65,9 +67,14 @@
                       :error-messages="getErrors('product', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['product'])"
                       v-on:input="onInput(section.fields['product'], $event)" outlined></form-field>
+                    <form-field :field="section.fields['quantity']" :form_name="formConfig.form_name"
+                      :error-messages="getErrors('quantity', errorMessages)"
+                      v-bind:value="getFieldValue(section.fields['quantity'])"
+                      v-on:input="onInput(section.fields['quantity'], $event)" outlined></form-field>
                   </v-col>
                   <v-col class="col-12 col-md-4">
-                    <date-picker :field="section.fields['startDate']" :error-messages="getErrors('startDate', errorMessages)"
+                    <date-picker :field="section.fields['startDate']"
+                      :error-messages="getErrors('startDate', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['startDate'])"
                       v-on:input="onInput(section.fields['startDate'], $event)" outlined>
                     </date-picker>
@@ -85,10 +92,6 @@
                       v-bind="section.fields['technicalPresentationOption']"
                       v-bind:value="{ radio: getFieldValue(section.fields['technicalPresentationOption']), other: getFieldValue(section.fields['otherOption']) }"
                       v-on:input="onInputObject($event)"></v-yes-no-other>
-                    <form-field :field="section.fields['quantity']" :form_name="formConfig.form_name"
-                      :error-messages="getErrors('quantity', errorMessages)"
-                      v-bind:value="getFieldValue(section.fields['quantity'])"
-                      v-on:input="onInput(section.fields['quantity'], $event)" outlined></form-field>
                     <form-field :field="section.fields['competitors']" :form_name="formConfig.form_name"
                       :error-messages="getErrors('competitors', errorMessages)"
                       v-bind:value="getFieldValue(section.fields['competitors'])"
