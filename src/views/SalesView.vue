@@ -57,7 +57,7 @@ export default {
         { text: 'Renewal Date', value: 'renewalDate', sortable: true, align: 'center' },
         { text: 'Region', value: 'region', sortable: true, align: 'center' },
         { text: 'Project Start Date', value: 'startDate', sortable: true, align: 'center' },
-        { text: 'Amount', value: 'amount', sortable: true, align: 'center' },
+        { text: 'Amount Paid', value: 'amount', sortable: true, align: 'center' },
         { text: 'Status', value: 'status', sortable: false, align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
       ],
