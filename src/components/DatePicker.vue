@@ -36,7 +36,7 @@ export default {
       if (this.field.required)
         return [v => (!!v || 'Field is required')]
       else
-        return false
+        return []
     }
   },
   mounted() {
