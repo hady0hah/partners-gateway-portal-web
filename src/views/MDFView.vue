@@ -69,7 +69,7 @@
                     :fields="section.fields['resourceAllocation']['fields']" 
                     :form_name="formConfig.form_name" 
                     v-bind:value="getFieldValue(section.fields['resourceAllocation'])" 
-                    v-on:input="onInput(section, $event)" 
+                    v-on:input="onInput(section.fields['resourceAllocation'], $event)" 
                     v-bind="section.fields['resourceAllocation']"></product-list-form>
                 </v-col>
                 <v-col class="col-12 col-md-5">
