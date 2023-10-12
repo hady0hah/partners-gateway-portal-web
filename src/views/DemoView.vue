@@ -118,7 +118,8 @@
                   </v-sheet>
                   <div class="mt-2" v-if="focus">
                     <h5>Date: {{ focus }}</h5>
-                    <h5>Time: {{ time }}</h5>
+                    <h5>Start Time: {{ time }}</h5>
+                    <h5>End Time: {{ endTime }}</h5>
                   </div>
                 </v-col>
               </v-row>
@@ -187,7 +188,21 @@
       });
 
       if (this.demo.id) {
-        this.getTimeslots()
+        this.$Progress.start()
+        let getTimeslotUrl = this.axios.defaults.endpoints.resolve(this.axios.defaults.endpoints.timeslot.show, { id: this.demo['timeslot.id'] })
+        this.axios.get(getTimeslotUrl)
+          .then(function (response) {
+            t.$Progress.finish()
+            t.timeslot = response.data.data
+            t.timeslot.startTime = response.data.data.startTime.date
+            t.timeslot.endTime = response.data.data.endTime.date
+            t.updateTimeslotDisplay()
+            t.getTimeslots()
+            t.dealChange()
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     methods: {
@@ -228,7 +243,9 @@
                 date: t.formatDate(timeslot.day.date)
               },
               color: 'primary',
-              timed: true
+              timed: true,
+              startTime: timeslot.startTime.date,
+              endTime: timeslot.endTime.date,
             })
           });
 
@@ -249,10 +266,12 @@
       updateTimeslotDisplay() {
         if (this.timeslot != null) {
           this.focus = this.getDate(this.timeslot.day.date)
-          this.time = this.getTime(this.timeslot.day.date)
+          this.time =  this.getTime(this.timeslot.startTime);
+          this.endTime = this.getTime(this.timeslot.endTime);
         } else {
           this.focus = null
           this.time = null
+          this.endTime = null
         }
       },
       dealChange () {
