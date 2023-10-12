@@ -194,8 +194,8 @@
           .then(function (response) {
             t.$Progress.finish()
             t.timeslot = response.data.data
-            t.timeslot.startTime = response.data.data.startTime.date
-            t.timeslot.endTime = response.data.data.endTime.date
+            t.timeslot.startTime = response.data.data.formattedStartTime.date
+            t.timeslot.endTime = response.data.data.formattedEndTime.date
             t.updateTimeslotDisplay()
             t.getTimeslots()
             t.dealChange()
@@ -237,15 +237,15 @@
             events.push({
               id: timeslot.id,
               name: '',
-              start: t.formatDate(timeslot.day.date),
-              end: t.formatDate(timeslot.day.date),
+              start: t.formatDate(timeslot.formattedStartTime.date),
+              end: t.formatDate(timeslot.formattedEndTime.date),
               day: {
                 date: t.formatDate(timeslot.day.date)
               },
               color: 'primary',
               timed: true,
-              startTime: timeslot.startTime.date,
-              endTime: timeslot.endTime.date,
+              startTime: timeslot.formattedStartTime.date,
+              endTime: timeslot.formattedEndTime.date,
             })
           });
 
