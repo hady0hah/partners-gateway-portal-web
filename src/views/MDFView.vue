@@ -13,7 +13,7 @@
 <!--                    outlined>-->
 <!--                  </date-picker>-->
                   <check-box-field-component
-                    :error-messages="getErrors('activities',errorMessages).fields"
+                    :error-messages="getErrors('activities',errorMessages).global"
                     :field="{ activities: section.fields['activities'], otherOption: section.fields['otherOption'] }"
                     v-bind:value="{ activities: getFieldValue(section.fields['activities']), otherOption: getFieldValue(section.fields['otherOption']) }"
                     v-on:input="onActivitiesInput($event)" outlined>
