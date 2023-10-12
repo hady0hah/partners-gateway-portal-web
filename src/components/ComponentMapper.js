@@ -21,11 +21,13 @@ class ComponentMapper {
     if(field.choices){
      var choices = ComponentMapper.parseChoices(field.choices)
     }
-
+    if(field.sonata_help)
+      var persistentHint = 'persistent-hint';
     return {
       label: field.label,
       rules: required,
       hint: field.sonata_help,
+      persistentHint: persistentHint,
       disabled: field.disabled,
       items:  choices,
       fields: field.fields,
