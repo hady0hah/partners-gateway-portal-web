@@ -189,7 +189,8 @@
 
       if (this.demo.id) {
         this.$Progress.start()
-        this.axios.get('private/timeslots/show?id='+this.demo['timeslot.id'], {})
+        let getTimeslotUrl = this.axios.defaults.endpoints.resolve(this.axios.defaults.endpoints.timeslot.show, { id: this.demo['timeslot.id'] })
+        this.axios.get(getTimeslotUrl)
           .then(function (response) {
             t.$Progress.finish()
             t.timeslot = response.data.data
