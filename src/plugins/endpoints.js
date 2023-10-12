@@ -60,6 +60,10 @@ let endpoints = {
       'list': 'private/country/list',
       'show': 'private/country/show?id=:id',
     },
+    'timeslot' :{
+        'show': 'private/timeslots/show?id=:id'
+    },
+
     resolve(url, params) {
         let _url = url
         for (let [k, v] of Object.entries(params)) {

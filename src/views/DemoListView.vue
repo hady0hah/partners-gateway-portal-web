@@ -68,6 +68,10 @@
 						<template v-slot:item.timeslot.day.date="{ item }">
 							<span v-if="!item.timeslot.id">-</span><span v-if="item.timeslot.id">{{ friendlyDate(item.timeslot.day.date) }}</span>
 						</template>
+            <template v-slot:item.timeslot="{ item }">
+              <span v-if="!item.timeslot.id">-</span>
+              <span v-if="item.timeslot.id">{{ getTime(item.timeslot.startTime.date) }} - {{ getTime(item.timeslot.endTime.date) }}</span>
+            </template>
             <template v-slot:item.deal="{ item }" v-if="deals">
             <span v-if="item['deal.id'] !== null">
             {{ getDeal(item['deal.id']).name }}
@@ -112,6 +116,7 @@ import IconDemo from "@/components/icons/IconDemo.vue"
     data: () => ({
     	headers: [
     		{ text: 'Date', value: 'timeslot.day.date', sortable: false, align: 'center' },
+        { text: 'Start / End Time', value: 'timeslot', sortable: false, align: 'center' },
 				{ text: 'Deal', value: 'deal', sortable: false, align: 'center' },
 				{ text: 'Product', value: 'product', sortable: false, align: 'center' },
 				{ text: 'Pax Number', value: 'paxNumber', sortable: false, align: 'center' },
