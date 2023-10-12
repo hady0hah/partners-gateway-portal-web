@@ -85,11 +85,12 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-title>Turnover generated</v-list-item-title>
-                <v-list-item-subtitle v-if="client">{{ client.attributes.turnover | currency }}</v-list-item-subtitle>
+                <v-list-item-subtitle v-if="client  && client.attributes.turnover !== 0">{{ client.attributes.turnover | currency }}</v-list-item-subtitle>
+                <v-list-item-subtitle v-else >0</v-list-item-subtitle>
               </v-list-item>
               <v-list-item>
                 <v-list-item-title>Registered Deals</v-list-item-title>
-                <v-list-item-subtitle v-if="client && client.attributes && client.attributes.registered_deals">{{ client.attributes.registered_deals }}</v-list-item-subtitle>
+                <v-list-item-subtitle v-if="client && client.attributes">{{ client.attributes.registered_deals }}</v-list-item-subtitle>
               </v-list-item>
               <v-list-item>
                 <v-list-item-title>Scanned Contract download</v-list-item-title>
