@@ -9,8 +9,13 @@
         <template v-slot:item.programLevel="{ item }">
           <v-icon :color="ProgramLevel(item['partnerProgramLevel.id']).color" small>mdi-circle</v-icon>
         </template>
-        <template v-slot:item.renewalDate="{ item }">
+        <template v-slot:item.renewalDate="{ item }" >
+            <span v-if="item.renewalDate">
           {{ friendlyDate(item.renewalDate.date) }}
+            </span>
+          <span v-else>
+                -
+              </span>
         </template>
         <template v-slot:item.startDate="{ item }">
           {{ friendlyDate(item.startDate.date) }}
