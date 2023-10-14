@@ -17,7 +17,7 @@ Vue.mixin({
   methods: {
     formatDate (value) {
       if (value) {
-        return moment(String(value), apiDateFormat).format('YYYY-MM-DD hh:mm')
+        return moment(String(value), apiDateFormat).format('YYYY-MM-DD HH:mm')
       }
     },
     getDate (value) {
@@ -58,7 +58,7 @@ Vue.mixin({
         return moment(value)
       }
     }
-  } 
+  }
 })
 
 Vue.filter('friendlyDate', function (value) {
