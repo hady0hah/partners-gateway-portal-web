@@ -101,7 +101,7 @@ export default {
       .then(function (response) {
         t.form = response.data.data
         eventBus.$emit('form-received', t.form);
-        if (t.objectid) {
+        if (t.objectid && !t.config.isDialog) {
           const formData = t.axios.defaults.endpoints.resolve(t.config.form_data, { id: t.objectid })
           t.axios.get(formData, {})
             .then(function (response) {
