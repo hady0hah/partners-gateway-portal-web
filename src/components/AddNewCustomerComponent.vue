@@ -3,7 +3,7 @@
       <form-field style="margin-top: 70px" :field="field" :form_name="form_name" v-bind:value="$attrs.value" v-on:input="$emit('input',$event)" :disabled="disabled" :outlined="outlined"></form-field>
     <v-dialog ref="dialogRef" v-if="!disabled" v-model="dialog">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on" small elevation="0">Add New Customer</v-btn>
+      <v-btn style="margin-top: -10px;"  color="primary" dark class="mb-2" v-bind="attrs" v-on="on" small elevation="0">Add New Customer</v-btn>
     </template>
     <v-container  fluid style="background-color: white">
       <v-layout class="pa-4">
