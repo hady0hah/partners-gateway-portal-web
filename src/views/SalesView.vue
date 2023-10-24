@@ -20,9 +20,9 @@
         <template v-slot:item.startDate="{ item }">
           {{ friendlyDate(item.startDate.date) }}
         </template>
-        <template v-slot:item.amount="{ item }">
-          {{ (item.amount ? item.amount : '0') | currency }}
-        </template>
+<!--        <template v-slot:item.amount="{ item }">-->
+<!--          {{ (item.amount ? item.amount : '0') | currency }}-->
+<!--        </template>-->
         <template v-slot:item.status="{ item }">
           <v-img :src="getStatus(item['dealStatus.id']).imageFile" width="30"></v-img>
         </template>
@@ -62,7 +62,7 @@ export default {
         { text: 'Renewal Date', value: 'renewalDate', sortable: true, align: 'center' },
         { text: 'Region', value: 'region', sortable: true, align: 'center' },
         { text: 'Project Start Date', value: 'startDate', sortable: true, align: 'center' },
-        { text: 'Amount Paid', value: 'amount', sortable: true, align: 'center' },
+        // { text: 'Amount Paid', value: 'amount', sortable: true, align: 'center' },
         { text: 'Status', value: 'status', sortable: false, align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
       ],
