@@ -7,15 +7,15 @@
             <v-col class="col-12 col-md-5">
               <div v-for="(field, k) in section.fields" :key="k">
                 <div v-if="field['fields']">
-                  <product-list-form 
-                    :error-messages="getErrors(field.name,errorMessages).fields" 
-                    :disabled="formConfig.disabled" 
-                    :first_field_name="'product'" 
-                    :second_field_name="'quantity'" 
-                    :fields="field.fields" 
-                    :form_name="formConfig.form_name" 
-                    v-bind:value="getFieldValue(field)" 
-                    v-on:input="onInput(field, $event)" 
+                  <product-list-form
+                    :error-messages="getErrors(field.name,errorMessages).fields"
+                    :disabled="formConfig.disabled"
+                    :first_field_name="'product'"
+                    :second_field_name="'quantity'"
+                    :fields="field.fields"
+                    :form_name="formConfig.form_name"
+                    v-bind:value="getFieldValue(field)"
+                    v-on:input="onInput(field, $event)"
                     v-bind="field"></product-list-form>
                 </div>
               </div>
@@ -32,6 +32,15 @@
               <add-new-customer-component :field="section.fields['endCustomer']"
               :form_name="formConfig.form_name" v-bind:value="getFieldValue(section.fields['endCustomer'])"
               v-on:input="onInput(section.fields['endCustomer'], $event)" :disabled="formConfig.disabled" outlined ></add-new-customer-component>
+
+                                <form-field style="margin-top: 25px" v-bind="section.fields['po_value']" :field="section.fields['po_value']"
+                                            :form_name="formConfig.form_name"
+                                            :error-messages="getErrors('po_value', errorMessages)"
+                                            v-bind:value="getFieldValue(section.fields['po_value'])"
+                                  v-on:input="onInput(section.fields['po_value'], $event)"
+                                  outlined>
+                                </form-field>
+
             </v-col>
 
           </template>

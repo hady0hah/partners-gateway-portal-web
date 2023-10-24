@@ -37,6 +37,9 @@ let map = {
     'Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType': {
         'component': VTextField
   },
+    'Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType': {
+      'component': VNumber
+    },
 }
 
 export default map
