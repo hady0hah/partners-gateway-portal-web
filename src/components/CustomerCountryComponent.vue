@@ -1,8 +1,9 @@
 <template>
+<!--  to readd the city api functionality just readd this property v-on:change="countryChange()"-->
   <v-select :field="field" :items="Countries"  item-text="label" item-value="value" label="Country"
             v-model="country"
             v-bind:value="$attrs.value"
-            v-bind="$attrs" v-on:change="countryChange()"  class="mb-2"></v-select>
+            v-bind="$attrs"  class="mb-2"></v-select>
 </template>
 <script>
 import eventBus from "@/eventBus.js";
