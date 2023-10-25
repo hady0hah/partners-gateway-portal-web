@@ -206,7 +206,8 @@
       deleteEventItemConfirm() {
         const t = this
         this.$Progress.start()
-        this.axios.post('private/mdf/delete?id='+this.editedEventItem.id, {})
+        const mdfDelete = this.axios.defaults.endpoints.resolve(this.axios.defaults.endpoints.mdf.delete, { id: this.editedEventItem.id })
+        this.axios.get(mdfDelete, {})
         .then(function (response) {
           t.$Progress.finish()
           t.events.splice(t.editedEventIndex, 1)

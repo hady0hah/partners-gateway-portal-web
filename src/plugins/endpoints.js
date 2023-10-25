@@ -51,6 +51,7 @@ let endpoints = {
         'edit' : 'private/mdf/:id/edit',
         'show' : 'private/mdf/:id/show',
         'submit' : 'private/mdf/:id/submit',
+        'delete' : 'private/mdf/:id/delete'
     },
     'contact' : {
         'add': 'private/contact/add',
