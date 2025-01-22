@@ -1,4 +1,4 @@
-# Partners Portal
+# Partners Gateway Portal
 
 ## Overview
 
